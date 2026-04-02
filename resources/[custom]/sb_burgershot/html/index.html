@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burger Shot Supply Fridge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="fridge-container" class="hidden">
+        <!-- Left: Item Grid -->
+        <div class="fridge-items">
+            <div class="items-header">
+                <div class="header-left">
+                    <i class="fas fa-snowflake"></i>
+                    <h2>Supply Fridge</h2>
+                </div>
+                <span class="item-count" id="item-count">0 items</span>
+            </div>
+            <div class="items-grid" id="items-grid"></div>
+        </div>
+
+        <!-- Right: Cart -->
+        <div class="fridge-cart">
+            <div class="cart-header">
+                <i class="fas fa-cart-shopping"></i>
+                <span>Order</span>
+                <span class="cart-count" id="cart-count">0</span>
+                <button class="close-btn" id="close-btn">
+                    <i class="fas fa-xmark"></i>
+                </button>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <div class="cart-empty">
+                    <i class="fas fa-box-open"></i>
+                    <p>No items selected</p>
+                </div>
+            </div>
+            <div class="cart-footer">
+                <div class="balance-info">
+                    <div class="balance-row">
+                        <i class="fas fa-wallet"></i>
+                        <span>Cash: $<span id="balance-cash">0</span></span>
+                    </div>
+                </div>
+                <div class="cart-total">
+                    <span>Total</span>
+                    <span id="cart-total">$0</span>
+                </div>
+                <button class="checkout-btn" id="checkout-btn" disabled>
+                    <i class="fas fa-credit-card"></i>
+                    Purchase Supplies
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

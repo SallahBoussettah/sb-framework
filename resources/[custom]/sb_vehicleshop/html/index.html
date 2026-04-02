@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everyday Chaos RP - Car Dealer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app" class="hidden">
+        <!-- Left Side Panel -->
+        <div class="dealer-container">
+            <!-- Header -->
+            <div class="header">
+                <i data-lucide="car-front" class="header-icon"></i>
+                <div>
+                    <h1 id="dealershipName">Premium Deluxe</h1>
+                    <span>Motorsport Showroom</span>
+                </div>
+            </div>
+
+            <!-- Categories / Tabs -->
+            <div class="tabs" id="categoryList">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Vehicle List -->
+            <div class="car-list" id="vehicleList">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Selection Details Panel -->
+            <div class="selection-panel" id="selectionPanel">
+                <div class="no-selection" id="noSelection">
+                    <i data-lucide="car" class="no-selection-icon"></i>
+                    <p>Select a vehicle to view details</p>
+                </div>
+                <div class="vehicle-details hidden" id="vehicleDetails">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Wallet Footer -->
+            <div class="wallet">
+                <div class="money-item">
+                    <i data-lucide="wallet"></i>
+                    <div>
+                        <span class="money-label">Cash</span>
+                        $<span id="cashAmount">0</span>
+                    </div>
+                </div>
+                <div class="money-item">
+                    <i data-lucide="landmark"></i>
+                    <div>
+                        <span class="money-label">Bank</span>
+                        $<span id="bankAmount">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exit Hint (Top Right) -->
+        <div class="exit-hint">
+            Press <span class="keycap">ESC</span> to exit showroom
+        </div>
+
+        <!-- Preview Controls (Bottom Right) -->
+        <div class="preview-controls hidden" id="previewControls">
+            <button class="rotate-btn" onclick="rotatePreview(-1)">
+                <i data-lucide="rotate-ccw"></i>
+            </button>
+            <span>Rotate Vehicle</span>
+            <button class="rotate-btn" onclick="rotatePreview(1)">
+                <i data-lucide="rotate-cw"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

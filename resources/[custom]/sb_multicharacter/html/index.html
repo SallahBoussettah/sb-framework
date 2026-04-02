@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everyday Chaos RP - Character Selection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app" class="hidden">
+        <!-- ========================================== -->
+        <!-- CHARACTER SELECTION SCREEN -->
+        <!-- ========================================== -->
+        <div id="character-select" class="screen">
+            <!-- Left Panel - Character List -->
+            <div class="panel-left">
+                <div class="branding">
+                    <h1 class="server-name">Everyday Chaos</h1>
+                    <p class="server-tagline">Your chaos, your story</p>
+                </div>
+
+                <div class="character-list-header">
+                    <h2>Your Characters</h2>
+                    <span class="slot-counter"><span id="char-count">0</span>/<span id="max-slots">3</span></span>
+                </div>
+
+                <div id="character-list" class="character-list">
+                    <!-- Character cards will be injected here -->
+                </div>
+
+                <button id="btn-new-character" class="sb-btn sb-btn-primary btn-new-character">
+                    <i data-lucide="plus"></i>
+                    <span>Create New Character</span>
+                </button>
+            </div>
+
+            <!-- Right Panel - Character Info & Actions -->
+            <div class="panel-right">
+                <div id="character-info" class="character-info hidden">
+                    <div class="character-name-display">
+                        <h2 id="display-name">John Doe</h2>
+                        <span id="display-gender" class="gender-badge">Male</span>
+                    </div>
+
+                    <div class="character-stats">
+                        <div class="stat-item">
+                            <i data-lucide="briefcase"></i>
+                            <div class="stat-content">
+                                <span class="stat-label">Job</span>
+                                <span id="display-job" class="stat-value">Unemployed</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i data-lucide="wallet"></i>
+                            <div class="stat-content">
+                                <span class="stat-label">Cash</span>
+                                <span id="display-cash" class="stat-value">$0</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i data-lucide="landmark"></i>
+                            <div class="stat-content">
+                                <span class="stat-label">Bank</span>
+                                <span id="display-bank" class="stat-value">$0</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i data-lucide="clock"></i>
+                            <div class="stat-content">
+                                <span class="stat-label">Last Played</span>
+                                <span id="display-last-played" class="stat-value">Never</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="spawn-location-select">
+                        <label class="sb-label">Spawn Location</label>
+                        <div id="spawn-locations" class="spawn-options">
+                            <!-- Spawn locations will be injected here -->
+                        </div>
+                    </div>
+
+                    <div class="character-actions">
+                        <button id="btn-play" class="sb-btn sb-btn-primary sb-btn-lg">
+                            <i data-lucide="play"></i>
+                            <span>Play Character</span>
+                        </button>
+                        <button id="btn-delete" class="sb-btn sb-btn-danger">
+                            <i data-lucide="trash-2"></i>
+                            <span>Delete</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="no-character-selected" class="no-selection">
+                    <i data-lucide="user-circle"></i>
+                    <p>Select a character to view details</p>
+                </div>
+            </div>
+
+            <!-- Camera Controls -->
+            <div class="camera-controls">
+                <button class="camera-btn" data-focus="fullBody" title="Full Body">
+                    <i data-lucide="user"></i>
+                </button>
+                <button class="camera-btn" data-focus="face" title="Face">
+                    <i data-lucide="scan-face"></i>
+                </button>
+                <button class="camera-btn" data-focus="torso" title="Torso">
+                    <i data-lucide="shirt"></i>
+                </button>
+                <button class="camera-btn" data-focus="legs" title="Legs">
+                    <i data-lucide="footprints"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- CHARACTER CREATION SCREEN -->
+        <!-- ========================================== -->
+        <div id="character-creation" class="screen hidden">
+            <!-- Stepper -->
+            <div class="creation-stepper">
+                <div class="sb-step sb-step-active" data-step="1">
+                    <div class="sb-step-circle">1</div>
+                    <span class="sb-step-label">Identity</span>
+                </div>
+                <div class="sb-step" data-step="2">
+                    <div class="sb-step-circle">2</div>
+                    <span class="sb-step-label">Heritage</span>
+                </div>
+                <div class="sb-step" data-step="3">
+                    <div class="sb-step-circle">3</div>
+                    <span class="sb-step-label">Features</span>
+                </div>
+                <div class="sb-step" data-step="4">
+                    <div class="sb-step-circle">4</div>
+                    <span class="sb-step-label">Style</span>
+                </div>
+                <div class="sb-step" data-step="5">
+                    <div class="sb-step-circle">5</div>
+                    <span class="sb-step-label">Finish</span>
+                </div>
+            </div>
+
+            <!-- Creation Panel -->
+            <div class="creation-panel">
+                <!-- Step 1: Identity -->
+                <div id="step-1" class="creation-step">
+                    <h2>Create Your Identity</h2>
+                    <p class="step-description">Choose your character's name, gender, and background.</p>
+
+                    <div class="gender-select">
+                        <button class="gender-btn active" data-gender="0">
+                            <i data-lucide="user"></i>
+                            <span>Male</span>
+                        </button>
+                        <button class="gender-btn" data-gender="1">
+                            <i data-lucide="user"></i>
+                            <span>Female</span>
+                        </button>
+                    </div>
+
+                    <div class="sb-input-group">
+                        <label class="sb-label">First Name</label>
+                        <input type="text" id="input-firstname" class="sb-input" placeholder="Enter first name" maxlength="20">
+                    </div>
+
+                    <div class="sb-input-group">
+                        <label class="sb-label">Last Name</label>
+                        <input type="text" id="input-lastname" class="sb-input" placeholder="Enter last name" maxlength="20">
+                    </div>
+
+                    <div class="input-row">
+                        <div class="sb-input-group">
+                            <label class="sb-label">Date of Birth</label>
+                            <input type="date" id="input-birthdate" class="sb-input" value="1990-01-01">
+                        </div>
+                        <div class="sb-input-group">
+                            <label class="sb-label">Nationality</label>
+                            <select id="input-nationality" class="sb-input">
+                                <!-- Nationalities will be injected -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Heritage -->
+                <div id="step-2" class="creation-step hidden">
+                    <h2>Heritage</h2>
+                    <p class="step-description">Choose your parents and how much you resemble each.</p>
+
+                    <div class="heritage-section">
+                        <div class="parent-select">
+                            <label class="sb-label">Mother</label>
+                            <div class="parent-picker">
+                                <button class="parent-nav" data-parent="mother" data-dir="-1">
+                                    <i data-lucide="chevron-left"></i>
+                                </button>
+                                <div class="parent-preview">
+                                    <span id="mother-name">Hannah</span>
+                                    <span id="mother-id" class="parent-id">#21</span>
+                                </div>
+                                <button class="parent-nav" data-parent="mother" data-dir="1">
+                                    <i data-lucide="chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="parent-select">
+                            <label class="sb-label">Father</label>
+                            <div class="parent-picker">
+                                <button class="parent-nav" data-parent="father" data-dir="-1">
+                                    <i data-lucide="chevron-left"></i>
+                                </button>
+                                <div class="parent-preview">
+                                    <span id="father-name">Benjamin</span>
+                                    <span id="father-id" class="parent-id">#0</span>
+                                </div>
+                                <button class="parent-nav" data-parent="father" data-dir="1">
+                                    <i data-lucide="chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="blend-sliders">
+                        <div class="sb-input-group">
+                            <label class="sb-label">
+                                <span>Resemblance</span>
+                                <span class="slider-hint">Mother <span class="accent">|</span> Father</span>
+                            </label>
+                            <input type="range" id="slider-resemblance" class="sb-slider" min="0" max="100" value="50">
+                        </div>
+
+                        <div class="sb-input-group">
+                            <label class="sb-label">
+                                <span>Skin Tone</span>
+                                <span class="slider-hint">Mother <span class="accent">|</span> Father</span>
+                            </label>
+                            <input type="range" id="slider-skintone" class="sb-slider" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Features -->
+                <div id="step-3" class="creation-step hidden">
+                    <h2>Face Features</h2>
+                    <p class="step-description">Fine-tune your facial features.</p>
+
+                    <div class="features-tabs">
+                        <button class="feature-tab active" data-tab="nose">Nose</button>
+                        <button class="feature-tab" data-tab="eyebrows">Brows</button>
+                        <button class="feature-tab" data-tab="cheeks">Cheeks</button>
+                        <button class="feature-tab" data-tab="eyes">Eyes</button>
+                        <button class="feature-tab" data-tab="lips">Lips</button>
+                        <button class="feature-tab" data-tab="jaw">Jaw</button>
+                    </div>
+
+                    <div id="features-content" class="features-content">
+                        <!-- Feature sliders will be injected based on tab -->
+                    </div>
+
+                    <div class="overlays-section">
+                        <h3>Overlays</h3>
+                        <div class="overlay-grid">
+                            <div class="overlay-item">
+                                <label class="sb-label">Eye Color</label>
+                                <div class="number-input">
+                                    <button class="num-btn" data-overlay="eyeColor" data-dir="-1">-</button>
+                                    <span id="eyeColor-value">0</span>
+                                    <button class="num-btn" data-overlay="eyeColor" data-dir="1">+</button>
+                                </div>
+                            </div>
+                            <div class="overlay-item">
+                                <label class="sb-label">Blemishes</label>
+                                <div class="number-input">
+                                    <button class="num-btn" data-overlay="blemishes" data-dir="-1">-</button>
+                                    <span id="blemishes-value">-1</span>
+                                    <button class="num-btn" data-overlay="blemishes" data-dir="1">+</button>
+                                </div>
+                            </div>
+                            <div class="overlay-item">
+                                <label class="sb-label">Ageing</label>
+                                <div class="number-input">
+                                    <button class="num-btn" data-overlay="ageing" data-dir="-1">-</button>
+                                    <span id="ageing-value">-1</span>
+                                    <button class="num-btn" data-overlay="ageing" data-dir="1">+</button>
+                                </div>
+                            </div>
+                            <div class="overlay-item">
+                                <label class="sb-label">Complexion</label>
+                                <div class="number-input">
+                                    <button class="num-btn" data-overlay="complexion" data-dir="-1">-</button>
+                                    <span id="complexion-value">-1</span>
+                                    <button class="num-btn" data-overlay="complexion" data-dir="1">+</button>
+                                </div>
+                            </div>
+                            <div class="overlay-item">
+                                <label class="sb-label">Moles</label>
+                                <div class="number-input">
+                                    <button class="num-btn" data-overlay="moles" data-dir="-1">-</button>
+                                    <span id="moles-value">-1</span>
+                                    <button class="num-btn" data-overlay="moles" data-dir="1">+</button>
+                                </div>
+                            </div>
+                            <div class="overlay-item">
+                                <label class="sb-label">Sun Damage</label>
+                                <div class="number-input">
+                                    <button class="num-btn" data-overlay="sunDamage" data-dir="-1">-</button>
+                                    <span id="sunDamage-value">-1</span>
+                                    <button class="num-btn" data-overlay="sunDamage" data-dir="1">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Style -->
+                <div id="step-4" class="creation-step hidden">
+                    <h2>Style</h2>
+                    <p class="step-description">Customize hair, facial hair, makeup and clothing.</p>
+
+                    <div class="style-tabs">
+                        <button class="style-tab active" data-tab="hair">Hair</button>
+                        <button class="style-tab" data-tab="facial">Facial</button>
+                        <button class="style-tab" data-tab="makeup">Makeup</button>
+                        <button class="style-tab" data-tab="clothing">Clothing</button>
+                    </div>
+
+                    <div id="style-content" class="style-content">
+                        <!-- Style options will be injected based on tab -->
+                    </div>
+                </div>
+
+                <!-- Step 5: Finish -->
+                <div id="step-5" class="creation-step hidden">
+                    <h2>Almost Done!</h2>
+                    <p class="step-description">Choose where you want to start your journey.</p>
+
+                    <div class="finish-summary">
+                        <div class="summary-card">
+                            <div class="summary-avatar">
+                                <i data-lucide="user-circle"></i>
+                            </div>
+                            <div class="summary-info">
+                                <h3 id="summary-name">John Doe</h3>
+                                <p id="summary-details">Male, 30 years old, American</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="spawn-location-select final-spawn">
+                        <label class="sb-label">Starting Location</label>
+                        <div id="creation-spawn-locations" class="spawn-options">
+                            <!-- Spawn locations will be injected here -->
+                        </div>
+                    </div>
+
+                    <button id="btn-randomize" class="sb-btn sb-btn-secondary">
+                        <i data-lucide="shuffle"></i>
+                        <span>Randomize Look</span>
+                    </button>
+                </div>
+
+                <!-- Navigation -->
+                <div class="creation-nav">
+                    <button id="btn-back" class="sb-btn sb-btn-secondary">
+                        <i data-lucide="arrow-left"></i>
+                        <span>Back</span>
+                    </button>
+                    <button id="btn-next" class="sb-btn sb-btn-primary">
+                        <span>Next</span>
+                        <i data-lucide="arrow-right"></i>
+                    </button>
+                    <button id="btn-create" class="sb-btn sb-btn-primary hidden">
+                        <i data-lucide="check"></i>
+                        <span>Create Character</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Camera Controls -->
+            <div class="camera-controls">
+                <button class="camera-btn" data-focus="fullBody" title="Full Body">
+                    <i data-lucide="user"></i>
+                </button>
+                <button class="camera-btn" data-focus="face" title="Face">
+                    <i data-lucide="scan-face"></i>
+                </button>
+                <button class="camera-btn" data-focus="torso" title="Torso">
+                    <i data-lucide="shirt"></i>
+                </button>
+                <button class="camera-btn" data-focus="legs" title="Legs">
+                    <i data-lucide="footprints"></i>
+                </button>
+
+                <div style="width: 32px; height: 1px; background: var(--sb-border); margin: 4px auto;"></div>
+
+                <button class="camera-btn" id="btn-pose" title="Change Pose">
+                    <i data-lucide="person-standing"></i>
+                </button>
+                <span id="pose-label" style="color: var(--sb-text-tertiary); font-size: 0.6rem; text-align: center; margin-top: -4px; pointer-events: none;">1/8</span>
+            </div>
+
+            <!-- Cancel Button -->
+            <button id="btn-cancel-creation" class="btn-cancel">
+                <i data-lucide="x"></i>
+                <span>Cancel</span>
+            </button>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- LOADING OVERLAY -->
+        <!-- ========================================== -->
+        <div id="loading-overlay" class="loading-overlay hidden">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <p id="loading-message">Loading...</p>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- DELETE CONFIRMATION MODAL -->
+        <!-- ========================================== -->
+        <div id="delete-modal" class="sb-modal-overlay hidden">
+            <div class="sb-modal">
+                <div class="sb-modal-header">
+                    <h3 class="sb-modal-title">Delete Character</h3>
+                    <button class="sb-modal-close" id="close-delete-modal">
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+                <div class="sb-modal-body">
+                    <p>Are you sure you want to delete <strong id="delete-char-name">this character</strong>?</p>
+                    <p class="warning-text">This action cannot be undone. Type <strong id="confirm-text"></strong> to confirm.</p>
+                    <div class="sb-input-group">
+                        <input type="text" id="delete-confirm-input" class="sb-input" placeholder="Type to confirm">
+                    </div>
+                </div>
+                <div class="sb-modal-footer">
+                    <button class="sb-btn sb-btn-secondary" id="btn-cancel-delete">Cancel</button>
+                    <button class="sb-btn sb-btn-danger" id="btn-confirm-delete" disabled>Delete Forever</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- ERROR/SUCCESS TOAST -->
+        <!-- ========================================== -->
+        <div id="toast-container" class="toast-container"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

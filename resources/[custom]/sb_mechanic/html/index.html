@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benny's Mechanic</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ================================================================== -->
+    <!-- MAIN DASHBOARD (mechanic view) -->
+    <!-- ================================================================== -->
+    <div id="app" class="hidden">
+        <!-- Header -->
+        <div class="app-header">
+            <div class="header-left">
+                <i class="fa-solid fa-wrench header-icon"></i>
+                <div>
+                    <h1 id="station-title">Engine Bay</h1>
+                    <p id="vehicle-label" class="text-secondary">No Vehicle</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-secondary" id="btn-cancel">
+                    <i class="fa-solid fa-xmark"></i> Cancel
+                </button>
+                <button class="btn btn-primary" id="btn-close">
+                    <i class="fa-solid fa-check"></i> Done
+                </button>
+            </div>
+        </div>
+
+        <!-- Content area -->
+        <div class="app-content">
+            <!-- Left: Station page -->
+            <div class="station-panel">
+
+                <!-- ENGINE PAGE -->
+                <div id="page-engine" class="page">
+                    <div class="section">
+                        <h2 class="section-title"><i class="fa-solid fa-heart-pulse"></i> Vehicle Health</h2>
+                        <div class="health-bars">
+                            <div class="health-item">
+                                <div class="health-label">
+                                    <span>Engine</span>
+                                    <span id="engine-health-text">1000 / 1000</span>
+                                </div>
+                                <div class="health-bar">
+                                    <div class="health-fill" id="engine-health-fill" style="width:100%"></div>
+                                </div>
+                                <button class="btn btn-sm btn-primary" data-repair="engine">
+                                    <i class="fa-solid fa-wrench"></i> Repair Engine — $<span class="price-engine-repair"></span>
+                                </button>
+                            </div>
+                            <div class="health-item">
+                                <div class="health-label">
+                                    <span>Body</span>
+                                    <span id="body-health-text">1000 / 1000</span>
+                                </div>
+                                <div class="health-bar">
+                                    <div class="health-fill" id="body-health-fill" style="width:100%"></div>
+                                </div>
+                                <button class="btn btn-sm btn-primary" data-repair="body">
+                                    <i class="fa-solid fa-car-burst"></i> Repair Body — $<span class="price-body-repair"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h2 class="section-title"><i class="fa-solid fa-gauge-high"></i> Performance Upgrades</h2>
+                        <div class="upgrade-grid" id="upgrade-grid">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BODY PAGE -->
+                <div id="page-body" class="page hidden">
+                    <div class="section">
+                        <div class="sub-tabs">
+                            <button class="sub-tab active" data-subtab="primary">Primary</button>
+                            <button class="sub-tab" data-subtab="secondary">Secondary</button>
+                            <button class="sub-tab" data-subtab="pearlescent">Pearl</button>
+                            <button class="sub-tab" data-subtab="livery">Livery</button>
+                        </div>
+                    </div>
+
+                    <!-- Color Grid (for primary/secondary/pearlescent) -->
+                    <div id="color-panel" class="section">
+                        <h2 class="section-title"><i class="fa-solid fa-palette"></i> <span id="color-slot-label">Primary Color</span></h2>
+                        <div class="color-grid" id="color-grid">
+                            <!-- Populated by JS -->
+                        </div>
+
+                        <!-- Custom RGB -->
+                        <div class="custom-rgb" id="custom-rgb-panel">
+                            <h3 class="subsection-title">Custom RGB</h3>
+                            <div class="rgb-sliders">
+                                <div class="slider-row">
+                                    <label>R</label>
+                                    <input type="range" min="0" max="255" value="128" id="rgb-r" class="rgb-slider slider-r">
+                                    <span id="rgb-r-val">128</span>
+                                </div>
+                                <div class="slider-row">
+                                    <label>G</label>
+                                    <input type="range" min="0" max="255" value="128" id="rgb-g" class="rgb-slider slider-g">
+                                    <span id="rgb-g-val">128</span>
+                                </div>
+                                <div class="slider-row">
+                                    <label>B</label>
+                                    <input type="range" min="0" max="255" value="128" id="rgb-b" class="rgb-slider slider-b">
+                                    <span id="rgb-b-val">128</span>
+                                </div>
+                            </div>
+                            <div class="rgb-preview-row">
+                                <div class="rgb-preview-box" id="rgb-preview-box"></div>
+                                <button class="btn btn-sm btn-primary" id="btn-apply-rgb">Apply Custom Color — $<span class="price-custom-rgb"></span></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Livery Panel -->
+                    <div id="livery-panel" class="section hidden">
+                        <h2 class="section-title"><i class="fa-solid fa-images"></i> Liveries</h2>
+                        <div class="livery-grid" id="livery-grid">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WHEELS PAGE -->
+                <div id="page-wheels" class="page hidden">
+                    <div class="section">
+                        <h2 class="section-title"><i class="fa-solid fa-circle-dot"></i> Tire Status</h2>
+                        <div class="tire-grid" id="tire-grid">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h2 class="section-title"><i class="fa-solid fa-gear"></i> Wheel Type</h2>
+                        <div class="wheel-type-row" id="wheel-type-row">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h2 class="section-title"><i class="fa-solid fa-circle"></i> Wheel Style</h2>
+                        <div class="wheel-style-scroller" id="wheel-style-scroller">
+                            <!-- Populated by JS -->
+                        </div>
+                        <button class="btn btn-primary" id="btn-apply-wheels" style="margin-top:12px;">
+                            <i class="fa-solid fa-check"></i> Apply Wheels — $<span class="price-wheels"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- COSMETIC PAGE -->
+                <div id="page-cosmetic" class="page hidden">
+                    <!-- Neon -->
+                    <div class="section collapsible">
+                        <h2 class="section-title toggle-section" data-section="neon-content">
+                            <i class="fa-solid fa-lightbulb"></i> Neon Lights
+                            <i class="fa-solid fa-chevron-down section-arrow"></i>
+                        </h2>
+                        <div id="neon-content" class="section-body">
+                            <div class="neon-toggles">
+                                <label class="toggle-item"><input type="checkbox" id="neon-left"> Left</label>
+                                <label class="toggle-item"><input type="checkbox" id="neon-right"> Right</label>
+                                <label class="toggle-item"><input type="checkbox" id="neon-front"> Front</label>
+                                <label class="toggle-item"><input type="checkbox" id="neon-back"> Back</label>
+                            </div>
+                            <div class="rgb-sliders" id="neon-rgb-sliders">
+                                <div class="slider-row">
+                                    <label>R</label>
+                                    <input type="range" min="0" max="255" value="255" id="neon-r" class="rgb-slider slider-r">
+                                    <span id="neon-r-val">255</span>
+                                </div>
+                                <div class="slider-row">
+                                    <label>G</label>
+                                    <input type="range" min="0" max="255" value="107" id="neon-g" class="rgb-slider slider-g">
+                                    <span id="neon-g-val">107</span>
+                                </div>
+                                <div class="slider-row">
+                                    <label>B</label>
+                                    <input type="range" min="0" max="255" value="53" id="neon-b" class="rgb-slider slider-b">
+                                    <span id="neon-b-val">53</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-sm btn-primary" id="btn-apply-neon">
+                                <i class="fa-solid fa-check"></i> Apply Neon — $<span class="price-neon"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Window Tint -->
+                    <div class="section collapsible">
+                        <h2 class="section-title toggle-section" data-section="tint-content">
+                            <i class="fa-solid fa-window-maximize"></i> Window Tint
+                            <i class="fa-solid fa-chevron-down section-arrow"></i>
+                        </h2>
+                        <div id="tint-content" class="section-body">
+                            <select class="select-input" id="tint-select">
+                                <!-- Populated by JS -->
+                            </select>
+                            <button class="btn btn-sm btn-primary" id="btn-apply-tint">
+                                <i class="fa-solid fa-check"></i> Apply Tint — $<span class="price-tint"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Xenon Lights -->
+                    <div class="section collapsible">
+                        <h2 class="section-title toggle-section" data-section="xenon-content">
+                            <i class="fa-solid fa-sun"></i> Xenon Headlights
+                            <i class="fa-solid fa-chevron-down section-arrow"></i>
+                        </h2>
+                        <div id="xenon-content" class="section-body">
+                            <label class="toggle-item"><input type="checkbox" id="xenon-toggle"> Enable Xenon</label>
+                            <select class="select-input" id="xenon-color-select">
+                                <!-- Populated by JS -->
+                            </select>
+                            <button class="btn btn-sm btn-primary" id="btn-apply-xenon">
+                                <i class="fa-solid fa-check"></i> Apply Xenon — $<span class="price-xenon"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Horn -->
+                    <div class="section collapsible">
+                        <h2 class="section-title toggle-section" data-section="horn-content">
+                            <i class="fa-solid fa-bullhorn"></i> Horn
+                            <i class="fa-solid fa-chevron-down section-arrow"></i>
+                        </h2>
+                        <div id="horn-content" class="section-body">
+                            <select class="select-input" id="horn-select">
+                                <!-- Populated by JS -->
+                            </select>
+                            <button class="btn btn-sm btn-primary" id="btn-apply-horn">
+                                <i class="fa-solid fa-check"></i> Apply Horn — $<span class="price-horn"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Plate Style -->
+                    <div class="section collapsible">
+                        <h2 class="section-title toggle-section" data-section="plate-content">
+                            <i class="fa-solid fa-id-card"></i> Plate Style
+                            <i class="fa-solid fa-chevron-down section-arrow"></i>
+                        </h2>
+                        <div id="plate-content" class="section-body">
+                            <select class="select-input" id="plate-select">
+                                <!-- Populated by JS -->
+                            </select>
+                            <button class="btn btn-sm btn-primary" id="btn-apply-plate">
+                                <i class="fa-solid fa-check"></i> Apply Plate — $<span class="price-plate"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Extras -->
+                    <div class="section collapsible">
+                        <h2 class="section-title toggle-section" data-section="extras-content">
+                            <i class="fa-solid fa-puzzle-piece"></i> Extras
+                            <i class="fa-solid fa-chevron-down section-arrow"></i>
+                        </h2>
+                        <div id="extras-content" class="section-body">
+                            <div class="extras-grid" id="extras-grid">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interior / Dashboard Color -->
+                    <div class="section collapsible">
+                        <h2 class="section-title toggle-section" data-section="interior-content">
+                            <i class="fa-solid fa-couch"></i> Interior Color
+                            <i class="fa-solid fa-chevron-down section-arrow"></i>
+                        </h2>
+                        <div id="interior-content" class="section-body">
+                            <div class="color-grid small" id="interior-color-grid">
+                                <!-- Populated by JS -->
+                            </div>
+                            <button class="btn btn-sm btn-primary" id="btn-apply-interior">
+                                <i class="fa-solid fa-check"></i> Apply — $<span class="price-interior"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="section collapsible">
+                        <h2 class="section-title toggle-section" data-section="dashboard-content">
+                            <i class="fa-solid fa-gauge"></i> Dashboard Color
+                            <i class="fa-solid fa-chevron-down section-arrow"></i>
+                        </h2>
+                        <div id="dashboard-content" class="section-body">
+                            <div class="color-grid small" id="dashboard-color-grid">
+                                <!-- Populated by JS -->
+                            </div>
+                            <button class="btn btn-sm btn-primary" id="btn-apply-dashboard">
+                                <i class="fa-solid fa-check"></i> Apply — $<span class="price-dashboard"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Wash -->
+                    <div class="section">
+                        <button class="btn btn-primary btn-full" id="btn-wash">
+                            <i class="fa-solid fa-droplet"></i> Wash Vehicle — $<span class="price-wash"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- BILLING LAPTOP (separate NUI view) -->
+    <!-- ================================================================== -->
+    <div id="billing-app" class="hidden">
+        <div class="billing-container">
+            <div class="billing-header">
+                <div class="header-left">
+                    <i class="fa-solid fa-laptop header-icon"></i>
+                    <div>
+                        <h1>Billing Terminal</h1>
+                        <p class="text-secondary">Benny's Original Motorworks</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-secondary" id="btn-close-billing">
+                        <i class="fa-solid fa-xmark"></i> Close
+                    </button>
+                </div>
+            </div>
+
+            <div class="billing-content">
+                <!-- Left: Vehicle List -->
+                <div class="billing-vehicle-list" id="billing-vehicle-list">
+                    <h2 class="section-title"><i class="fa-solid fa-car"></i> Unpaid Vehicles</h2>
+                    <div id="billing-vehicles">
+                        <p class="text-muted">No unpaid vehicles</p>
+                    </div>
+                </div>
+
+                <!-- Right: Vehicle Detail / Worklog -->
+                <div class="billing-detail" id="billing-detail">
+                    <div class="billing-detail-empty">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                        <p>Select a vehicle to view work details</p>
+                    </div>
+                    <div class="billing-detail-content hidden" id="billing-detail-content">
+                        <div class="billing-detail-header">
+                            <h2 id="billing-detail-plate">PLATE</h2>
+                            <p id="billing-detail-owner" class="text-secondary">Owner</p>
+                        </div>
+                        <div class="billing-worklog" id="billing-worklog">
+                            <!-- Populated by JS -->
+                        </div>
+                        <div class="billing-detail-footer">
+                            <div class="billing-total">
+                                <span>Total:</span>
+                                <span id="billing-total">$0</span>
+                            </div>
+                            <button class="btn btn-primary btn-full" id="btn-send-bill">
+                                <i class="fa-solid fa-paper-plane"></i> Send Bill
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- CUSTOMER INVOICE POPUP -->
+    <!-- ================================================================== -->
+    <div id="customer-invoice" class="hidden">
+        <div class="invoice-overlay">
+            <div class="invoice-popup">
+                <div class="popup-header">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    <h2>Benny's Motorworks</h2>
+                </div>
+                <p class="popup-plate" id="popup-plate">Invoice for PLATE</p>
+                <p class="popup-mechanic" id="popup-mechanic-name">From: Mechanic</p>
+                <div class="popup-items" id="popup-items">
+                    <!-- Populated by JS -->
+                </div>
+                <div class="popup-total">
+                    <span>Total:</span>
+                    <span id="popup-total">$0</span>
+                </div>
+                <div class="popup-actions">
+                    <button class="btn btn-primary" id="btn-accept-invoice">
+                        <i class="fa-solid fa-check"></i> Pay
+                    </button>
+                    <button class="btn btn-danger" id="btn-decline-invoice">
+                        <i class="fa-solid fa-xmark"></i> Decline
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

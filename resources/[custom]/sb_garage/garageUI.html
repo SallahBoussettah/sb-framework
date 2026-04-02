@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everyday Chaos RP - Garage</title>
+    <!-- Font Import -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icon Library -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            /* Design System Variables */
+            --sb-bg-primary: #0a0a0a;
+            --sb-bg-secondary: #141414;
+            --sb-bg-tertiary: #1a1a1a;
+            --sb-bg-elevated: #242424;
+            --sb-accent: #ff6b35;
+            --sb-accent-hover: #ff8555;
+            --sb-text-primary: #ffffff;
+            --sb-text-secondary: #888888;
+            --sb-text-tertiary: #555555;
+            --sb-success: #22c55e;
+            --sb-info: #3b82f6;
+            --sb-border: #2a2a2a;
+            --sb-radius-lg: 12px;
+            --sb-radius-md: 8px;
+            --sb-shadow-glow: 0 0 20px rgba(255, 107, 53, 0.2);
+            --sb-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+
+        body {
+            width: 100vw; height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background: transparent;
+            color: var(--sb-text-primary);
+            overflow: hidden;
+            display: flex;
+        }
+
+        /* Side Panel Container */
+        .garage-panel {
+            width: 450px;
+            height: 100vh;
+            background: linear-gradient(to right, var(--sb-bg-primary) 0%, rgba(10, 10, 10, 0.9) 85%, transparent 100%);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Header */
+        .header { display: flex; align-items: center; justify-content: space-between; }
+        .header-title { display: flex; align-items: center; gap: 12px; }
+        .header-title i { color: var(--sb-accent); }
+        .header-title h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; }
+        .header-title span { color: var(--sb-text-secondary); font-size: 0.75rem; text-transform: uppercase; display: block; }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: var(--sb-bg-secondary);
+            padding: 4px;
+            border-radius: var(--sb-radius-md);
+            border: 1px solid var(--sb-border);
+        }
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--sb-text-secondary);
+            cursor: pointer;
+            border-radius: 6px;
+            transition: var(--sb-transition);
+        }
+        .tab.active {
+            background: var(--sb-bg-tertiary);
+            color: var(--sb-accent);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Stats Bar */
+        .garage-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--sb-text-tertiary);
+            padding: 0 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .garage-stats span b { color: var(--sb-text-secondary); }
+
+        /* Vehicle List */
+        .vehicle-list {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .vehicle-list::-webkit-scrollbar { width: 4px; }
+        .vehicle-list::-webkit-scrollbar-thumb { background: var(--sb-bg-elevated); border-radius: 10px; }
+
+        /* Vehicle Card */
+        .vehicle-card {
+            background: var(--sb-bg-tertiary);
+            border: 1px solid var(--sb-border);
+            border-radius: var(--sb-radius-lg);
+            padding: 20px;
+            transition: var(--sb-transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .vehicle-card:hover {
+            border-color: var(--sb-accent-hover);
+            transform: translateX(5px);
+            background: var(--sb-bg-elevated);
+        }
+
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+        .card-header h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 2px; }
+        .plate-badge {
+            font-family: monospace;
+            background: #e2e2e2;
+            color: #1a1a1a;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1);
+        }
+
+        /* Status Bars */
+        .status-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .status-row { display: flex; align-items: center; gap: 12px; }
+        .status-label { font-size: 0.7rem; color: var(--sb-text-secondary); width: 50px; text-transform: uppercase; }
+        .progress-bg { flex: 1; height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 10px; transition: width 0.5s ease-out; }
+        .status-value { font-size: 0.7rem; color: var(--sb-text-tertiary); width: 30px; text-align: right; }
+
+        /* Action Button */
+        .btn-retrieve {
+            width: 100%;
+            padding: 12px;
+            background: var(--sb-accent);
+            border: none;
+            border-radius: var(--sb-radius-md);
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: var(--sb-transition);
+        }
+        .btn-retrieve:hover { background: var(--sb-accent-hover); box-shadow: var(--sb-shadow-glow); }
+
+        /* Empty State */
+        .empty-state {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--sb-text-tertiary);
+            gap: 15px;
+            padding: 40px;
+        }
+        .empty-state i { color: var(--sb-bg-elevated); }
+        .empty-state p { font-size: 0.9rem; max-width: 200px; }
+
+        /* Footer Balance */
+        .footer-balance {
+            padding-top: 15px;
+            border-top: 1px solid var(--sb-border);
+            display: flex;
+            justify-content: space-between;
+        }
+        .balance-item { display: flex; align-items: center; gap: 10px; }
+        .balance-item i { color: var(--sb-success); }
+        .balance-item span { font-size: 0.7rem; color: var(--sb-text-tertiary); text-transform: uppercase; display: block; }
+        .balance-item div { font-weight: 600; font-size: 1rem; }
+
+        /* Key Hint */
+        .exit-hint {
+            position: absolute; top: 40px; right: 40px;
+            background: var(--sb-bg-tertiary);
+            border: 1px solid var(--sb-border);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--sb-text-secondary);
+        }
+        .keycap { color: var(--sb-accent); font-weight: 800; padding: 0 4px; }
+    </style>
+</head>
+<body>
+
+    <div class="garage-panel">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-title">
+                <i data-lucide="warehouse" size="28"></i>
+                <div>
+                    <span>Parking & Storage</span>
+                    <h1>Legion Square</h1>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('current')">This Garage</div>
+            <div class="tab" onclick="switchTab('all')">Global Fleet</div>
+        </div>
+
+        <!-- Stats -->
+        <div class="garage-stats">
+            <span>Stored: <b>2/10</b></span>
+            <span>Total Slots: <b>10</b></span>
+        </div>
+
+        <!-- List -->
+        <div class="vehicle-list" id="vehicleList">
+            
+            <!-- Example Card 1 -->
+            <div class="vehicle-card">
+                <div class="card-header">
+                    <div>
+                        <h3>Blista Compact</h3>
+                        <span style="color: var(--sb-text-tertiary); font-size: 0.75rem;">@ Legion Square</span>
+                    </div>
+                    <div class="plate-badge">LYRB 291</div>
+                </div>
+
+                <div class="status-container">
+                    <div class="status-row">
+                        <span class="status-label">Body</span>
+                        <div class="progress-bg"><div class="progress-fill" style="width: 100%; background: var(--sb-success);"></div></div>
+                        <span class="status-value">100%</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Engine</span>
+                        <div class="progress-bg"><div class="progress-fill" style="width: 85%; background: var(--sb-success);"></div></div>
+                        <span class="status-value">85%</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Fuel</span>
+                        <div class="progress-bg"><div class="progress-fill" style="width: 45%; background: var(--sb-info);"></div></div>
+                        <span class="status-value">45%</span>
+                    </div>
+                </div>
+
+                <button class="btn-retrieve">
+                    <i data-lucide="key-round" size="16"></i> Retrieve Vehicle
+                </button>
+            </div>
+
+            <!-- Example Card 2 -->
+            <div class="vehicle-card">
+                <div class="card-header">
+                    <div>
+                        <h3>Elegy RH8</h3>
+                        <span style="color: var(--sb-text-tertiary); font-size: 0.75rem;">@ Legion Square</span>
+                    </div>
+                    <div class="plate-badge">CHAOS 01</div>
+                </div>
+
+                <div class="status-container">
+                    <div class="status-row">
+                        <span class="status-label">Body</span>
+                        <div class="progress-bg"><div class="progress-fill" style="width: 40%; background: #ef4444;"></div></div>
+                        <span class="status-value">40%</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Engine</span>
+                        <div class="progress-bg"><div class="progress-fill" style="width: 60%; background: #f59e0b;"></div></div>
+                        <span class="status-value">60%</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Fuel</span>
+                        <div class="progress-bg"><div class="progress-fill" style="width: 99%; background: var(--sb-info);"></div></div>
+                        <span class="status-value">99%</span>
+                    </div>
+                </div>
+
+                <button class="btn-retrieve">
+                    <i data-lucide="key-round" size="16"></i> Retrieve Vehicle
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Footer Balance -->
+        <div class="footer-balance">
+            <div class="balance-item">
+                <i data-lucide="banknote"></i>
+                <div>
+                    <span>Cash</span>
+                    $1,450
+                </div>
+            </div>
+            <div class="balance-item">
+                <i data-lucide="landmark"></i>
+                <div>
+                    <span>Bank</span>
+                    $22,200
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right side exit hint -->
+    <div class="exit-hint">
+        Press <span class="keycap">ESC</span> to close garage
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function switchTab(type) {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Example of showing "Empty State" for Global Garage
+            const list = document.getElementById('vehicleList');
+            if (type === 'all') {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <i data-lucide="car-taxi-front" size="64"></i>
+                        <h3>No Other Vehicles</h3>
+                        <p>You don't have vehicles stored in other city locations.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+            } else {
+                location.reload(); // Just to reset the demo
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everyday Chaos RP - Car Dealer</title>
+    <!-- Font Import -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icon Library -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            /* Background Colors */
+            --sb-bg-primary: #0a0a0a;
+            --sb-bg-secondary: #141414;
+            --sb-bg-tertiary: #1a1a1a;
+            --sb-bg-elevated: #242424;
+            --sb-bg-overlay: rgba(0, 0, 0, 0.8);
+
+            /* Accent Color (Brand Orange) */
+            --sb-accent: #ff6b35;
+            --sb-accent-hover: #ff8555;
+            --sb-accent-active: #e55a25;
+            --sb-accent-muted: rgba(255, 107, 53, 0.2);
+            --sb-accent-glow: rgba(255, 107, 53, 0.4);
+
+            /* Text Colors */
+            --sb-text-primary: #ffffff;
+            --sb-text-secondary: #888888;
+            --sb-text-tertiary: #555555;
+
+            /* Status Colors */
+            --sb-success: #22c55e;
+            --sb-error: #ef4444;
+
+            /* Spacing & Borders */
+            --sb-spacing-4: 1rem;
+            --sb-radius-md: 8px;
+            --sb-radius-lg: 12px;
+            --sb-border: #2a2a2a;
+            
+            /* Shadows & Animations */
+            --sb-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+            --sb-shadow-glow: 0 0 20px var(--sb-accent-glow);
+            --sb-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background: transparent; /* Allows game view to show */
+            color: var(--sb-text-primary);
+            overflow: hidden;
+            display: flex;
+        }
+
+        /* Container for the UI on the left */
+        .dealer-container {
+            width: 450px;
+            height: 100vh;
+            background: linear-gradient(to right, var(--sb-bg-primary) 0%, rgba(10, 10, 10, 0.8) 80%, transparent 100%);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Header section */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-icon {
+            color: var(--sb-accent);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header span {
+            color: var(--sb-text-secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        /* Tabs/Categories */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            background: var(--sb-bg-tertiary);
+            border: 1px solid var(--sb-border);
+            padding: 8px 16px;
+            border-radius: var(--sb-radius-md);
+            color: var(--sb-text-secondary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all var(--sb-transition-fast);
+        }
+
+        .tab:hover {
+            border-color: var(--sb-accent);
+            color: var(--sb-text-primary);
+        }
+
+        .tab.active {
+            background: var(--sb-accent);
+            border-color: var(--sb-accent);
+            color: white;
+        }
+
+        /* Car List Scrollable */
+        .car-list {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Scrollbar Styling */
+        .car-list::-webkit-scrollbar { width: 4px; }
+        .car-list::-webkit-scrollbar-track { background: transparent; }
+        .car-list::-webkit-scrollbar-thumb { background: var(--sb-bg-elevated); border-radius: 10px; }
+
+        .car-item {
+            background: var(--sb-bg-tertiary);
+            border: 1px solid var(--sb-border);
+            border-radius: var(--sb-radius-lg);
+            padding: 16px;
+            cursor: pointer;
+            transition: all var(--sb-transition-fast);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .car-item:hover {
+            border-color: var(--sb-border-hover);
+            transform: translateX(5px);
+            background: var(--sb-bg-elevated);
+        }
+
+        .car-item.selected {
+            border-color: var(--sb-accent);
+            box-shadow: var(--sb-shadow-glow);
+        }
+
+        .car-info h3 { font-size: 1rem; margin-bottom: 2px; }
+        .car-info p { color: var(--sb-text-secondary); font-size: 0.75rem; text-transform: uppercase; }
+        
+        .car-price {
+            color: var(--sb-success);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Selection Details Panel */
+        .selection-panel {
+            background: var(--sb-bg-secondary);
+            border: 1px solid var(--sb-border);
+            border-radius: var(--sb-radius-lg);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--sb-border);
+            padding-bottom: 8px;
+        }
+
+        .detail-label { color: var(--sb-text-secondary); font-size: 0.8rem; }
+        .detail-value { font-weight: 500; font-size: 0.85rem; }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: var(--sb-radius-md);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all var(--sb-transition-fast);
+        }
+
+        .btn-primary { background: var(--sb-accent); color: white; }
+        .btn-primary:hover { background: var(--sb-accent-hover); box-shadow: var(--sb-shadow-glow); transform: translateY(-2px); }
+
+        .btn-secondary { background: var(--sb-bg-elevated); color: white; border: 1px solid var(--sb-border); }
+        .btn-secondary:hover { background: var(--sb-bg-tertiary); border-color: var(--sb-text-secondary); }
+
+        /* Wallet Footer */
+        .wallet {
+            display: flex;
+            gap: 20px;
+            padding-top: 10px;
+            border-top: 1px solid var(--sb-border);
+        }
+
+        .money-item { display: flex; align-items: center; gap: 8px; }
+        .money-item i { color: var(--sb-success); font-size: 1rem; }
+        .money-item div { font-size: 0.9rem; font-weight: 600; }
+        .money-label { font-size: 0.7rem; color: var(--sb-text-secondary); text-transform: uppercase; display: block; }
+
+        /* Exit Prompt */
+        .exit-hint {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--sb-text-secondary);
+            background: var(--sb-bg-tertiary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid var(--sb-border);
+        }
+        .keycap {
+            background: var(--sb-bg-elevated);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--sb-accent);
+            font-weight: 700;
+            border: 1px solid var(--sb-border);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dealer-container">
+        <!-- Header -->
+        <div class="header">
+            <i data-lucide="car-front" class="header-icon"></i>
+            <div>
+                <h1>Premium Deluxe</h1>
+                <span>Motorsport Showroom</span>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="tabs">
+            <div class="tab active">All</div>
+            <div class="tab">Sports</div>
+            <div class="tab">Compact</div>
+            <div class="tab">Sedans</div>
+            <div class="tab">SUVs</div>
+        </div>
+
+        <!-- Vehicle List -->
+        <div class="car-list" id="carList">
+            <!-- Dynamic Items -->
+            <div class="car-item selected">
+                <div class="car-info">
+                    <h3>Elegy RH8</h3>
+                    <p>Annis • Sports</p>
+                </div>
+                <div class="car-price">$95,000</div>
+            </div>
+
+            <div class="car-item">
+                <div class="car-info">
+                    <h3>Sultan</h3>
+                    <p>Karin • Sports</p>
+                </div>
+                <div class="car-price">$35,000</div>
+            </div>
+
+            <div class="car-item">
+                <div class="car-info">
+                    <h3>Blista</h3>
+                    <p>Dinka • Compact</p>
+                </div>
+                <div class="car-price">$15,000</div>
+            </div>
+            <!-- Add more items as needed -->
+        </div>
+
+        <!-- Selection Panel (Action Buttons) -->
+        <div class="selection-panel">
+            <div class="detail-row">
+                <span class="detail-label">Selected Model</span>
+                <span class="detail-value" id="selModel">Elegy RH8</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Vehicle Class</span>
+                <span class="detail-value">Sports</span>
+            </div>
+            
+            <div class="actions">
+                <button class="btn btn-secondary">
+                    <i data-lucide="gauge"></i> Test Drive
+                </button>
+                <button class="btn btn-primary">
+                    <i data-lucide="shopping-cart"></i> Buy Now
+                </button>
+            </div>
+        </div>
+
+        <!-- Wallet Info -->
+        <div class="wallet">
+            <div class="money-item">
+                <i data-lucide="wallet"></i>
+                <div>
+                    <span class="money-label">Cash</span>
+                    $0
+                </div>
+            </div>
+            <div class="money-item">
+                <i data-lucide="landmark"></i>
+                <div>
+                    <span class="money-label">Bank</span>
+                    $22,200
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exit Hint (Top Right) -->
+    <div class="exit-hint">
+        Press <span class="keycap">ESC</span> to exit showroom
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Simple selection logic for demo
+        const carItems = document.querySelectorAll('.car-item');
+        carItems.forEach(item => {
+            item.addEventListener('click', () => {
+                carItems.forEach(i => i.classList.remove('selected'));
+                item.classList.add('selected');
+                
+                const carName = item.querySelector('h3').innerText;
+                document.getElementById('selModel').innerText = carName;
+                
+                // Here you would trigger an NUI Callback to change the car in-game
+                // fetch(`https://${GetParentResourceName()}/selectCar`, {
+                //     method: 'POST',
+                //     body: JSON.stringify({ model: carName })
+                // });
+            });
+        });
+    </script>
+</body>
+</html>

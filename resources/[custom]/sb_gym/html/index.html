@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym & Fitness</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Skills Panel -->
+    <div id="skillsPanel" class="panel hidden">
+        <div class="panel-header">
+            <i class="fas fa-dumbbell"></i>
+            <span>Fitness Skills</span>
+            <button class="close-btn" onclick="closeUI()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="panel-content">
+            <!-- Strength -->
+            <div class="skill-row">
+                <div class="skill-info">
+                    <i class="fas fa-fist-raised"></i>
+                    <span class="skill-name">Strength</span>
+                </div>
+                <div class="skill-bar-container">
+                    <div class="skill-bar" id="strengthBar"></div>
+                </div>
+                <span class="skill-value" id="strengthValue">0</span>
+            </div>
+
+            <!-- Stamina -->
+            <div class="skill-row">
+                <div class="skill-info">
+                    <i class="fas fa-running"></i>
+                    <span class="skill-name">Stamina</span>
+                </div>
+                <div class="skill-bar-container">
+                    <div class="skill-bar stamina" id="staminaBar"></div>
+                </div>
+                <span class="skill-value" id="staminaValue">0</span>
+            </div>
+
+            <!-- Lung Capacity -->
+            <div class="skill-row">
+                <div class="skill-info">
+                    <i class="fas fa-lungs"></i>
+                    <span class="skill-name">Lung Capacity</span>
+                </div>
+                <div class="skill-bar-container">
+                    <div class="skill-bar lung" id="lungBar"></div>
+                </div>
+                <span class="skill-value" id="lungValue">0</span>
+            </div>
+
+            <!-- Protein Buff Indicator -->
+            <div id="buffIndicator" class="buff-indicator hidden">
+                <i class="fas fa-bolt"></i>
+                <span>Protein Buff Active</span>
+                <span id="buffTimer"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exercise Menu -->
+    <div id="exerciseMenu" class="panel hidden">
+        <div class="panel-header">
+            <i class="fas fa-heartbeat"></i>
+            <span>Quick Exercises</span>
+            <button class="close-btn" onclick="closeUI()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="panel-content" id="exerciseList">
+            <!-- Exercises populated by JS -->
+        </div>
+        <div class="panel-footer">
+            <span class="hint"><i class="fas fa-info-circle"></i> Press X to cancel during exercise</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

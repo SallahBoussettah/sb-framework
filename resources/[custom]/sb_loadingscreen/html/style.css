@@ -1,0 +1,380 @@
+:root {
+    --sb-accent: #ff6b35;
+    --sb-accent-glow: rgba(255, 107, 53, 0.3);
+    --sb-bg-card: rgba(10, 10, 10, 0.7);
+    --sb-border: rgba(255, 255, 255, 0.1);
+    --sb-text-main: #ffffff;
+    --sb-text-muted: rgba(255, 255, 255, 0.5);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+
+
+body {
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    background-color: #050505;
+    color: var(--sb-text-main);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================================
+   BACKGROUND LAYER (Screenshots Slideshow + Video Override)
+   ============================================================ */
+.bg-layer {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    background-color: #050505;
+}
+
+.bg-slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.bg-slide.active {
+    opacity: 1;
+}
+
+/* Gradient overlay on top of background */
+.bg-layer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.9) 100%);
+    z-index: 1;
+}
+
+/* Video background (hidden by default, shown when video is set) */
+.bg-video {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -3;
+    filter: brightness(0.7);
+    display: none;
+}
+
+.bg-video.active {
+    display: block;
+}
+
+/* Gradient overlay for video */
+.bg-video-overlay {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.9) 100%);
+    z-index: -2;
+    display: none;
+}
+
+.bg-video-overlay.active {
+    display: block;
+}
+
+/* Scanlines CRT effect */
+.scanlines {
+    position: fixed;
+    inset: 0;
+    background:
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    background-size: 100% 2px, 3px 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ============================================================
+   MAIN LAYOUT
+   ============================================================ */
+.ui-container {
+    flex: 1;
+    display: flex;
+    padding: 60px;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* ============================================================
+   BRANDING (Left Side)
+   ============================================================ */
+.brand-zone {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.logo-h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    line-height: 1;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+}
+
+.tagline-wrap {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: var(--sb-accent);
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.tagline-line {
+    width: 60px;
+    height: 2px;
+    background: var(--sb-accent);
+}
+
+/* Audio Toggle */
+.audio-toggle {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--sb-bg-card);
+    border: 1px solid var(--sb-border);
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    width: fit-content;
+    transition: 0.3s;
+}
+
+.audio-toggle:hover {
+    border-color: var(--sb-accent);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.audio-toggle span {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.audio-toggle i,
+.audio-toggle svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ============================================================
+   SIDEBAR (Right Side)
+   ============================================================ */
+.sidebar {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.sidebar-section h2 {
+    font-size: 0.75rem;
+    color: var(--sb-accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sidebar-card {
+    background: var(--sb-bg-card);
+    border-left: 3px solid var(--sb-accent);
+    padding: 25px;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.control-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+}
+
+.control-item:last-child {
+    margin-bottom: 0;
+}
+
+.key-cap {
+    background: #fff;
+    color: #000;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: 0.7rem;
+    min-width: 40px;
+    text-align: center;
+    box-shadow: 0 3px 0 #bbb;
+}
+
+.rule-text {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: var(--sb-text-muted);
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.rule-text:last-child {
+    margin-bottom: 0;
+}
+
+.rule-text b {
+    color: var(--sb-text-main);
+}
+
+/* ============================================================
+   FOOTER (Loading Progress)
+   ============================================================ */
+.footer {
+    padding: 40px 60px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.load-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.status-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.status-top {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--sb-accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.status-sub {
+    font-size: 0.85rem;
+    color: var(--sb-text-muted);
+}
+
+.percent-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.percent-num {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 0.8;
+}
+
+.percent-sym {
+    font-size: 1.2rem;
+    color: var(--sb-accent);
+    font-weight: 700;
+}
+
+.progress-rail {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    position: relative;
+    border-radius: 2px;
+}
+
+.progress-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0%;
+    background: var(--sb-accent);
+    box-shadow: 0 0 15px var(--sb-accent-glow);
+    transition: width 0.4s ease-out;
+    border-radius: 2px;
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+.fade-in {
+    animation: fadeIn 1.2s ease forwards;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1200px) {
+    .ui-container {
+        padding: 40px;
+    }
+
+    .sidebar {
+        width: 340px;
+    }
+
+    .logo-h1 {
+        font-size: 2.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .ui-container {
+        flex-direction: column;
+        padding: 30px;
+        gap: 30px;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .logo-h1 {
+        font-size: 2rem;
+        letter-spacing: 5px;
+    }
+
+    .footer {
+        padding: 20px 30px;
+    }
+
+    .percent-num {
+        font-size: 2rem;
+    }
+}

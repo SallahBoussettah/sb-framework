@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SB Admin</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Admin Menu Panel -->
+    <div id="admin-menu" class="hidden">
+        <div class="menu-header">
+            <div class="menu-title">
+                <i class="fas fa-terminal"></i>
+                <span>SB Admin</span>
+            </div>
+            <button class="close-btn" onclick="closeMenu()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-bar">
+            <button class="tab active" data-tab="tools" onclick="switchTab('tools')">
+                <i class="fas fa-wrench"></i>
+                <span>Tools</span>
+            </button>
+            <button class="tab" data-tab="teleport" onclick="switchTab('teleport')">
+                <i class="fas fa-location-arrow"></i>
+                <span>Teleport</span>
+            </button>
+            <button class="tab" data-tab="give" onclick="switchTab('give')">
+                <i class="fas fa-gift"></i>
+                <span>Give</span>
+            </button>
+            <button class="tab" data-tab="players" onclick="switchTab('players')">
+                <i class="fas fa-users"></i>
+                <span>Players</span>
+            </button>
+        </div>
+
+        <div class="menu-body">
+            <!-- TAB: Tools -->
+            <div class="tab-content active" id="tab-tools">
+                <button class="menu-btn" id="btn-inspector" onclick="toggleInspector()">
+                    <i class="fas fa-crosshairs"></i>
+                    <span>Prop Inspector</span>
+                    <span class="hotkey">F7</span>
+                    <span class="badge" id="badge-inspector">OFF</span>
+                </button>
+                <button class="menu-btn" id="btn-noclip" onclick="toggleNoclip()">
+                    <i class="fas fa-ghost"></i>
+                    <span>NoClip</span>
+                    <span class="badge" id="badge-noclip">OFF</span>
+                </button>
+                <button class="menu-btn" id="btn-godmode" onclick="toggleGodmode()">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>God Mode</span>
+                    <span class="badge" id="badge-godmode">OFF</span>
+                </button>
+                <button class="menu-btn" id="btn-coords" onclick="toggleCoords()">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Show Coords</span>
+                    <span class="badge" id="badge-coords">OFF</span>
+                </button>
+
+                <div class="section-divider"></div>
+
+                <button class="menu-btn" onclick="copyCoords('vector3')">
+                    <i class="fas fa-copy"></i>
+                    <span>Copy vector3</span>
+                </button>
+                <button class="menu-btn" onclick="copyCoords('vector4')">
+                    <i class="fas fa-copy"></i>
+                    <span>Copy vector4</span>
+                </button>
+
+                <div class="section-divider"></div>
+                <div class="section-label">Time of Day</div>
+                <div class="input-group">
+                    <input type="number" id="time-hour" placeholder="Hour (0-23)" min="0" max="23" />
+                    <input type="number" id="time-minute" placeholder="Min" min="0" max="59" value="0" />
+                    <button class="input-btn" onclick="setTime()">
+                        <i class="fas fa-clock"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB: Teleport -->
+            <div class="tab-content" id="tab-teleport">
+                <button class="menu-btn" onclick="tpWaypoint()">
+                    <i class="fas fa-map-pin"></i>
+                    <span>TP to Waypoint</span>
+                </button>
+
+                <div class="section-divider"></div>
+                <div class="section-label">Go to Player</div>
+                <div class="input-group">
+                    <input type="number" id="goto-id" placeholder="Player ID" min="1" />
+                    <button class="input-btn" onclick="gotoPlayer()">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="section-label">Bring Player</div>
+                <div class="input-group">
+                    <input type="number" id="bring-id" placeholder="Player ID" min="1" />
+                    <button class="input-btn" onclick="bringPlayer()">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB: Give -->
+            <div class="tab-content" id="tab-give">
+                <div class="section-label">Spawn Vehicle</div>
+                <div class="input-group">
+                    <input type="text" id="vehicle-input" placeholder="Model (e.g. adder)" />
+                    <button class="input-btn" onclick="spawnVehicle()">
+                        <i class="fas fa-car"></i>
+                    </button>
+                </div>
+
+                <div class="section-divider"></div>
+                <div class="section-label">Give Weapon Kit</div>
+                <div class="input-group">
+                    <input type="number" id="weapon-target" placeholder="ID" min="1" />
+                    <input type="text" id="weapon-name" placeholder="weapon_pistol" />
+                    <button class="input-btn" onclick="giveWeapon()">
+                        <i class="fas fa-gun"></i>
+                    </button>
+                </div>
+
+                <div class="section-label">Give Item</div>
+                <div class="input-group">
+                    <input type="number" id="item-target" placeholder="ID" min="1" />
+                    <input type="text" id="item-input" placeholder="Item name" />
+                    <input type="number" id="item-amount" placeholder="Qty" value="1" min="1" max="999" />
+                    <button class="input-btn" onclick="giveItem()">
+                        <i class="fas fa-box"></i>
+                    </button>
+                </div>
+
+                <div class="section-label">Give Money</div>
+                <div class="input-group">
+                    <input type="number" id="money-target" placeholder="ID" min="1" />
+                    <select id="money-type">
+                        <option value="cash">Cash</option>
+                        <option value="bank">Bank</option>
+                        <option value="crypto">Crypto</option>
+                    </select>
+                    <input type="number" id="money-amount" placeholder="Amount" min="1" />
+                    <button class="input-btn" onclick="giveMoney()">
+                        <i class="fas fa-dollar-sign"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB: Players -->
+            <div class="tab-content" id="tab-players">
+                <div class="section-label">Set Job</div>
+                <div class="input-group">
+                    <input type="number" id="job-target" placeholder="ID" min="1" />
+                    <input type="text" id="job-name" placeholder="Job name" />
+                    <input type="number" id="job-grade" placeholder="Grade" value="0" min="0" />
+                    <button class="input-btn" onclick="setJob()">
+                        <i class="fas fa-briefcase"></i>
+                    </button>
+                </div>
+
+                <div class="section-label">Set Gang</div>
+                <div class="input-group">
+                    <input type="number" id="gang-target" placeholder="ID" min="1" />
+                    <input type="text" id="gang-name" placeholder="Gang name" />
+                    <input type="number" id="gang-grade" placeholder="Grade" value="0" min="0" />
+                    <button class="input-btn" onclick="setGang()">
+                        <i class="fas fa-skull-crossbones"></i>
+                    </button>
+                </div>
+
+                <div class="section-divider"></div>
+
+                <div class="section-label">Revive Player</div>
+                <div class="input-group">
+                    <input type="number" id="revive-target" placeholder="ID (empty = self)" min="1" />
+                    <button class="input-btn wide" onclick="revivePlayer()">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>Revive</span>
+                    </button>
+                </div>
+
+                <div class="section-label">Kick Player</div>
+                <div class="input-group">
+                    <input type="number" id="kick-target" placeholder="ID" min="1" />
+                    <input type="text" id="kick-reason" placeholder="Reason" />
+                    <button class="input-btn danger" onclick="kickPlayer()">
+                        <i class="fas fa-boot"></i>
+                    </button>
+                </div>
+
+                <div class="section-label">Ban Player</div>
+                <div class="input-group">
+                    <input type="number" id="ban-target" placeholder="ID" min="1" />
+                    <input type="number" id="ban-hours" placeholder="Hours (0=perm)" min="0" />
+                    <input type="text" id="ban-reason" placeholder="Reason" />
+                    <button class="input-btn danger" onclick="banPlayer()">
+                        <i class="fas fa-gavel"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-footer">
+            <span class="footer-text">F5 to close | ESC to close</span>
+        </div>
+    </div>
+
+    <!-- Inspector Overlay (always visible when active, no focus) -->
+    <div id="inspector-overlay" class="hidden">
+        <div class="inspector-row">
+            <span class="inspector-label">Model:</span>
+            <span class="inspector-value" id="insp-model">---</span>
+        </div>
+        <div class="inspector-row">
+            <span class="inspector-label">Hash:</span>
+            <span class="inspector-value" id="insp-hash">---</span>
+        </div>
+        <div class="inspector-row">
+            <span class="inspector-label">Type:</span>
+            <span class="inspector-value" id="insp-type">---</span>
+        </div>
+        <div class="inspector-row">
+            <span class="inspector-label">Net ID:</span>
+            <span class="inspector-value" id="insp-id">---</span>
+        </div>
+        <div class="inspector-row">
+            <span class="inspector-label">Coords:</span>
+            <span class="inspector-value" id="insp-coords">---</span>
+        </div>
+        <div class="inspector-hint">Left-click to copy model name</div>
+    </div>
+
+    <!-- Toast notifications -->
+    <div id="toast-container"></div>
+
+    <!-- Copy textarea (hidden) -->
+    <textarea id="copy-area" style="position:fixed;left:-9999px;"></textarea>
+
+    <script src="script.js"></script>
+</body>
+</html>

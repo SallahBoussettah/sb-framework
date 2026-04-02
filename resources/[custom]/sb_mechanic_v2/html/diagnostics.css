@@ -1,0 +1,568 @@
+/* sb_mechanic_v2 | Diagnostic Tablet — Realistic Device UI */
+/* No backdrop-filter: blur() per CLAUDE.md */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: transparent;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    user-select: none;
+}
+
+.hidden { display: none !important; }
+
+/* ===== TABLET DEVICE FRAME ===== */
+#tablet-device {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: tabletIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes tabletIn {
+    from { opacity: 0; transform: translate(-50%, -48%) scale(0.92); }
+    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.tablet-bezel {
+    width: 780px;
+    height: 530px;
+    background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 50%, #111 100%);
+    border-radius: 24px;
+    padding: 18px;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.9),
+        0 0 0 1px rgba(80, 80, 80, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Camera dot */
+.tablet-camera {
+    position: absolute;
+    top: 7px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: #222;
+    border-radius: 50%;
+    border: 1px solid #333;
+}
+
+/* Home button */
+.tablet-home-btn {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid #3a3a3a;
+    background: #1a1a1a;
+}
+
+/* ===== SCREEN ===== */
+.tablet-screen {
+    width: 100%;
+    height: 100%;
+    background: #0c0c0e;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #222;
+}
+
+/* ===== STATUS BAR (top of screen) ===== */
+.status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 12px;
+    background: #0a0a0c;
+    min-height: 24px;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.status-left, .status-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.app-icon { display: flex; align-items: center; }
+.app-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #ccc;
+}
+.app-version {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: #555;
+}
+
+.status-signal { display: flex; align-items: center; }
+.status-bluetooth {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: #4a9eff;
+    font-weight: 600;
+}
+.status-battery { display: flex; align-items: center; }
+
+/* ===== HEADER BAR ===== */
+.header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    background: linear-gradient(180deg, #111113 0%, #0e0e10 100%);
+    border-bottom: 1px solid #1f1f22;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.obd-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: #ff6b35;
+    background: rgba(255, 107, 53, 0.12);
+    border: 1px solid rgba(255, 107, 53, 0.25);
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+}
+
+.header-title-group { display: flex; flex-direction: column; }
+.header-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: #e0e0e0;
+    letter-spacing: 1.5px;
+}
+.header-subtitle {
+    font-size: 9px;
+    color: #555;
+    margin-top: -1px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.plate-chip {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #151517;
+    border: 1px solid #2a2a2c;
+    border-radius: 6px;
+    padding: 4px 10px;
+}
+.plate-icon { display: flex; align-items: center; }
+.plate-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+.close-btn {
+    background: #1a1a1c;
+    border: 1px solid #2a2a2c;
+    color: #666;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+.close-btn:hover {
+    background: #ff4757;
+    border-color: #ff4757;
+    color: #fff;
+}
+
+/* ===== CONTENT AREA ===== */
+.content-area {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+/* ===== LEFT PANEL ===== */
+.panel-left {
+    width: 38%;
+    display: flex;
+    flex-direction: column;
+    background: #0a0a0c;
+    border-right: 1px solid #1a1a1c;
+}
+
+.vehicle-diagram-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+}
+
+.vehicle-diagram-wrapper svg {
+    width: 100%;
+    height: 100%;
+    max-height: 370px;
+}
+
+/* Zone labels on SVG */
+.zone-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px;
+    font-weight: 600;
+    fill: #555;
+    letter-spacing: 1.5px;
+    pointer-events: none;
+}
+
+/* Zone hit areas */
+.zone-hit {
+    cursor: pointer;
+    fill: rgba(255, 255, 255, 0.0);
+    stroke: rgba(255, 255, 255, 0.0);
+    stroke-width: 1;
+    transition: all 0.25s ease;
+}
+.zone-hit:hover {
+    fill: rgba(255, 107, 53, 0.12);
+    stroke: rgba(255, 107, 53, 0.3);
+}
+
+/* Zone health states */
+.zone-hit.zone-good {
+    fill: rgba(46, 213, 115, 0.06);
+    stroke: rgba(46, 213, 115, 0.15);
+}
+.zone-hit.zone-good:hover {
+    fill: rgba(46, 213, 115, 0.15);
+    stroke: rgba(46, 213, 115, 0.4);
+    filter: url(#glow-green);
+}
+
+.zone-hit.zone-warning {
+    fill: rgba(255, 179, 71, 0.08);
+    stroke: rgba(255, 179, 71, 0.2);
+}
+.zone-hit.zone-warning:hover {
+    fill: rgba(255, 179, 71, 0.18);
+    stroke: rgba(255, 179, 71, 0.5);
+    filter: url(#glow-orange);
+}
+
+.zone-hit.zone-danger {
+    fill: rgba(255, 71, 87, 0.08);
+    stroke: rgba(255, 71, 87, 0.2);
+    animation: dangerPulse 2s ease-in-out infinite;
+}
+.zone-hit.zone-danger:hover {
+    fill: rgba(255, 71, 87, 0.2);
+    stroke: rgba(255, 71, 87, 0.6);
+    filter: url(#glow-red);
+}
+
+@keyframes dangerPulse {
+    0%, 100% { fill: rgba(255, 71, 87, 0.05); }
+    50% { fill: rgba(255, 71, 87, 0.12); }
+}
+
+.zone-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 9px;
+    color: #444;
+    padding: 6px;
+    border-top: 1px solid #151517;
+    background: #0c0c0e;
+}
+
+/* ===== RIGHT PANEL ===== */
+.panel-right {
+    width: 62%;
+    display: flex;
+    flex-direction: column;
+    background: #0c0c0e;
+}
+
+.panel-right-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    border-bottom: 1px solid #1a1a1c;
+}
+
+.codes-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: #555;
+    letter-spacing: 1.5px;
+}
+
+.codes-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #444;
+    background: #151517;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+/* DTC List */
+.dtc-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2px 0;
+}
+
+.dtc-list::-webkit-scrollbar { width: 4px; }
+.dtc-list::-webkit-scrollbar-track { background: transparent; }
+.dtc-list::-webkit-scrollbar-thumb { background: #2a2a2c; border-radius: 2px; }
+.dtc-list::-webkit-scrollbar-thumb:hover { background: #3a3a3c; }
+
+/* DTC Row */
+.dtc-row {
+    display: flex;
+    flex-direction: column;
+    padding: 7px 14px;
+    gap: 3px;
+    border-bottom: 1px solid #131315;
+    transition: background 0.15s;
+}
+.dtc-row:hover { background: #131315; }
+
+.dtc-top-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Needs line (required parts/tools) */
+.dtc-needs-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-left: 62px;
+    flex-wrap: wrap;
+}
+
+.dtc-needs-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 700;
+    color: #555;
+    letter-spacing: 0.5px;
+}
+
+.dtc-needs-part {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #4a9eff;
+    background: rgba(74, 158, 255, 0.08);
+    border: 1px solid rgba(74, 158, 255, 0.15);
+    padding: 1px 6px;
+    border-radius: 3px;
+}
+
+.dtc-needs-tool {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #ffb347;
+    background: rgba(255, 179, 71, 0.08);
+    border: 1px solid rgba(255, 179, 71, 0.15);
+    padding: 1px 6px;
+    border-radius: 3px;
+}
+
+.dtc-needs-skill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 700;
+    color: #2ed573;
+    background: rgba(46, 213, 115, 0.08);
+    border: 1px solid rgba(46, 213, 115, 0.15);
+    padding: 1px 5px;
+    border-radius: 3px;
+}
+
+.dtc-needs-workshop {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px;
+    font-weight: 700;
+    color: #a55eea;
+    background: rgba(165, 94, 234, 0.08);
+    border: 1px solid rgba(165, 94, 234, 0.15);
+    padding: 1px 5px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+}
+
+.dtc-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: #ff6b35;
+    min-width: 54px;
+    text-align: center;
+    background: rgba(255, 107, 53, 0.08);
+    padding: 3px 6px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 107, 53, 0.15);
+}
+
+.dtc-label {
+    flex: 1;
+    font-size: 11px;
+    color: #bbb;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dtc-severity {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 58px;
+    text-align: center;
+}
+.dtc-severity.info {
+    color: #4a9eff;
+    background: rgba(74, 158, 255, 0.1);
+    border: 1px solid rgba(74, 158, 255, 0.15);
+}
+.dtc-severity.warning {
+    color: #ffb347;
+    background: rgba(255, 179, 71, 0.1);
+    border: 1px solid rgba(255, 179, 71, 0.15);
+}
+.dtc-severity.critical {
+    color: #ff4757;
+    background: rgba(255, 71, 87, 0.1);
+    border: 1px solid rgba(255, 71, 87, 0.15);
+}
+
+.dtc-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #666;
+    min-width: 35px;
+    text-align: right;
+}
+
+/* Empty state */
+.dtc-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 6px;
+}
+.dtc-empty-check { opacity: 0.7; }
+.dtc-empty-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2ed573;
+    letter-spacing: 0.5px;
+}
+.dtc-empty-desc {
+    font-size: 10px;
+    color: #444;
+}
+
+/* ===== FOOTER BAR ===== */
+.footer-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 14px;
+    background: #0a0a0c;
+    border-top: 1px solid #1a1a1c;
+    min-height: 30px;
+}
+
+.footer-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.footer-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 600;
+    color: #444;
+    letter-spacing: 1px;
+}
+
+.footer-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #666;
+}
+
+/* Skill pips */
+.skill-pips {
+    display: flex;
+    gap: 3px;
+}
+.pip {
+    width: 14px;
+    height: 5px;
+    border-radius: 2px;
+    background: #1a1a1c;
+    border: 1px solid #2a2a2c;
+    transition: all 0.3s;
+}
+.pip.active {
+    background: #ff6b35;
+    border-color: #ff6b35;
+    box-shadow: 0 0 4px rgba(255, 107, 53, 0.3);
+}
+
+/* XP badge */
+.xp-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: #2ed573;
+}
+
+.footer-xp { justify-content: center; }

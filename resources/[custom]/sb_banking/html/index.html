@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SB Banking</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="overlay" id="container" style="display:none;">
+
+        <!-- ================================================================
+             BANK TERMINAL
+             ================================================================ -->
+        <div class="bank-app" id="bank-terminal" style="display:none;">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-brand">
+                    <div class="brand-logo">MB</div>
+                    <div class="brand-text">
+                        <span class="brand-name">MAZE</span>
+                        <span class="brand-sub">BANK</span>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <button class="nav-item active" data-page="dashboard">
+                        <i class="fas fa-th-large"></i><span>Dashboard</span>
+                    </button>
+                    <button class="nav-item" data-page="transactions">
+                        <i class="fas fa-receipt"></i><span>Transactions</span>
+                    </button>
+                    <button class="nav-item" data-page="society">
+                        <i class="fas fa-building"></i><span>Society</span>
+                    </button>
+                    <button class="nav-item" data-page="savings">
+                        <i class="fas fa-piggy-bank"></i><span>Savings</span>
+                    </button>
+                    <button class="nav-item" data-page="settings">
+                        <i class="fas fa-cog"></i><span>Settings</span>
+                    </button>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <button class="nav-item nav-close" id="btn-close-bank">
+                        <i class="fas fa-sign-out-alt"></i><span>Close Interface</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+
+                <!-- Page: Dashboard -->
+                <div class="page active" id="page-dashboard">
+                    <!-- Top Stats Row -->
+                    <div class="stats-top">
+                        <!-- Left: Balance Card -->
+                        <div class="balance-card">
+                            <div class="balance-header">
+                                <span class="balance-label">Main Account Balance</span>
+                                <div class="mini-chart">
+                                    <div class="bar" style="height:40%"></div>
+                                    <div class="bar" style="height:60%"></div>
+                                    <div class="bar" style="height:30%"></div>
+                                    <div class="bar" style="height:80%"></div>
+                                    <div class="bar" style="height:50%"></div>
+                                    <div class="bar" style="height:90%"></div>
+                                </div>
+                            </div>
+                            <div class="balance-amount">
+                                <span id="dash-bank">$0</span>
+                            </div>
+                            <div class="balance-actions">
+                                <button class="ba-btn ba-primary" data-modal="deposit">
+                                    <i class="fas fa-arrow-down"></i> Deposit
+                                </button>
+                                <button class="ba-btn ba-secondary" data-modal="withdraw">
+                                    <i class="fas fa-arrow-up"></i> Withdraw
+                                </button>
+                                <button class="ba-btn ba-icon" data-modal="transfer">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Right: 4 Stat Cards -->
+                        <div class="stat-grid">
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon orange"><i class="fas fa-wallet"></i></div>
+                                    <span>Wallet Cash</span>
+                                </div>
+                                <div class="stat-value" id="dash-cash">$0</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon blue"><i class="fas fa-chart-line"></i></div>
+                                    <span>Net Worth</span>
+                                </div>
+                                <div class="stat-value" id="dash-total">$0</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon purple"><i class="fas fa-piggy-bank"></i></div>
+                                    <span>Savings</span>
+                                </div>
+                                <div class="stat-value" id="dash-savings">$0</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon gray"><i class="fas fa-exchange-alt"></i></div>
+                                    <span>Transactions</span>
+                                </div>
+                                <div class="stat-value" id="dash-tx-count">0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Row -->
+                    <div class="dash-bottom">
+                        <!-- Left: Transactions -->
+                        <div class="tx-section">
+                            <div class="section-header">
+                                <h3>Latest Transactions</h3>
+                                <button class="see-all" data-page="transactions">
+                                    See All Activity <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                            <div class="tx-feed" id="dash-tx-list">
+                                <div class="no-transactions">No recent activity</div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Card -->
+                        <div class="card-section">
+                            <div class="section-header">
+                                <h3>Your Card</h3>
+                            </div>
+
+                            <!-- Credit Card -->
+                            <div class="credit-card">
+                                <div class="cc-texture"></div>
+                                <div class="cc-glow"></div>
+                                <div class="cc-content">
+                                    <div class="cc-top">
+                                        <div class="cc-bank-info">
+                                            <span class="cc-bank-label">MAZE PREMIER</span>
+                                            <span class="cc-bank-type" id="dash-card-type">Personal</span>
+                                        </div>
+                                        <i class="fas fa-wifi cc-wifi"></i>
+                                    </div>
+                                    <div class="cc-middle">
+                                        <div class="cc-chip"></div>
+                                        <div class="cc-number" id="dash-card-number">**** **** **** ****</div>
+                                    </div>
+                                    <div class="cc-bottom">
+                                        <div class="cc-holder">
+                                            <span class="cc-label">Card Holder</span>
+                                            <span class="cc-name" id="dash-card-name">—</span>
+                                        </div>
+                                        <div class="cc-expiry">
+                                            <span class="cc-label">Expires</span>
+                                            <span class="cc-name">08/29</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page: Create Account -->
+                <div class="page" id="page-create">
+                    <div class="create-account-box">
+                        <div class="create-icon"><i class="fas fa-user-plus"></i></div>
+                        <h2>Open Bank Account</h2>
+                        <p class="create-desc">Create your account to access banking services and receive a <strong>$2,000 welcome bonus</strong>.</p>
+                        <div class="pin-section">
+                            <label>Set your 4-digit PIN</label>
+                            <div class="pin-inputs" id="create-pin-inputs">
+                                <input type="password" maxlength="1" class="pin-digit" data-index="0">
+                                <input type="password" maxlength="1" class="pin-digit" data-index="1">
+                                <input type="password" maxlength="1" class="pin-digit" data-index="2">
+                                <input type="password" maxlength="1" class="pin-digit" data-index="3">
+                            </div>
+                            <label>Confirm PIN</label>
+                            <div class="pin-inputs" id="confirm-pin-inputs">
+                                <input type="password" maxlength="1" class="pin-digit" data-index="0">
+                                <input type="password" maxlength="1" class="pin-digit" data-index="1">
+                                <input type="password" maxlength="1" class="pin-digit" data-index="2">
+                                <input type="password" maxlength="1" class="pin-digit" data-index="3">
+                            </div>
+                            <button class="btn btn-primary btn-lg" id="btn-create-account">
+                                <i class="fas fa-check-circle"></i> Create Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal: Deposit -->
+                <div class="page modal-page" id="page-deposit">
+                    <div class="modal-box">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-arrow-down"></i> Deposit Cash</h3>
+                            <button class="modal-close" data-close="deposit"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="page-section">
+                            <div class="quick-grid">
+                                <button class="btn-quick" data-action="deposit" data-amount="100">$100</button>
+                                <button class="btn-quick" data-action="deposit" data-amount="500">$500</button>
+                                <button class="btn-quick" data-action="deposit" data-amount="1000">$1,000</button>
+                                <button class="btn-quick" data-action="deposit" data-amount="2000">$2,000</button>
+                                <button class="btn-quick" data-action="deposit" data-amount="5000">$5,000</button>
+                                <button class="btn-quick" data-action="deposit" data-amount="10000">$10,000</button>
+                                <button class="btn-quick" data-action="deposit" data-amount="25000">$25,000</button>
+                                <button class="btn-quick" data-action="deposit" data-amount="50000">$50,000</button>
+                            </div>
+                            <div class="custom-amount">
+                                <label>Custom Amount</label>
+                                <div class="input-with-btn">
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">$</span>
+                                        <input type="number" id="deposit-amount" placeholder="Enter amount" min="1">
+                                    </div>
+                                    <button class="btn btn-primary" id="btn-deposit">
+                                        <i class="fas fa-arrow-down"></i> Deposit
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="info-bar">
+                                <i class="fas fa-wallet"></i> Cash available: <strong id="deposit-cash">$0</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal: Withdraw -->
+                <div class="page modal-page" id="page-withdraw">
+                    <div class="modal-box">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-arrow-up"></i> Withdraw Cash</h3>
+                            <button class="modal-close" data-close="withdraw"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="page-section">
+                            <div class="quick-grid">
+                                <button class="btn-quick" data-action="withdraw" data-amount="100">$100</button>
+                                <button class="btn-quick" data-action="withdraw" data-amount="500">$500</button>
+                                <button class="btn-quick" data-action="withdraw" data-amount="1000">$1,000</button>
+                                <button class="btn-quick" data-action="withdraw" data-amount="2000">$2,000</button>
+                                <button class="btn-quick" data-action="withdraw" data-amount="5000">$5,000</button>
+                                <button class="btn-quick" data-action="withdraw" data-amount="10000">$10,000</button>
+                                <button class="btn-quick" data-action="withdraw" data-amount="25000">$25,000</button>
+                                <button class="btn-quick" data-action="withdraw" data-amount="50000">$50,000</button>
+                            </div>
+                            <div class="custom-amount">
+                                <label>Custom Amount</label>
+                                <div class="input-with-btn">
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">$</span>
+                                        <input type="number" id="withdraw-amount" placeholder="Enter amount" min="1">
+                                    </div>
+                                    <button class="btn btn-primary" id="btn-withdraw">
+                                        <i class="fas fa-arrow-up"></i> Withdraw
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="info-bar">
+                                <i class="fas fa-university"></i> Bank balance: <strong id="withdraw-balance">$0</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal: Transfer -->
+                <div class="page modal-page" id="page-transfer">
+                    <div class="modal-box">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-paper-plane"></i> Transfer Funds</h3>
+                            <button class="modal-close" data-close="transfer"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="page-section">
+                            <div class="form-group">
+                                <label>Recipient Citizen ID</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon"><i class="fas fa-user"></i></span>
+                                    <input type="text" id="transfer-target" placeholder="Enter citizen ID">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Amount</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon">$</span>
+                                    <input type="number" id="transfer-amount" placeholder="Enter amount" min="1">
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-lg" id="btn-transfer">
+                                <i class="fas fa-paper-plane"></i> Send Transfer
+                            </button>
+                            <div class="info-bar">
+                                <i class="fas fa-university"></i> Bank balance: <strong id="transfer-balance">$0</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page: Transactions -->
+                <div class="page" id="page-transactions">
+                    <div class="page-section full">
+                        <div class="section-header" style="margin-bottom: 16px;">
+                            <h3>Transaction History</h3>
+                        </div>
+                        <div class="transactions-list" id="transactions-list">
+                            <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading transactions...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page: Savings -->
+                <div class="page" id="page-savings">
+                    <!-- Savings Stats -->
+                    <div class="savings-stats">
+                        <div class="savings-balance-card">
+                            <div class="sbc-top">
+                                <div class="sbc-icon"><i class="fas fa-piggy-bank"></i></div>
+                                <div class="sbc-info">
+                                    <span class="sbc-label">Savings Balance</span>
+                                    <span class="sbc-amount" id="savings-balance">$0</span>
+                                </div>
+                            </div>
+                            <div class="sbc-interest">
+                                <i class="fas fa-percentage"></i>
+                                <span>2.5% Annual Interest</span>
+                            </div>
+                        </div>
+                        <div class="savings-info-card">
+                            <div class="stat-header">
+                                <div class="stat-icon blue"><i class="fas fa-chart-line"></i></div>
+                                <span>Monthly Earnings</span>
+                            </div>
+                            <div class="stat-value" id="savings-earnings">$0</div>
+                        </div>
+                        <div class="savings-info-card">
+                            <div class="stat-header">
+                                <div class="stat-icon purple"><i class="fas fa-calendar-alt"></i></div>
+                                <span>Total Deposited</span>
+                            </div>
+                            <div class="stat-value" id="savings-deposited">$0</div>
+                        </div>
+                    </div>
+
+                    <!-- Savings Actions -->
+                    <div class="savings-grid">
+                        <div class="savings-action-card">
+                            <h4><i class="fas fa-arrow-down"></i> Deposit to Savings</h4>
+                            <p>Transfer from your bank account to savings.</p>
+                            <div class="input-with-btn">
+                                <div class="input-wrapper">
+                                    <span class="input-icon">$</span>
+                                    <input type="number" id="savings-deposit-amount" placeholder="Amount" min="1">
+                                </div>
+                                <button class="btn btn-primary" id="btn-savings-deposit">
+                                    <i class="fas fa-arrow-down"></i> Deposit
+                                </button>
+                            </div>
+                            <div class="info-bar">
+                                <i class="fas fa-university"></i> Bank balance: <strong id="savings-bank-bal">$0</strong>
+                            </div>
+                        </div>
+                        <div class="savings-action-card">
+                            <h4><i class="fas fa-arrow-up"></i> Withdraw from Savings</h4>
+                            <p>Transfer from savings back to your bank account.</p>
+                            <div class="input-with-btn">
+                                <div class="input-wrapper">
+                                    <span class="input-icon">$</span>
+                                    <input type="number" id="savings-withdraw-amount" placeholder="Amount" min="1">
+                                </div>
+                                <button class="btn btn-primary" id="btn-savings-withdraw">
+                                    <i class="fas fa-arrow-up"></i> Withdraw
+                                </button>
+                            </div>
+                            <div class="info-bar">
+                                <i class="fas fa-piggy-bank"></i> Savings balance: <strong id="savings-avail">$0</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page: Society -->
+                <div class="page" id="page-society">
+                    <!-- No Society State -->
+                    <div class="society-empty" id="society-empty">
+                        <div class="create-icon"><i class="fas fa-building"></i></div>
+                        <h2>No Society Account</h2>
+                        <p class="create-desc">You are not part of any organization with a society account. Join a job or gang to access shared funds.</p>
+                    </div>
+
+                    <!-- Society Content (shown when player has society) -->
+                    <div class="society-content" id="society-content" style="display:none;">
+                        <!-- Society Header -->
+                        <div class="society-header-card">
+                            <div class="shc-left">
+                                <div class="shc-icon"><i class="fas fa-building"></i></div>
+                                <div class="shc-info">
+                                    <span class="shc-name" id="society-name">—</span>
+                                    <span class="shc-role" id="society-role">Member</span>
+                                </div>
+                            </div>
+                            <div class="shc-balance">
+                                <span class="shc-label">Society Balance</span>
+                                <span class="shc-amount" id="society-balance">$0</span>
+                            </div>
+                        </div>
+
+                        <!-- Society Actions -->
+                        <div class="savings-grid">
+                            <div class="savings-action-card">
+                                <h4><i class="fas fa-arrow-down"></i> Deposit to Society</h4>
+                                <p>Contribute personal funds to your organization.</p>
+                                <div class="input-with-btn">
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">$</span>
+                                        <input type="number" id="society-deposit-amount" placeholder="Amount" min="1">
+                                    </div>
+                                    <button class="btn btn-primary" id="btn-society-deposit">
+                                        <i class="fas fa-arrow-down"></i> Deposit
+                                    </button>
+                                </div>
+                                <div class="info-bar">
+                                    <i class="fas fa-university"></i> Your bank: <strong id="society-bank-bal">$0</strong>
+                                </div>
+                            </div>
+                            <div class="savings-action-card">
+                                <h4><i class="fas fa-arrow-up"></i> Withdraw from Society</h4>
+                                <p>Take funds from the organization account.</p>
+                                <div class="input-with-btn">
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">$</span>
+                                        <input type="number" id="society-withdraw-amount" placeholder="Amount" min="1">
+                                    </div>
+                                    <button class="btn btn-primary" id="btn-society-withdraw">
+                                        <i class="fas fa-arrow-up"></i> Withdraw
+                                    </button>
+                                </div>
+                                <div class="info-bar">
+                                    <i class="fas fa-building"></i> Society funds: <strong id="society-avail">$0</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Society Transactions -->
+                        <div class="section-header" style="margin-top: 24px;">
+                            <h3>Society Activity</h3>
+                        </div>
+                        <div class="transactions-list" id="society-tx-list">
+                            <div class="no-transactions">No society transactions</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page: Settings -->
+                <div class="page" id="page-settings">
+                    <div class="settings-content">
+                        <div class="settings-section">
+                            <div class="settings-section-header">
+                                <div class="ssh-icon"><i class="fas fa-credit-card"></i></div>
+                                <div class="ssh-info">
+                                    <h3>Card Management</h3>
+                                    <p>Request a new bank card for ATM access</p>
+                                </div>
+                            </div>
+                            <div class="settings-card">
+                                <div class="settings-card-info">
+                                    <div class="sci-left">
+                                        <i class="fas fa-id-card"></i>
+                                        <div>
+                                            <span class="sci-label">Request New Card</span>
+                                            <span class="sci-desc">Lost your card? Request a replacement to use ATMs.</span>
+                                        </div>
+                                    </div>
+                                    <div class="sci-right">
+                                        <span class="sci-fee">$100</span>
+                                        <button class="btn btn-primary" id="btn-request-card">
+                                            <i class="fas fa-plus"></i> Request
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="settings-card-note">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span>The fee will be deducted from your bank account. The card will be added to your inventory.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <div class="settings-section-header">
+                                <div class="ssh-icon purple"><i class="fas fa-shield-alt"></i></div>
+                                <div class="ssh-info">
+                                    <h3>Security</h3>
+                                    <p>Manage your PIN and card security</p>
+                                </div>
+                            </div>
+                            <div class="settings-card">
+                                <div class="settings-card-info">
+                                    <div class="sci-left">
+                                        <i class="fas fa-lock"></i>
+                                        <div>
+                                            <span class="sci-label">Reset PIN</span>
+                                            <span class="sci-desc">Change your 4-digit ATM PIN code.</span>
+                                        </div>
+                                    </div>
+                                    <div class="sci-right">
+                                        <div class="pin-reset-inputs">
+                                            <div class="input-wrapper small">
+                                                <input type="password" id="settings-new-pin" placeholder="New PIN" maxlength="4">
+                                            </div>
+                                            <button class="btn btn-primary" id="btn-reset-pin">
+                                                <i class="fas fa-key"></i> Update
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="settings-card">
+                                <div class="settings-card-info">
+                                    <div class="sci-left">
+                                        <i class="fas fa-unlock"></i>
+                                        <div>
+                                            <span class="sci-label">Unlock Card</span>
+                                            <span class="sci-desc">Locked after too many wrong PIN attempts? Unlock here.</span>
+                                        </div>
+                                    </div>
+                                    <div class="sci-right">
+                                        <button class="btn btn-secondary" id="btn-unlock-card">
+                                            <i class="fas fa-unlock"></i> Unlock
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================
+             ATM TERMINAL
+             ================================================================ -->
+        <div class="atm-app" id="atm-terminal" style="display:none;">
+            <div class="atm-header">
+                <h1>MAZE BANK</h1>
+                <p>Secure ATM Terminal</p>
+            </div>
+
+            <div class="atm-body">
+                <!-- ATM: PIN Entry -->
+                <div class="atm-screen" id="atm-screen-pin">
+                    <p class="atm-subtitle">Please enter your 4-digit PIN</p>
+                    <div class="pin-dots" id="atm-pin-dots">
+                        <div class="pin-dot"></div>
+                        <div class="pin-dot"></div>
+                        <div class="pin-dot"></div>
+                        <div class="pin-dot"></div>
+                    </div>
+                    <div class="pin-error" id="atm-pin-error" style="display:none;"></div>
+                    <div class="numpad">
+                        <button class="num-btn" data-num="1">1</button>
+                        <button class="num-btn" data-num="2">2</button>
+                        <button class="num-btn" data-num="3">3</button>
+                        <button class="num-btn" data-num="4">4</button>
+                        <button class="num-btn" data-num="5">5</button>
+                        <button class="num-btn" data-num="6">6</button>
+                        <button class="num-btn" data-num="7">7</button>
+                        <button class="num-btn" data-num="8">8</button>
+                        <button class="num-btn" data-num="9">9</button>
+                        <button class="num-btn num-clear" data-num="clear">CLR</button>
+                        <button class="num-btn" data-num="0">0</button>
+                        <button class="num-btn num-enter" data-num="enter">OK</button>
+                    </div>
+                </div>
+
+                <!-- ATM: Menu -->
+                <div class="atm-screen" id="atm-screen-menu">
+                    <div class="atm-balance-display">
+                        <span>Available Balance</span>
+                        <strong id="atm-balance">$0</strong>
+                    </div>
+                    <div class="menu-grid">
+                        <button class="menu-btn" id="atm-goto-withdraw">
+                            <i class="fas fa-hand-holding-usd"></i>
+                            <span>Withdraw</span>
+                        </button>
+                        <button class="menu-btn" id="atm-fast-cash">
+                            <i class="fas fa-bolt"></i>
+                            <span>Fast Cash ($100)</span>
+                        </button>
+                        <button class="menu-btn" id="atm-deposit-btn">
+                            <i class="fas fa-arrow-down"></i>
+                            <span>Deposit</span>
+                        </button>
+                        <button class="menu-btn" id="btn-close-atm">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Exit</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ATM: Withdraw -->
+                <div class="atm-screen" id="atm-screen-withdraw">
+                    <h3 class="atm-screen-title">Select Amount</h3>
+                    <div class="atm-amount-grid">
+                        <button class="amt-btn atm-quick" data-amount="100">$100</button>
+                        <button class="amt-btn atm-quick" data-amount="500">$500</button>
+                        <button class="amt-btn atm-quick" data-amount="1000">$1,000</button>
+                        <button class="amt-btn atm-quick" data-amount="2000">$2,000</button>
+                        <button class="amt-btn atm-quick" data-amount="5000">$5,000</button>
+                        <button class="amt-btn atm-quick" data-amount="10000">$10,000</button>
+                    </div>
+                    <div class="custom-amount">
+                        <label>Custom Amount</label>
+                        <div class="input-with-btn">
+                            <div class="input-wrapper">
+                                <span class="input-icon">$</span>
+                                <input type="number" id="atm-withdraw-amount" placeholder="0" min="1">
+                            </div>
+                            <button class="btn btn-primary" id="btn-atm-withdraw">Withdraw</button>
+                        </div>
+                    </div>
+                    <button class="atm-back" id="atm-back-menu"><i class="fas fa-chevron-left"></i> Back to Menu</button>
+                </div>
+
+                <!-- ATM: Deposit -->
+                <div class="atm-screen" id="atm-screen-deposit">
+                    <h3 class="atm-screen-title">Deposit Cash</h3>
+                    <div class="atm-amount-grid">
+                        <button class="amt-btn atm-deposit-quick" data-amount="100">$100</button>
+                        <button class="amt-btn atm-deposit-quick" data-amount="500">$500</button>
+                        <button class="amt-btn atm-deposit-quick" data-amount="1000">$1,000</button>
+                        <button class="amt-btn atm-deposit-quick" data-amount="5000">$5,000</button>
+                    </div>
+                    <div class="custom-amount">
+                        <label>Custom Amount</label>
+                        <div class="input-with-btn">
+                            <div class="input-wrapper">
+                                <span class="input-icon">$</span>
+                                <input type="number" id="atm-deposit-amount" placeholder="0" min="1">
+                            </div>
+                            <button class="btn btn-primary" id="btn-atm-deposit">Deposit</button>
+                        </div>
+                    </div>
+                    <button class="atm-back" id="atm-back-menu-dep"><i class="fas fa-chevron-left"></i> Back to Menu</button>
+                </div>
+
+                <!-- ATM: Locked -->
+                <div class="atm-screen" id="atm-screen-locked">
+                    <i class="fas fa-ban atm-icon error"></i>
+                    <h2>Card Locked</h2>
+                    <p class="atm-subtitle">Too many wrong PIN attempts.<br>Visit the bank to unlock your card.</p>
+                    <button class="btn btn-secondary" id="btn-atm-close-locked" style="margin-top: 24px;">Close</button>
+                </div>
+
+                <div class="atm-footer">
+                    <i class="fas fa-shield-alt"></i> Encrypted Transaction
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

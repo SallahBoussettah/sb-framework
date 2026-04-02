@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SB Rental</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="rental-container" class="hidden">
+        <div class="rental-panel">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-icon">
+                    <i data-lucide="key" color="white"></i>
+                </div>
+                <div>
+                    <span class="header-subtitle">Vehicle Rentals</span>
+                    <h1 id="location-name">Rental Station</h1>
+                </div>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="tabs" id="category-tabs">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Vehicle List -->
+            <div class="vehicle-list" id="vehicle-list">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state hidden" id="empty-state">
+                <i data-lucide="car" class="empty-icon"></i>
+                <h3>No Vehicles Available</h3>
+                <p>No rentals available in this category.</p>
+            </div>
+
+            <!-- Summary Panel (shown when vehicle selected) -->
+            <div class="summary-panel hidden" id="summary-panel">
+                <div class="summary-row">
+                    <span>Selected</span>
+                    <b id="sel-name">-</b>
+                </div>
+                <div class="summary-row">
+                    <span>Daily Rate</span>
+                    <b id="sel-daily">$0</b>
+                </div>
+                <div class="duration-selector">
+                    <span class="duration-label">Rental Duration</span>
+                    <div class="duration-buttons" id="duration-buttons">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total Due</span>
+                    <b id="sel-total">$0</b>
+                </div>
+                <div class="return-info" id="return-info">
+                    <i data-lucide="clock"></i>
+                    <span>Return by: <b id="return-date">-</b></span>
+                </div>
+                <button class="btn-rent" id="rent-btn">
+                    <i data-lucide="check-circle"></i> Confirm Rental
+                </button>
+            </div>
+
+            <!-- Placeholder (shown when no vehicle selected) -->
+            <div class="no-selection" id="no-selection">
+                <i data-lucide="car" class="no-selection-icon"></i>
+                <p>Select a vehicle to rent</p>
+            </div>
+
+            <!-- Wallet Footer -->
+            <div class="footer-balance">
+                <div class="balance-item">
+                    <i data-lucide="banknote"></i>
+                    <div>
+                        <span>Cash</span>
+                        <div id="cash-display">$0</div>
+                    </div>
+                </div>
+                <div class="balance-item">
+                    <i data-lucide="landmark"></i>
+                    <div>
+                        <span>Bank</span>
+                        <div id="bank-display">$0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exit Hint -->
+        <div class="exit-hint">
+            Press <span class="keycap">ESC</span> to cancel rental
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

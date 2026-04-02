@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everyday Chaos RP - Dispatch Alerts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            /* Brand Colors */
+            --sb-bg-secondary: #141414;
+            --sb-bg-tertiary: #1a1a1a;
+            --sb-bg-elevated: #242424;
+            --sb-accent: #ff6b35;
+            --sb-text-primary: #ffffff;
+            --sb-text-secondary: #888888;
+            --sb-text-tertiary: #555555;
+            
+            /* Status Colors */
+            --sb-info: #3b82f6;      /* Police Blue */
+            --sb-error: #ef4444;     /* EMS Red / Panic */
+            --sb-success: #22c55e;
+            
+            --sb-radius-lg: 12px;
+            --sb-radius-md: 8px;
+            --sb-border: #2a2a2a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            width: 100vw; height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background: transparent;
+            overflow: hidden;
+            display: flex;
+            justify-content: flex-end; /* Align alerts to the right */
+            padding: 40px;
+        }
+
+        /* Alert Container Stack */
+        .alert-container {
+            width: 380px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Individual Alert Card */
+        .alert-card {
+            background: var(--sb-bg-tertiary);
+            border: 1px solid var(--sb-border);
+            border-radius: var(--sb-radius-lg);
+            padding: 0;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Alert Header Color Strip */
+        .alert-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid var(--sb-border);
+        }
+        
+        /* The dynamic color strip on the left */
+        .color-strip {
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 4px;
+        }
+
+        .alert-header i { color: var(--sb-text-primary); opacity: 0.8; }
+        .alert-header h2 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; flex: 1; }
+        .alert-time { font-size: 0.7rem; color: var(--sb-text-tertiary); font-weight: 600; }
+
+        /* Body Content */
+        .alert-body { padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+        
+        .alert-title { font-size: 1.1rem; font-weight: 600; color: #fff; }
+        
+        .alert-info-row { display: flex; align-items: center; gap: 8px; color: var(--sb-text-secondary); font-size: 0.8rem; }
+        .alert-info-row i { color: var(--sb-text-tertiary); }
+
+        .alert-description {
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: var(--sb-text-secondary);
+            line-height: 1.5;
+            background: rgba(0,0,0,0.2);
+            padding: 8px 12px;
+            border-radius: var(--sb-radius-md);
+        }
+
+        /* Footer / Keys */
+        .alert-footer {
+            padding: 10px 18px;
+            background: rgba(0,0,0,0.15);
+            display: flex;
+            gap: 15px;
+        }
+
+        .key-hint { display: flex; align-items: center; gap: 6px; font-size: 0.7rem; font-weight: 600; color: var(--sb-text-tertiary); text-transform: uppercase; }
+        .key-btn { background: var(--sb-bg-elevated); color: var(--sb-accent); border: 1px solid var(--sb-border); padding: 2px 8px; border-radius: 4px; min-width: 24px; text-align: center; }
+
+        /* Expiry Progress Bar */
+        .progress-bar {
+            position: absolute;
+            bottom: 0; left: 0;
+            height: 3px;
+            background: var(--sb-accent);
+            width: 100%;
+            transition: width linear;
+        }
+
+        /* Specific Status Overrides */
+        .police .color-strip { background: var(--sb-info); }
+        .police .key-btn { color: var(--sb-info); }
+        
+        .ems .color-strip { background: var(--sb-error); }
+        .ems .key-btn { color: var(--sb-error); }
+        
+        .panic .color-strip { background: var(--sb-error); }
+        .panic { border-color: var(--sb-error); box-shadow: 0 0 20px rgba(239, 68, 68, 0.2); }
+    </style>
+</head>
+<body>
+
+    <div class="alert-container" id="alertBox">
+        
+        <!-- Example Police Alert -->
+        <div class="alert-card police">
+            <div class="color-strip"></div>
+            <div class="alert-header">
+                <i data-lucide="shield"></i>
+                <h2>911 Emergency</h2>
+                <span class="alert-time">NOW</span>
+            </div>
+            <div class="alert-body">
+                <div class="alert-title">Shots Fired</div>
+                <div class="alert-info-row">
+                    <i data-lucide="map-pin" size="14"></i> Legion Square
+                </div>
+                <div class="alert-info-row">
+                    <i data-lucide="user" size="14"></i> Anonymous Caller
+                </div>
+                <div class="alert-description">
+                    Automatic gunfire reported near the fountain. Multiple suspects wearing masks.
+                </div>
+            </div>
+            <div class="alert-footer">
+                <div class="key-hint"><span class="key-btn">G</span> GPS</div>
+                <div class="key-hint"><span class="key-btn">Y</span> Accept</div>
+            </div>
+            <div class="progress-bar" style="width: 65%;"></div>
+        </div>
+
+        <!-- Example EMS / Panic Alert -->
+        <div class="alert-card panic ems">
+            <div class="color-strip"></div>
+            <div class="alert-header">
+                <i data-lucide="alert-triangle"></i>
+                <h2>Panic Button</h2>
+                <span class="alert-time">2m</span>
+            </div>
+            <div class="alert-body">
+                <div class="alert-title">Officer Down</div>
+                <div class="alert-info-row">
+                    <i data-lucide="map-pin" size="14"></i> Paleto Bay Bank
+                </div>
+                <div class="alert-info-row">
+                    <i data-lucide="user" size="14"></i> Unit: 1A-04 (John Doe)
+                </div>
+                <div class="alert-description">
+                    Panic signal activated. Immediate medical assistance required!
+                </div>
+            </div>
+            <div class="alert-footer">
+                <div class="key-hint"><span class="key-btn">G</span> GPS</div>
+                <div class="key-hint"><span class="key-btn">Y</span> Respond</div>
+            </div>
+            <div class="progress-bar" style="width: 30%; background: var(--sb-error);"></div>
+        </div>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Function for your JS to call when a new alert comes in
+        function createAlert(data) {
+            const container = document.getElementById('alertBox');
+            
+            // Generate HTML for new alert
+            const alertHtml = `
+                <div class="alert-card ${data.type}">
+                    <div class="color-strip"></div>
+                    <div class="alert-header">
+                        <i data-lucide="${data.icon || 'bell'}"></i>
+                        <h2>${data.header}</h2>
+                        <span class="alert-time">NOW</span>
+                    </div>
+                    <div class="alert-body">
+                        <div class="alert-title">${data.title}</div>
+                        <div class="alert-info-row">
+                            <i data-lucide="map-pin" size="14"></i> ${data.location}
+                        </div>
+                        <div class="alert-description">${data.description}</div>
+                    </div>
+                    <div class="alert-footer">
+                        <div class="key-hint"><span class="key-btn">G</span> GPS</div>
+                        <div class="key-hint"><span class="key-btn">Y</span> Accept</div>
+                    </div>
+                    <div class="progress-bar" id="pb-${Date.now()}"></div>
+                </div>
+            `;
+            
+            // Add to top of stack
+            container.insertAdjacentHTML('afterbegin', alertHtml);
+            lucide.createIcons();
+            
+            // Logic to remove alert after X seconds would go here
+        }
+    </script>
+</body>
+</html>

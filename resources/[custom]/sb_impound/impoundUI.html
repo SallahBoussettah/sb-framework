@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everyday Chaos RP - Impound</title>
+    <!-- Font Import -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icon Library -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            /* Design System Colors */
+            --sb-bg-primary: #0a0a0a;
+            --sb-bg-secondary: #141414;
+            --sb-bg-tertiary: #1a1a1a;
+            --sb-bg-elevated: #242424;
+            --sb-accent: #ff6b35;
+            --sb-accent-hover: #ff8555;
+            --sb-text-primary: #ffffff;
+            --sb-text-secondary: #888888;
+            --sb-text-tertiary: #555555;
+            --sb-success: #22c55e;
+            --sb-error: #ef4444;
+            --sb-warning: #f59e0b;
+            --sb-border: #2a2a2a;
+            --sb-radius-lg: 12px;
+            --sb-radius-md: 8px;
+            --sb-shadow-glow: 0 0 20px rgba(255, 107, 53, 0.2);
+            --sb-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+
+        body {
+            width: 100vw; height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background: transparent;
+            color: var(--sb-text-primary);
+            overflow: hidden;
+            display: flex;
+        }
+
+        /* Sidebar Container */
+        .impound-panel {
+            width: 450px;
+            height: 100vh;
+            background: linear-gradient(to right, var(--sb-bg-primary) 0%, rgba(10, 10, 10, 0.9) 85%, transparent 100%);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Header */
+        .header { display: flex; align-items: center; gap: 15px; }
+        .header-icon { 
+            background: var(--sb-accent); 
+            padding: 10px; 
+            border-radius: var(--sb-radius-md);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .header h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; }
+        .header span { color: var(--sb-text-secondary); font-size: 0.75rem; text-transform: uppercase; display: block; }
+
+        /* Vehicle List */
+        .impound-list {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .impound-list::-webkit-scrollbar { width: 4px; }
+        .impound-list::-webkit-scrollbar-thumb { background: var(--sb-bg-elevated); border-radius: 10px; }
+
+        /* Impound Card */
+        .impound-card {
+            background: var(--sb-bg-tertiary);
+            border: 1px solid var(--sb-border);
+            border-radius: var(--sb-radius-lg);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transition: var(--sb-transition);
+        }
+
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; }
+        .car-title h3 { font-size: 1.1rem; font-weight: 600; }
+        .car-title p { color: var(--sb-text-tertiary); font-size: 0.8rem; font-family: monospace; }
+        
+        .status-badge {
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .status-destroyed { background: rgba(239, 68, 68, 0.15); color: var(--sb-error); border: 1px solid var(--sb-error); }
+        .status-impounded { background: rgba(245, 158, 11, 0.15); color: var(--sb-warning); border: 1px solid var(--sb-warning); }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 12px;
+            border-radius: var(--sb-radius-md);
+        }
+        .stat-item { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; color: var(--sb-text-secondary); }
+        .stat-item i { color: var(--sb-text-tertiary); }
+
+        /* Alert/Reason Box */
+        .reason-box {
+            background: var(--sb-bg-secondary);
+            border-left: 3px solid var(--sb-warning);
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--sb-text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Pricing Section */
+        .price-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 1px solid var(--sb-border);
+        }
+        .price-display { font-size: 1.5rem; font-weight: 700; color: var(--sb-accent); }
+        .price-display span { font-size: 0.7rem; color: var(--sb-text-tertiary); text-transform: uppercase; display: block; margin-bottom: -5px; }
+
+        .btn-retrieve {
+            padding: 12px 24px;
+            background: var(--sb-accent);
+            border: none;
+            border-radius: var(--sb-radius-md);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
+            transition: var(--sb-transition);
+        }
+        .btn-retrieve:hover { background: var(--sb-accent-hover); box-shadow: var(--sb-shadow-glow); transform: translateY(-2px); }
+
+        /* Fee Breakdown Panel */
+        .fee-panel {
+            background: var(--sb-bg-secondary);
+            border: 1px solid var(--sb-border);
+            border-radius: var(--sb-radius-lg);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .fee-panel h4 { font-size: 0.7rem; text-transform: uppercase; color: var(--sb-text-tertiary); letter-spacing: 1px; margin-bottom: 5px; }
+        .fee-row { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--sb-text-secondary); }
+        .fee-row b { color: var(--sb-text-primary); }
+
+        /* Wallet Footer */
+        .wallet {
+            padding-top: 15px;
+            border-top: 1px solid var(--sb-border);
+            display: flex; justify-content: space-between;
+        }
+        .money-item { display: flex; align-items: center; gap: 10px; }
+        .money-item i { color: var(--sb-success); }
+        .money-label { font-size: 0.65rem; color: var(--sb-text-tertiary); text-transform: uppercase; display: block; }
+        .money-value { font-weight: 600; font-size: 1rem; }
+
+        /* Key Hint */
+        .exit-hint {
+            position: absolute; top: 40px; right: 40px;
+            background: var(--sb-bg-tertiary);
+            border: 1px solid var(--sb-border);
+            padding: 8px 16px; border-radius: 20px;
+            font-size: 0.8rem; color: var(--sb-text-secondary);
+        }
+        .keycap { color: var(--sb-accent); font-weight: 800; padding: 0 4px; }
+    </style>
+</head>
+<body>
+
+    <div class="impound-panel">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-icon">
+                <i data-lucide="shield-alert" color="white"></i>
+            </div>
+            <div>
+                <span>LSPD Department</span>
+                <h1>Impound Lot</h1>
+            </div>
+        </div>
+
+        <!-- Scrollable Vehicle List -->
+        <div class="impound-list">
+            
+            <div class="impound-card">
+                <div class="card-header">
+                    <div class="car-title">
+                        <h3>Elegy RH8</h3>
+                        <p>QKLR413</p>
+                    </div>
+                    <div class="status-badge status-destroyed">Destroyed</div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-item"><i data-lucide="heart" size="14"></i> Body: 100%</div>
+                    <div class="stat-item"><i data-lucide="settings" size="14"></i> Engine: 100%</div>
+                    <div class="stat-item"><i data-lucide="fuel" size="14"></i> Fuel: 100%</div>
+                    <div class="stat-item"><i data-lucide="clock" size="14"></i> 15 Hours ago</div>
+                </div>
+
+                <div class="reason-box">
+                    <i data-lucide="info" size="16"></i>
+                    Vehicle destroyed - Sent to impound
+                </div>
+
+                <div class="price-footer">
+                    <div class="price-display">
+                        <span>Total Release Fee</span>
+                        $4,000
+                    </div>
+                    <button class="btn-retrieve">
+                        <i data-lucide="key-round" size="18"></i> Retrieve
+                    </button>
+                </div>
+            </div>
+
+            <!-- Additional Fee Breakdown for currently selected -->
+            <div class="fee-panel">
+                <h4>Cost Breakdown</h4>
+                <div class="fee-row">
+                    <span>Base Release Fee</span>
+                    <b>$500</b>
+                </div>
+                <div class="fee-row">
+                    <span>Destruction Surcharge</span>
+                    <b>+$2,000</b>
+                </div>
+                <div class="fee-row">
+                    <span>Storage Fee ($100/hr)</span>
+                    <b>$1,500</b>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Wallet Info -->
+        <div class="wallet">
+            <div class="money-item">
+                <i data-lucide="banknote"></i>
+                <div>
+                    <span class="money-label">Cash</span>
+                    <div class="money-value">$0</div>
+                </div>
+            </div>
+            <div class="money-item">
+                <i data-lucide="landmark"></i>
+                <div>
+                    <span class="money-label">Bank</span>
+                    <div class="money-value">$22,200</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right side exit hint -->
+    <div class="exit-hint">
+        Press <span class="keycap">ESC</span> to close impound
+    </div>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Close on ESC logic (Standard for NUI)
+        window.addEventListener('keyup', (event) => {
+            if (event.key === 'Escape') {
+                // fetch(`https://${GetParentResourceName()}/close`, { method: 'POST' });
+                console.log("Closing UI...");
+            }
+        });
+    </script>
+</body>
+</html>

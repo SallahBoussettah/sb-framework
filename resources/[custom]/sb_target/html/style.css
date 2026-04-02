@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Outfit', sans-serif;
+    user-select: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ===== CROSSHAIR ===== */
+
+#crosshair {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.crosshair-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: white;
+    position: absolute;
+    transition: background 0.2s ease, transform 0.2s ease;
+    z-index: 2;
+}
+
+.crosshair-ring {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    position: absolute;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+    z-index: 1;
+}
+
+#crosshair.has-target .crosshair-dot {
+    background: #f97316;
+    transform: scale(1.2);
+}
+
+#crosshair.has-target .crosshair-ring {
+    border-color: #f97316;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.5; }
+}
+
+/* ===== CONTEXT MENU ===== */
+
+#context-menu {
+    position: fixed;
+    top: 50%;
+    left: calc(50% + 40px);
+    transform: translateY(-50%);
+    min-width: 200px;
+    max-width: 280px;
+    max-height: 280px;
+    background: rgba(15, 15, 15, 0.92);
+    border-radius: 10px;
+    padding: 6px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    z-index: 99;
+    overflow-y: auto;
+    animation: menuIn 0.2s ease forwards;
+}
+
+@keyframes menuIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50%) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+    }
+}
+
+#context-menu.hiding {
+    animation: menuOut 0.15s ease forwards;
+}
+
+@keyframes menuOut {
+    from {
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-50%) scale(0.9);
+    }
+}
+
+/* Custom scrollbar */
+#context-menu::-webkit-scrollbar {
+    width: 4px;
+}
+
+#context-menu::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#context-menu::-webkit-scrollbar-thumb {
+    background: rgba(249, 115, 22, 0.4);
+    border-radius: 2px;
+}
+
+/* ===== MENU OPTION ===== */
+
+.menu-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 7px;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.15s ease;
+    opacity: 0;
+    animation: optionIn 0.25s ease forwards;
+    border-left: 3px solid transparent;
+}
+
+.menu-option:hover {
+    background: rgba(249, 115, 22, 0.08);
+    border-left-color: #f97316;
+}
+
+.menu-option:active {
+    transform: scale(0.97);
+}
+
+.menu-option .option-icon {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    transition: color 0.15s ease;
+    flex-shrink: 0;
+}
+
+.menu-option:hover .option-icon {
+    color: #f97316;
+}
+
+.menu-option .option-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@keyframes optionIn {
+    from {
+        opacity: 0;
+        transform: translateX(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

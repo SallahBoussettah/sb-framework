@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everyday Chaos HUD - v2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --sb-bg-primary: #0a0a0a;
+            --sb-bg-secondary: #141414;
+            --sb-accent: #ff6b35;
+            --sb-accent-muted: rgba(255, 107, 53, 0.2);
+            --sb-text-primary: #ffffff;
+            --sb-success: #22c55e;
+            --sb-error: #ef4444;
+            --sb-warning: #f59e0b;
+            --sb-border: rgba(255, 255, 255, 0.1);
+            --sb-font-family: 'Poppins', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--sb-font-family); }
+        body { width: 100vw; height: 100vh; background: #1a1a1a; overflow: hidden; user-select: none; color: var(--sb-text-primary); }
+
+        /* --- DRAGGABLE & RESIZABLE LOGIC --- */
+        .editable { position: absolute; border: 2px solid transparent; cursor: move; }
+        .edit-mode .editable { border: 2px dashed var(--sb-accent); background: rgba(255, 107, 53, 0.05); }
+        .resizer { position: absolute; bottom: 0; right: 0; width: 12px; height: 12px; background: var(--sb-accent); cursor: nwse-resize; display: none; }
+        .edit-mode .resizer { display: block; }
+        .edit-label { position: absolute; top: -22px; left: 0; background: var(--sb-accent); font-size: 10px; padding: 1px 6px; border-radius: 2px; display: none; }
+        .edit-mode .edit-label { display: block; }
+
+        /* --- TOP RIGHT: ECONOMY (KEPT AS REQUESTED) --- */
+        #hud-top-right { top: 30px; right: 30px; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+        .id-badge { background: var(--sb-bg-secondary); padding: 2px 10px; font-size: 11px; font-weight: 700; color: #aaa; border-radius: 4px; border: 1px solid var(--sb-border); }
+        .cash-wrap { background: linear-gradient(90deg, transparent, rgba(0,0,0,0.8)); padding: 4px 15px; border-right: 4px solid var(--sb-success); font-size: 24px; font-weight: 700; color: var(--sb-success); }
+
+        /* --- BOTTOM LEFT: MAP & STATUS HUB --- */
+        #hud-bottom-left { bottom: 30px; left: 30px; width: 340px; height: 190px; }
+        .map-frame { width: 280px; height: 160px; background: rgba(0,0,0,0.6); border: 2px solid var(--sb-bg-secondary); border-radius: 4px; position: absolute; bottom: 0; left: 0; }
+        
+        /* New Status Hub Design */
+        .status-hub { position: absolute; bottom: 0; left: 290px; display: flex; flex-direction: column; gap: 6px; }
+        .status-pill { 
+            width: 42px; height: 42px; background: var(--sb-bg-primary); border-radius: 8px; 
+            display: flex; align-items: center; justify-content: center; position: relative;
+            border: 1px solid var(--sb-border); overflow: hidden;
+        }
+        .status-pill svg { position: absolute; width: 100%; height: 100%; transform: rotate(-90deg); }
+        .status-pill circle { fill: none; stroke-width: 4; stroke-linecap: butt; cx: 21; cy: 21; r: 17; }
+        .prog-bg { stroke: rgba(255,255,255,0.05); }
+        .prog-fill { stroke: var(--sb-accent); stroke-dasharray: 107; stroke-dashoffset: 40; transition: 0.5s; }
+        .status-pill i { width: 16px; height: 16px; position: relative; z-index: 2; opacity: 0.9; }
+
+        /* --- BOTTOM RIGHT: VEHICLE DASHBOARDS --- */
+        #hud-vehicle { bottom: 40px; right: 40px; width: 380px; height: 160px; display: flex; align-items: flex-end; justify-content: flex-end; }
+
+        /* CAR DASH: Digital Arc */
+        .dash-car { position: relative; width: 300px; height: 150px; display: flex; align-items: center; justify-content: center; }
+        .car-gauge-svg { position: absolute; width: 100%; height: 100%; filter: drop-shadow(0 0 10px var(--sb-accent-muted)); }
+        .gauge-speed-val { font-size: 64px; font-weight: 800; font-style: italic; color: var(--sb-text-primary); position: relative; z-index: 5; margin-top: 20px; }
+        .gauge-unit { position: absolute; bottom: 30px; font-size: 12px; font-weight: 700; color: var(--sb-accent); letter-spacing: 2px; }
+        
+        .car-indicators { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); display: flex; gap: 15px; background: var(--sb-bg-primary); padding: 5px 15px; border-radius: 20px 20px 0 0; border: 1px solid var(--sb-border); }
+        .indicator-icon { width: 16px; height: 16px; color: #333; transition: 0.3s; }
+        .indicator-icon.active { color: var(--sb-accent); filter: drop-shadow(0 0 5px var(--sb-accent)); }
+
+        /* BIKE DASH: Linear Sport */
+        .dash-bike { width: 320px; height: 100px; background: var(--sb-bg-primary); border: 2px solid var(--sb-border); border-radius: 4px; padding: 10px; display: flex; flex-direction: column; gap: 5px; position: relative; overflow: hidden; }
+        .bike-rev-bar { height: 10px; width: 100%; background: #222; display: flex; gap: 2px; }
+        .rev-segment { flex: 1; background: #444; }
+        .rev-segment.active { background: var(--sb-accent); box-shadow: 0 0 8px var(--sb-accent); }
+        .rev-segment.redline.active { background: var(--sb-error); box-shadow: 0 0 8px var(--sb-error); }
+        .bike-main { display: flex; justify-content: space-between; align-items: flex-end; flex: 1; }
+        .bike-speed { font-size: 50px; font-weight: 800; font-style: italic; line-height: 1; }
+        .bike-stats { display: flex; flex-direction: column; align-items: flex-end; font-size: 12px; font-weight: 700; color: #666; }
+        
+        /* --- UTILS --- */
+        .hidden { display: none !important; }
+        .toggle-btn { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); background: var(--sb-accent); border: none; padding: 8px 15px; color: white; cursor: pointer; border-radius: 4px; font-weight: 600; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+    <button class="toggle-btn" onclick="toggleVehicleMode()">SWITCH PREVIEW: CAR / BIKE</button>
+    <p style="position: absolute; top: 50px; left: 50%; transform: translateX(-50%); font-size: 10px; color: #666;">PRESS 'ESC' TO TOGGLE EDIT MODE</p>
+
+    <!-- TOP RIGHT -->
+    <div id="hud-top-right" class="editable" data-id="economy">
+        <span class="edit-label">Economy</span>
+        <div class="id-badge">PLAYER ID: 102</div>
+        <div class="cash-wrap">$ 1,245,600</div>
+        <div class="resizer"></div>
+    </div>
+
+    <!-- BOTTOM LEFT -->
+    <div id="hud-bottom-left" class="editable" data-id="minimap">
+        <span class="edit-label">Map & Stats</span>
+        <div class="map-frame"></div>
+        <div class="status-hub">
+            <div class="status-pill"><svg><circle class="prog-bg"/><circle class="prog-fill" style="stroke: var(--sb-error); stroke-dashoffset: 20;"/></svg><i data-lucide="heart"></i></div>
+            <div class="status-pill"><svg><circle class="prog-bg"/><circle class="prog-fill" style="stroke: #3b82f6; stroke-dashoffset: 60;"/></svg><i data-lucide="shield"></i></div>
+            <div class="status-pill"><svg><circle class="prog-bg"/><circle class="prog-fill" style="stroke: #f59e0b; stroke-dashoffset: 30;"/></svg><i data-lucide="utensils"></i></div>
+            <div class="status-pill" style="border-color: var(--sb-accent); box-shadow: 0 0 10px var(--sb-accent-muted);"><i data-lucide="mic" style="color: var(--sb-accent);"></i></div>
+        </div>
+        <div class="resizer"></div>
+    </div>
+
+    <!-- BOTTOM RIGHT -->
+    <div id="hud-vehicle" class="editable" data-id="vehicle">
+        <span class="edit-label">Vehicle HUD</span>
+        
+        <!-- CAR LAYOUT -->
+        <div id="mode-car" class="dash-car">
+            <svg class="car-gauge-svg" viewBox="0 0 200 120">
+                <!-- Background Arc -->
+                <path d="M 30 100 A 80 80 0 1 1 170 100" fill="none" stroke="#222" stroke-width="12" stroke-linecap="round"/>
+                <!-- Progress Arc (Speed/RPM) -->
+                <path d="M 30 100 A 80 80 0 0 1 110 21" fill="none" stroke="url(#orange_grad)" stroke-width="12" stroke-linecap="round"/>
+                <defs>
+                    <linearGradient id="orange_grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:var(--sb-accent);stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:var(--sb-error);stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            <span class="gauge-speed-val">128</span>
+            <span class="gauge-unit">KM/H</span>
+            
+            <div class="car-indicators">
+                <i data-lucide="armchair" class="indicator-icon active"></i>
+                <i data-lucide="fuel" class="indicator-icon active" style="color: var(--sb-warning);"></i>
+                <i data-lucide="zap" class="indicator-icon active" style="color: var(--sb-success);"></i>
+                <i data-lucide="gauge" class="indicator-icon"></i>
+            </div>
+        </div>
+
+        <!-- BIKE LAYOUT -->
+        <div id="mode-bike" class="dash-bike hidden">
+            <div class="bike-rev-bar" id="rev-bar">
+                <!-- segments generated by JS -->
+            </div>
+            <div class="bike-main">
+                <div style="display: flex; align-items: baseline; gap: 5px;">
+                    <span class="bike-speed">184</span>
+                    <span style="font-size: 10px; font-weight: 800; color: var(--sb-accent);">KM/H</span>
+                </div>
+                <div class="bike-stats">
+                    <span style="color: #fff;">GEAR 6</span>
+                    <div style="display: flex; gap: 8px; margin-top: 5px;">
+                        <i data-lucide="fuel" style="width: 14px; color: var(--sb-warning);"></i>
+                        <i data-lucide="zap" style="width: 14px; color: var(--sb-success);"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="resizer"></div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Generate Rev Bar segments for Bike
+        const revBar = document.getElementById('rev-bar');
+        for(let i=0; i<30; i++) {
+            const seg = document.createElement('div');
+            seg.className = `rev-segment ${i > 24 ? 'redline' : ''} ${i < 20 ? 'active' : ''}`;
+            revBar.appendChild(seg);
+        }
+
+        function toggleVehicleMode() {
+            document.getElementById('mode-car').classList.toggle('hidden');
+            document.getElementById('mode-bike').classList.toggle('hidden');
+        }
+
+        // --- DRAG & RESIZE LOGIC ---
+        let isEditMode = false;
+        let currentTarget = null;
+        let isResizing = false;
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") {
+                isEditMode = !isEditMode;
+                document.body.classList.toggle('edit-mode', isEditMode);
+            }
+        });
+
+        document.querySelectorAll('.editable').forEach(el => {
+            el.addEventListener('mousedown', (e) => {
+                if (!isEditMode) return;
+                currentTarget = el;
+                const rect = el.getBoundingClientRect();
+                if (e.target.classList.contains('resizer')) {
+                    isResizing = true;
+                } else {
+                    isResizing = false;
+                    el.offset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+                }
+            });
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!currentTarget || !isEditMode) return;
+            if (isResizing) {
+                const rect = currentTarget.getBoundingClientRect();
+                const newWidth = e.clientX - rect.left;
+                const scale = newWidth / currentTarget.offsetWidth;
+                currentTarget.style.width = newWidth + 'px';
+                currentTarget.style.height = (currentTarget.offsetHeight * scale) + 'px';
+                // Use transform scale for internal elements
+                currentTarget.style.transform = `scale(${scale})`;
+                currentTarget.style.transformOrigin = 'bottom right';
+            } else {
+                currentTarget.style.left = (e.clientX - currentTarget.offset.x) + 'px';
+                currentTarget.style.top = (e.clientY - currentTarget.offset.y) + 'px';
+                currentTarget.style.bottom = 'auto'; currentTarget.style.right = 'auto';
+            }
+        });
+
+        document.addEventListener('mouseup', () => { currentTarget = null; isResizing = false; });
+    </script>
+</body>
+</html>

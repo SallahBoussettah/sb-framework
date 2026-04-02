@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everyday Chaos - Inventory</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- MAIN INVENTORY -->
+    <div id="inventory-container" class="inventory-container hidden">
+        <div class="inventory-wrapper">
+
+            <!-- Header -->
+            <header class="inventory-header">
+                <div class="brand-info">
+                    <h1>Everyday<span>Chaos</span></h1>
+                    <p class="brand-tagline">YOUR CHAOS, YOUR STORY</p>
+                </div>
+                <div class="player-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Wallet</span>
+                        <span class="stat-value money" id="stat-wallet">$0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Bank</span>
+                        <span class="stat-value money" id="stat-bank">$0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">ID / Tag</span>
+                        <span class="stat-value" id="stat-id">#000</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="inventory-content">
+
+                <!-- Left: Player Inventory -->
+                <section class="inventory-column">
+                    <div class="column-header">
+                        <div class="column-title">
+                            <h2>Personal Inventory</h2>
+                            <p class="column-subtitle">Pocket & Backpack</p>
+                        </div>
+                        <div class="weight-container">
+                            <div class="weight-info">
+                                <span>SLOTS</span>
+                                <span id="player-slot-info">0 / 40</span>
+                            </div>
+                            <div class="weight-bar-bg">
+                                <div class="weight-bar-fill" id="player-weight-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slots-grid" id="player-grid"></div>
+                </section>
+
+                <!-- Middle: Action Buttons -->
+                <section class="actions-column">
+                    <button class="action-btn primary" id="btn-use">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        USE
+                    </button>
+                    <button class="action-btn" id="btn-give">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                        GIVE
+                    </button>
+                    <button class="action-btn" id="btn-split">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><path d="M8.12 8.12 12 12"/><path d="M20 4 8.12 15.88"/><circle cx="6" cy="18" r="3"/><path d="M14.8 14.8 20 20"/></svg>
+                        SPLIT
+                    </button>
+                    <div class="actions-spacer"></div>
+                    <button class="action-btn danger" id="btn-drop">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                        DROP
+                    </button>
+                </section>
+
+                <!-- Right: Secondary / Ground -->
+                <section class="inventory-column">
+                    <div class="column-header">
+                        <div class="column-title">
+                            <h2 id="secondary-title">Ground</h2>
+                            <p class="column-subtitle" id="secondary-subtitle">Nearby items</p>
+                        </div>
+                        <div class="weight-container">
+                            <div class="weight-info">
+                                <span>CAPACITY</span>
+                                <span id="secondary-slot-info">&infin;</span>
+                            </div>
+                            <div class="weight-bar-bg">
+                                <div class="weight-bar-fill secondary-bar" id="secondary-weight-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slots-grid" id="secondary-grid"></div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- HOTBAR HUD (shows briefly on quick-use) -->
+    <div id="hotbar" class="hotbar hidden">
+        <div class="hotbar-slot" id="hb-1"><span class="hb-key">1</span></div>
+        <div class="hotbar-slot" id="hb-2"><span class="hb-key">2</span></div>
+        <div class="hotbar-slot" id="hb-3"><span class="hb-key">3</span></div>
+        <div class="hotbar-slot" id="hb-4"><span class="hb-key">4</span></div>
+        <div class="hotbar-slot" id="hb-5"><span class="hb-key">5</span></div>
+    </div>
+
+    <!-- TOOLTIP -->
+    <div class="item-tooltip hidden" id="tooltip">
+        <span class="tooltip-title" id="tt-name">Item Name</span>
+        <p class="tooltip-desc" id="tt-desc">Item description.</p>
+        <div class="tooltip-meta">
+            <div class="tooltip-detail" id="tt-details"></div>
+        </div>
+    </div>
+
+    <!-- CONTEXT MENU (Magazine / Ammo Box right-click) -->
+    <div id="context-menu" class="context-menu hidden">
+        <div class="context-menu-option" id="ctx-load">Load Magazine</div>
+        <div class="context-menu-option" id="ctx-unload">Unload Magazine</div>
+        <div class="context-menu-option" id="ctx-fill">Fill Box</div>
+        <div class="context-menu-option" id="ctx-empty">Empty Box</div>
+    </div>
+
+    <!-- AMOUNT INPUT MODAL -->
+    <div id="amount-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-title" id="modal-title">Enter Amount</div>
+            <input type="number" id="amount-input" min="1" value="1">
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="amount-cancel">Cancel</button>
+                <button class="btn btn-primary" id="amount-confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

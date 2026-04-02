@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMV - Driving School</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- THEORY EXAM -->
+    <div id="exam-container" class="hidden">
+        <div class="exam-card">
+            <div class="exam-header">
+                <i class="fa-solid fa-car"></i>
+                <div>
+                    <h2>DMV Theory Exam</h2>
+                    <p>Answer all 10 questions</p>
+                </div>
+                <div class="exam-counter" id="exam-counter">1 / 10</div>
+            </div>
+            <div class="exam-body">
+                <div class="question-text" id="question-text">Loading...</div>
+                <div class="options-list" id="options-list"></div>
+            </div>
+            <div class="exam-actions">
+                <button id="btn-exam-cancel" class="btn btn-cancel">Cancel</button>
+                <button id="btn-exam-next" class="btn btn-submit" disabled>Next</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div id="result-container" class="hidden">
+        <div class="result-card">
+            <div class="result-icon" id="result-icon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h2 class="result-title" id="result-title">PASSED</h2>
+            <p class="result-subtitle" id="result-subtitle">Score: 8/10</p>
+            <p class="result-message" id="result-message">You may now proceed to the practical driving test.</p>
+            <button id="btn-result-close" class="btn btn-submit result-btn">Continue</button>
+        </div>
+    </div>
+
+    <!-- DRIVING HUD (overlay, no focus capture) -->
+    <div id="driving-hud" class="hidden">
+        <div class="hud-container">
+            <div class="hud-phase" id="hud-phase">PARKING</div>
+            <div class="hud-main">
+                <div class="hud-speed-section">
+                    <div class="hud-speed" id="hud-speed">0</div>
+                    <div class="hud-speed-unit">km/h</div>
+                </div>
+                <div class="hud-limit-section" id="hud-limit-section">
+                    <div class="hud-limit-sign">
+                        <span class="hud-limit-value" id="hud-limit-value">50</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hud-info">
+                <div class="hud-penalties">
+                    <span class="hud-label">PENALTIES</span>
+                    <span class="hud-value" id="hud-penalties">0 / 30</span>
+                </div>
+                <div class="hud-checkpoint">
+                    <span class="hud-label">PROGRESS</span>
+                    <span class="hud-value" id="hud-checkpoint">0 / 5</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LICENSE CARD -->
+    <div id="license-container" class="hidden">
+        <div class="license-card">
+            <!-- Header -->
+            <div class="card-header">
+                <div class="header-left">
+                    <span class="header-state">Everyday Chaos</span>
+                </div>
+                <div class="header-right">
+                    <span class="header-title">DRIVER LICENSE</span>
+                    <span class="header-class">CLASS C</span>
+                </div>
+            </div>
+
+            <!-- Accent line -->
+            <div class="card-accent-line"></div>
+
+            <!-- Body -->
+            <div class="card-body">
+                <!-- Left: photo + signature -->
+                <div class="card-left">
+                    <div class="photo-frame" id="license-photo">
+                        <i class="fa-solid fa-user photo-placeholder"></i>
+                    </div>
+                    <div class="signature-area">
+                        <span class="signature-text" id="license-signature">---</span>
+                        <div class="signature-line"></div>
+                    </div>
+                </div>
+
+                <!-- Right: fields -->
+                <div class="card-right">
+                    <div class="field-row">
+                        <span class="field-label">DL</span>
+                        <span class="field-value field-id" id="license-number">---</span>
+                    </div>
+                    <div class="field-row">
+                        <span class="field-label">LN</span>
+                        <span class="field-value" id="license-lastname">---</span>
+                    </div>
+                    <div class="field-row">
+                        <span class="field-label">FN</span>
+                        <span class="field-value" id="license-firstname">---</span>
+                    </div>
+                    <div class="field-row">
+                        <span class="field-label">DOB</span>
+                        <span class="field-value" id="license-dob">---</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="card-footer">
+                <div class="footer-item">
+                    <span class="footer-label">ISS</span>
+                    <span class="footer-value" id="license-issued">---</span>
+                </div>
+                <div class="footer-item">
+                    <span class="footer-label">CLASS</span>
+                    <span class="footer-value" id="license-class">C</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,618 @@
+/* SB Design System - Base */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* SB Design System Colors */
+    --sb-bg-primary: #0a0a0a;
+    --sb-bg-secondary: #141414;
+    --sb-bg-tertiary: #1a1a1a;
+    --sb-bg-elevated: #242424;
+    --sb-accent: #ff6b35;
+    --sb-accent-hover: #ff8555;
+    --sb-accent-active: #e55a25;
+    --sb-accent-muted: rgba(255, 107, 53, 0.2);
+    --sb-accent-glow: rgba(255, 107, 53, 0.4);
+    --sb-text-primary: #ffffff;
+    --sb-text-secondary: #888888;
+    --sb-text-tertiary: #555555;
+    --sb-border: #2a2a2a;
+    --sb-border-hover: #3a3a3a;
+    --sb-success: #22c55e;
+    --sb-error: #ef4444;
+    --sb-font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+body {
+    font-family: var(--sb-font-family);
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    user-select: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ======================================================================
+   APPLICATION FORM — SB Design System (dark theme, orange accent)
+   ====================================================================== */
+
+#form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.form-card {
+    background: rgba(10, 10, 10, 0.95);
+    border-radius: 12px;
+    border: 1px solid var(--sb-border);
+    width: 420px;
+    overflow: hidden;
+    animation: sb-scale-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 20px 25px rgba(0, 0, 0, 0.5);
+}
+
+.form-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 24px;
+    background: var(--sb-bg-secondary);
+    border-bottom: 1px solid var(--sb-border);
+}
+
+.form-header i {
+    font-size: 26px;
+    color: var(--sb-accent);
+}
+
+.form-header h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--sb-text-primary);
+    letter-spacing: 0.3px;
+}
+
+.form-header p {
+    font-size: 12px;
+    color: var(--sb-text-secondary);
+    font-weight: 400;
+}
+
+.form-body {
+    padding: 24px;
+}
+
+.form-body label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--sb-text-secondary);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-body input {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--sb-bg-secondary);
+    border: 1px solid var(--sb-border);
+    border-radius: 8px;
+    color: var(--sb-text-primary);
+    font-family: var(--sb-font-family);
+    font-size: 14px;
+    outline: none;
+    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-body input:hover {
+    border-color: var(--sb-border-hover);
+}
+
+.form-body input:focus {
+    border-color: var(--sb-accent);
+    box-shadow: 0 0 0 3px var(--sb-accent-muted);
+}
+
+.form-body input::placeholder {
+    color: var(--sb-text-tertiary);
+}
+
+.form-hint {
+    font-size: 11px;
+    color: var(--sb-text-tertiary);
+    margin-top: 8px;
+}
+
+.form-cost {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: var(--sb-bg-secondary);
+    border: 1px solid var(--sb-border);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--sb-text-secondary);
+}
+
+.form-cost span {
+    color: var(--sb-success);
+    font-weight: 600;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    padding: 0 24px 24px;
+}
+
+.btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--sb-font-family);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-cancel {
+    background: var(--sb-bg-tertiary);
+    color: var(--sb-text-secondary);
+    border: 1px solid var(--sb-border);
+}
+
+.btn-cancel:hover {
+    background: var(--sb-bg-elevated);
+    border-color: var(--sb-border-hover);
+    color: var(--sb-text-primary);
+}
+
+.btn-submit {
+    background: var(--sb-accent);
+    color: var(--sb-text-primary);
+}
+
+.btn-submit:hover {
+    background: var(--sb-accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 0 20px var(--sb-accent-glow);
+}
+
+.btn-submit:active {
+    background: var(--sb-accent-active);
+    transform: translateY(0);
+}
+
+/* ======================================================================
+   THEME PICKER (in application form)
+   ====================================================================== */
+
+.theme-picker {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.theme-option {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    background: var(--sb-bg-secondary);
+    border: 2px solid var(--sb-border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: var(--sb-font-family);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--sb-text-secondary);
+}
+
+.theme-option:hover {
+    border-color: var(--sb-border-hover);
+    background: var(--sb-bg-tertiary);
+}
+
+.theme-option.selected {
+    border-color: var(--sb-accent);
+    box-shadow: 0 0 12px var(--sb-accent-muted);
+    color: var(--sb-text-primary);
+}
+
+.theme-preview {
+    width: 100%;
+    height: 36px;
+    border-radius: 4px;
+}
+
+.theme-preview-white {
+    background: linear-gradient(180deg, #2d3a4a 40%, #f5f5f5 40%);
+    border: 1px solid #d0d0d0;
+}
+
+.theme-preview-black {
+    background: linear-gradient(180deg, #141414 40%, #0a0a0a 40%);
+    border: 1px solid #ff6b35;
+}
+
+/* ======================================================================
+   ID CARD — Realistic document style (white card, blue accents)
+   ====================================================================== */
+
+#card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.id-card {
+    width: 520px;
+    background: #f5f5f5;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 25px rgba(0, 0, 0, 0.5);
+    position: relative;
+    animation: cardIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid #d0d0d0;
+}
+
+/* Expired stamp overlay */
+.expired-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.expired-overlay span {
+    font-size: 56px;
+    font-weight: 800;
+    color: rgba(239, 68, 68, 0.6);
+    transform: rotate(-20deg);
+    letter-spacing: 10px;
+    border: 5px solid rgba(239, 68, 68, 0.6);
+    padding: 6px 28px;
+    border-radius: 8px;
+    font-family: 'Arial Black', Arial, sans-serif;
+}
+
+/* --- Header Bar --- */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 18px;
+    background: #2d3a4a;
+    border-bottom: 1px solid #1e2a38;
+}
+
+.header-left {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.header-state {
+    font-size: 22px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 2px;
+}
+
+.header-country {
+    font-size: 10px;
+    font-weight: 600;
+    color: #8899aa;
+    letter-spacing: 1px;
+    vertical-align: super;
+}
+
+.header-right {
+    text-align: right;
+}
+
+.header-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 1.5px;
+}
+
+/* --- Accent line under header --- */
+.card-accent-line {
+    height: 3px;
+    background: linear-gradient(90deg, #1e2a38 0%, #3b5068 50%, #1e2a38 100%);
+}
+
+/* --- Card Body --- */
+.card-body {
+    display: flex;
+    gap: 16px;
+    padding: 14px 18px 10px;
+}
+
+/* Left column */
+.card-left {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.photo-frame {
+    width: 115px;
+    height: 140px;
+    border: 2px solid #2d3a4a;
+    border-radius: 6px;
+    background: #dde2e8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.photo-placeholder {
+    font-size: 48px;
+    color: #a0aab4;
+}
+
+.signature-area {
+    width: 115px;
+    text-align: center;
+}
+
+.signature-text {
+    font-family: 'Brush Script MT', 'Segoe Script', cursive;
+    font-size: 14px;
+    color: #333333;
+    display: block;
+    min-height: 20px;
+}
+
+.signature-line {
+    width: 100%;
+    height: 1px;
+    background: #999999;
+    margin-top: 2px;
+}
+
+/* Right column */
+.card-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.field-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    border-bottom: 1px solid #d0d0d0;
+    padding: 3px 0;
+}
+
+.field-row:last-child {
+    border-bottom: none;
+}
+
+.field-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #2d3a4a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 26px;
+    flex-shrink: 0;
+}
+
+.field-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a1a;
+    letter-spacing: 0.3px;
+}
+
+.field-id {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1a1a1a;
+    letter-spacing: 1px;
+}
+
+.field-address {
+    font-size: 11px;
+    font-weight: 500;
+    color: #555555;
+    text-transform: uppercase;
+    padding-left: 0;
+}
+
+/* Multi-field rows (SEX, HAIR, EYES / HGT, WGT, BLD) */
+.field-row-multi {
+    display: flex;
+    gap: 14px;
+}
+
+.field-inline {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.field-inline .field-label {
+    min-width: auto;
+}
+
+.field-inline .field-value {
+    font-size: 12px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+/* --- Footer (Issue / Expiry dates) --- */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 18px 10px;
+    background: #e8ecf0;
+    border-top: 1px solid #d0d0d0;
+}
+
+.footer-item {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.footer-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #2d3a4a;
+    letter-spacing: 0.5px;
+}
+
+.footer-value {
+    font-size: 12px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+/* ======================================================================
+   BLACK THEME OVERRIDES (.theme-black on .id-card)
+   ====================================================================== */
+
+.id-card.theme-black {
+    background: #0a0a0a;
+    border-color: #2a2a2a;
+}
+
+.id-card.theme-black .card-header {
+    background: #141414;
+    border-bottom-color: #2a2a2a;
+}
+
+.id-card.theme-black .header-state {
+    color: #ff6b35;
+}
+
+.id-card.theme-black .header-country {
+    color: #666;
+}
+
+.id-card.theme-black .header-title {
+    color: #ffffff;
+}
+
+.id-card.theme-black .card-accent-line {
+    background: linear-gradient(90deg, #1a1a1a 0%, #ff6b35 50%, #1a1a1a 100%);
+}
+
+.id-card.theme-black .photo-frame {
+    border-color: #ff6b35;
+    background: #1a1a1a;
+}
+
+.id-card.theme-black .photo-placeholder {
+    color: #555;
+}
+
+.id-card.theme-black .signature-text {
+    color: #888;
+}
+
+.id-card.theme-black .signature-line {
+    background: #444;
+}
+
+.id-card.theme-black .field-row {
+    border-bottom-color: #2a2a2a;
+}
+
+.id-card.theme-black .field-label {
+    color: #ff6b35;
+}
+
+.id-card.theme-black .field-value {
+    color: #ffffff;
+}
+
+.id-card.theme-black .field-id {
+    color: #ffffff;
+}
+
+.id-card.theme-black .field-address {
+    color: #888;
+}
+
+.id-card.theme-black .field-inline .field-value {
+    color: #ffffff;
+}
+
+.id-card.theme-black .card-footer {
+    background: #141414;
+    border-top-color: #2a2a2a;
+}
+
+.id-card.theme-black .footer-label {
+    color: #ff6b35;
+}
+
+.id-card.theme-black .footer-value {
+    color: #ffffff;
+}
+
+/* ======================================================================
+   ANIMATIONS
+   ====================================================================== */
+
+@keyframes sb-scale-in {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes cardIn {
+    from { opacity: 0; transform: scale(0.92) rotate(-1deg); }
+    to { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-4px); }
+}

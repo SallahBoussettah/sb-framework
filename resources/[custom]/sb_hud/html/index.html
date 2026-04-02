@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SB HUD</title>
+    <link rel="stylesheet" href="style.css?v=9">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="hud-container" class="hidden">
+
+        <!-- TOP RIGHT: ECONOMY -->
+        <div id="hud-top-right">
+            <div class="id-badge">PLAYER ID: <span id="player-id">0</span></div>
+            <div class="cash-wrap" id="cash-display">$ <span id="cash-value">0</span></div>
+        </div>
+
+        <!-- BOTTOM LEFT: STATUS HUB -->
+        <div id="hud-bottom-left">
+            <div class="status-hub" id="status-icons">
+                <div class="status-box" id="health-box">
+                    <div class="ring-container"><svg viewBox="0 0 45 45"><circle class="ring-off" cx="22.5" cy="22.5" r="18.5"/><circle class="ring-on" id="health-ring" cx="22.5" cy="22.5" r="18.5"/></svg></div>
+                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                </div>
+                <div class="status-box" id="armor-box">
+                    <div class="ring-container"><svg viewBox="0 0 45 45"><circle class="ring-off" cx="22.5" cy="22.5" r="18.5"/><circle class="ring-on" id="armor-ring" cx="22.5" cy="22.5" r="18.5"/></svg></div>
+                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+                </div>
+                <div class="status-box" id="hunger-box">
+                    <div class="ring-container"><svg viewBox="0 0 45 45"><circle class="ring-off" cx="22.5" cy="22.5" r="18.5"/><circle class="ring-on" id="hunger-ring" cx="22.5" cy="22.5" r="18.5"/></svg></div>
+                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
+                </div>
+                <div class="status-box" id="thirst-box">
+                    <div class="ring-container"><svg viewBox="0 0 45 45"><circle class="ring-off" cx="22.5" cy="22.5" r="18.5"/><circle class="ring-on" id="thirst-ring" cx="22.5" cy="22.5" r="18.5"/></svg></div>
+                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>
+                </div>
+                <div class="status-box" id="stamina-box">
+                    <div class="ring-container"><svg viewBox="0 0 45 45"><circle class="ring-off" cx="22.5" cy="22.5" r="18.5"/><circle class="ring-on" id="stamina-ring" cx="22.5" cy="22.5" r="18.5"/></svg></div>
+                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>
+                </div>
+                <div class="status-box" id="stress-box">
+                    <div class="ring-container"><svg viewBox="0 0 45 45"><circle class="ring-off" cx="22.5" cy="22.5" r="18.5"/><circle class="ring-on" id="stress-ring" cx="22.5" cy="22.5" r="18.5"/></svg></div>
+                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M12 18v-5"/></svg>
+                </div>
+                <div class="status-box voice-box" id="voice-box">
+                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- STREET NAME DISPLAY (below minimap) -->
+        <div id="street-display">
+            <div class="street-name" id="street-name-text"></div>
+            <div class="zone-name" id="zone-name-text"></div>
+        </div>
+
+        <!-- BOTTOM RIGHT: VEHICLE -->
+        <div id="hud-vehicle">
+            <div id="car-dash" class="dash-car hidden">
+                <svg class="car-gauge-svg" viewBox="0 0 200 120">
+                    <defs>
+                        <linearGradient id="orange_grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#ff6b35;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#ef4444;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <path class="gauge-fill" id="car-gauge-fill" d="M 30 100 A 80 80 0 0 1 170 100" fill="none" stroke="url(#orange_grad)" stroke-width="12" stroke-linecap="round"/>
+                </svg>
+                <span class="gauge-speed-val" id="car-speed-value">0</span>
+                <span class="gauge-unit" id="car-speed-unit">KM/H</span>
+                <div class="car-indicators">
+                    <svg class="indicator-icon" id="ind-seatbelt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.5"/><path d="M9 22v-4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4"/><path d="M12 10v7"/><path d="M7 10l10 8"/><path d="M17 10v2"/><rect x="10.5" y="9" width="3" height="2" rx="0.5"/></svg>
+                    <svg class="indicator-icon" id="ind-engine" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>
+                </div>
+                <div class="fuel-bar-container">
+                    <svg class="fuel-icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v17"/><path d="M13 10h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2a2 2 0 0 0 2-2V7.5"/></svg>
+                    <div class="fuel-bar-track">
+                        <div class="fuel-bar-fill" id="car-fuel-bar"></div>
+                    </div>
+                    <span class="fuel-text" id="car-fuel-text">100%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- BIKE DASHBOARD (separate for independent positioning) -->
+        <div id="bike-dash" class="dash-bike hidden">
+            <div class="bike-rev-bar" id="bike-rev-bar"></div>
+            <div class="bike-main">
+                <div class="bike-speed-wrap">
+                    <span class="bike-speed" id="bike-speed-value">0</span>
+                    <span class="bike-unit" id="bike-speed-unit">KM/H</span>
+                </div>
+                <div class="bike-stats">
+                    <span class="bike-gear-text" id="bike-gear">GEAR N</span>
+                    <div class="bike-icons">
+                        <svg class="bike-stat-icon" id="bike-ind-engine" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>
+                    </div>
+                </div>
+                <div class="bike-fuel-bar">
+                    <svg class="fuel-icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v17"/><path d="M13 10h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2a2 2 0 0 0 2-2V7.5"/></svg>
+                    <div class="fuel-bar-track">
+                        <div class="fuel-bar-fill" id="bike-fuel-bar"></div>
+                    </div>
+                    <span class="fuel-text" id="bike-fuel-text">100%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTTOM RIGHT: AMMO DISPLAY -->
+        <div id="hud-ammo" class="ammo-display hidden">
+            <div class="ammo-count"><span id="ammo-current">0</span><span class="ammo-sep">/</span><span id="ammo-capacity">0</span></div>
+            <div class="ammo-label" id="ammo-mag-label"></div>
+        </div>
+
+    </div>
+
+    <!-- HUD Editor Overlay -->
+    <div id="hud-editor" class="hidden">
+        <div class="editor-toolbar">
+            <div class="editor-title">HUD EDITOR</div>
+            <div class="editor-hint">Drag to move | Scroll to resize</div>
+            <div class="editor-buttons">
+                <button class="editor-btn reset" id="editor-reset">RESET</button>
+                <button class="editor-btn cancel" id="editor-cancel">CANCEL</button>
+                <button class="editor-btn save" id="editor-save">SAVE</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js?v=9"></script>
+</body>
+</html>

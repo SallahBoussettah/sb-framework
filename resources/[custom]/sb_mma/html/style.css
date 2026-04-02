@@ -1,0 +1,623 @@
+/* ============================================================================
+   MMA Arena Betting - Everyday Chaos RP
+   Author: Salah Eddine Boussettah
+   ============================================================================ */
+
+:root {
+    --bg-primary: #0a0a0a;
+    --bg-card: #1a1a1a;
+    --bg-elevated: #222224;
+    --bg-hover: #1c1c1e;
+
+    --accent: #ff6b35;
+    --accent-hover: #ff8555;
+    --accent-active: #e55a25;
+    --accent-dim: rgba(255, 107, 53, 0.1);
+    --accent-glow: rgba(255, 107, 53, 0.2);
+
+    --red: #ef4444;
+    --red-dim: rgba(239, 68, 68, 0.1);
+    --blue: #3b82f6;
+    --blue-dim: rgba(59, 130, 246, 0.1);
+    --green: #22c55e;
+    --green-dim: rgba(34, 197, 94, 0.1);
+
+    --text-main: #ffffff;
+    --text-secondary: #a1a1aa;
+    --text-dim: #71717a;
+    --text-muted: #52525b;
+
+    --border: rgba(255, 255, 255, 0.08);
+    --border-accent: rgba(255, 107, 53, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: transparent;
+    color: var(--text-main);
+    overflow: hidden;
+    user-select: none;
+}
+
+.hidden { display: none !important; }
+
+#app {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ============================================================================
+   PANEL
+   ============================================================================ */
+.mma-panel {
+    width: 520px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    animation: panelIn 0.3s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@keyframes panelIn {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ============================================================================
+   STATUS BAR
+   ============================================================================ */
+.status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+}
+
+.status-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-left i {
+    font-size: 18px;
+    color: var(--accent);
+}
+
+.status-title {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+}
+
+.status-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 1px solid var(--border-accent);
+}
+
+.status-badge.betting { background: var(--green-dim); color: var(--green); border-color: rgba(34, 197, 94, 0.3); }
+.status-badge.fighting { background: var(--red-dim); color: var(--red); border-color: rgba(239, 68, 68, 0.3); }
+.status-badge.cooldown { background: var(--blue-dim); color: var(--blue); border-color: rgba(59, 130, 246, 0.3); }
+
+.timer-display {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main);
+    font-variant-numeric: tabular-nums;
+}
+
+.timer-display i {
+    color: var(--text-dim);
+    font-size: 12px;
+}
+
+/* ============================================================================
+   FIGHTERS SECTION
+   ============================================================================ */
+.fighters-section {
+    display: flex;
+    align-items: stretch;
+    padding: 20px;
+    gap: 12px;
+}
+
+.fighter-card {
+    flex: 1;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.fighter-card.selected {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.fighter-card.winner {
+    border-color: var(--green);
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+}
+
+.fighter-card.loser {
+    opacity: 0.4;
+}
+
+.fighter-corner {
+    position: absolute;
+    top: 10px;
+    left: 12px;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.fighter-card.red .fighter-corner { color: var(--red); }
+.fighter-card.blue .fighter-corner { color: var(--blue); }
+
+.fighter-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.fighter-card.red .fighter-icon { background: var(--red-dim); color: var(--red); }
+.fighter-card.blue .fighter-icon { background: var(--blue-dim); color: var(--blue); }
+
+.fighter-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-main);
+    text-align: center;
+}
+
+.fighter-odds, .fighter-pool {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.odds-label, .pool-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.odds-value {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--accent);
+}
+
+.pool-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.bet-fighter-btn {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-accent);
+    border-radius: 10px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.bet-fighter-btn:hover {
+    background: var(--accent);
+    color: #000;
+    transform: translateY(-1px);
+}
+
+.bet-fighter-btn:active {
+    transform: scale(0.95);
+}
+
+.bet-fighter-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* VS Divider */
+.vs-divider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-width: 60px;
+}
+
+.vs-text {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+}
+
+.total-pool {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.total-pool span {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.total-pool strong {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+/* ============================================================================
+   BET SECTION
+   ============================================================================ */
+.bet-section {
+    padding: 0 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.bet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.bet-header span {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-main);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.cash-display {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cash-display i {
+    font-size: 12px;
+}
+
+.selected-fighter {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-dim);
+    padding: 8px;
+    background: var(--bg-card);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.selected-fighter.active {
+    color: var(--accent);
+    border-color: var(--border-accent);
+    background: var(--accent-dim);
+}
+
+.quick-bets {
+    display: flex;
+    gap: 8px;
+}
+
+.quick-btn {
+    flex: 1;
+    padding: 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.quick-btn:hover {
+    background: var(--accent-dim);
+    border-color: var(--border-accent);
+    color: var(--accent);
+}
+
+.quick-btn:active { transform: scale(0.95); }
+
+.bet-input-row {
+    display: flex;
+    gap: 10px;
+}
+
+.input-wrapper {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper i {
+    position: absolute;
+    left: 14px;
+    color: var(--text-dim);
+    font-size: 13px;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 12px 14px 12px 36px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-main);
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.input-wrapper input::placeholder {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.input-wrapper input:focus {
+    border-color: var(--accent);
+}
+
+.place-bet-btn {
+    padding: 12px 20px;
+    background: var(--accent);
+    border: none;
+    border-radius: 10px;
+    color: #000;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.place-bet-btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+}
+
+.place-bet-btn:active { transform: scale(0.95); }
+
+.place-bet-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.potential-payout {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-dim);
+}
+
+.potential-payout strong {
+    color: var(--green);
+    font-weight: 700;
+}
+
+/* ============================================================================
+   RESULT SECTION
+   ============================================================================ */
+.result-section {
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    animation: fadeIn 0.3s ease;
+}
+
+.result-icon {
+    font-size: 40px;
+    color: var(--accent);
+}
+
+.result-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.result-name {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* ============================================================================
+   HISTORY SECTION
+   ============================================================================ */
+.history-section {
+    padding: 0 20px 16px;
+}
+
+.history-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.history-header i {
+    font-size: 11px;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 140px;
+    overflow-y: auto;
+}
+
+.history-empty {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 16px;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.history-item .hi-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.history-item .hi-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.history-item .hi-dot.win { background: var(--green); }
+.history-item .hi-dot.loss { background: var(--red); }
+
+.history-item .hi-fighter {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.history-item .hi-amount {
+    color: var(--text-dim);
+}
+
+.history-item .hi-right {
+    font-weight: 700;
+}
+
+.history-item .hi-right.win { color: var(--green); }
+.history-item .hi-right.loss { color: var(--red); }
+
+/* ============================================================================
+   FOOTER
+   ============================================================================ */
+.panel-footer {
+    padding: 12px 20px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.panel-footer i {
+    color: var(--text-dim);
+}
+
+/* ============================================================================
+   SCROLLBAR
+   ============================================================================ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-elevated); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.15); }

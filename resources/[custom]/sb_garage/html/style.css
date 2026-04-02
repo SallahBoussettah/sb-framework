@@ -1,0 +1,564 @@
+/*
+    Everyday Chaos RP - Garage System Styles
+    Author: Salah Eddine Boussettah
+    SB Design System: Left-panel garage UI
+*/
+
+/* SB Design System Variables */
+:root {
+    /* Background Colors */
+    --sb-bg-primary: #0a0a0a;
+    --sb-bg-secondary: #141414;
+    --sb-bg-tertiary: #1a1a1a;
+    --sb-bg-elevated: #242424;
+
+    /* Accent Color (Brand Orange) */
+    --sb-accent: #ff6b35;
+    --sb-accent-hover: #ff8555;
+    --sb-accent-active: #e55a25;
+    --sb-accent-muted: rgba(255, 107, 53, 0.2);
+    --sb-accent-glow: rgba(255, 107, 53, 0.4);
+
+    /* Text Colors */
+    --sb-text-primary: #ffffff;
+    --sb-text-secondary: #888888;
+    --sb-text-tertiary: #555555;
+
+    /* Status Colors */
+    --sb-success: #22c55e;
+    --sb-success-muted: rgba(34, 197, 94, 0.2);
+    --sb-error: #ef4444;
+    --sb-warning: #f59e0b;
+    --sb-info: #3b82f6;
+
+    /* Border Colors */
+    --sb-border: #2a2a2a;
+    --sb-border-hover: #3a3a3a;
+
+    /* Radius */
+    --sb-radius-sm: 4px;
+    --sb-radius-md: 8px;
+    --sb-radius-lg: 12px;
+    --sb-radius-xl: 16px;
+    --sb-radius-full: 9999px;
+
+    /* Shadows */
+    --sb-shadow-glow: 0 0 20px rgba(255, 107, 53, 0.2);
+
+    /* Transitions */
+    --sb-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --sb-transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Font */
+    --sb-font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    font-family: var(--sb-font-family);
+    background: transparent;
+    color: var(--sb-text-primary);
+    overflow: hidden;
+    display: flex;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ============================================================================
+   SCROLLBAR
+   ============================================================================ */
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--sb-bg-elevated);
+    border-radius: var(--sb-radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--sb-border-hover);
+}
+
+/* ============================================================================
+   MAIN CONTAINER
+   ============================================================================ */
+
+#garage-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+/* ============================================================================
+   SIDE PANEL
+   ============================================================================ */
+
+.garage-panel {
+    width: 450px;
+    height: 100vh;
+    background: var(--sb-bg-primary);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: slideIn 0.4s cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+/* ============================================================================
+   HEADER
+   ============================================================================ */
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-title > [data-lucide] {
+    color: var(--sb-accent);
+    width: 28px;
+    height: 28px;
+}
+
+.header-subtitle {
+    color: var(--sb-text-secondary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    display: block;
+}
+
+.header-title h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+}
+
+/* ============================================================================
+   TABS
+   ============================================================================ */
+
+.tabs {
+    display: flex;
+    background: var(--sb-bg-secondary);
+    padding: 4px;
+    border-radius: var(--sb-radius-md);
+    border: 1px solid var(--sb-border);
+    gap: 2px;
+}
+
+.tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--sb-text-secondary);
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all var(--sb-transition-fast);
+}
+
+.tab:hover {
+    color: var(--sb-text-primary);
+}
+
+.tab.active {
+    background: var(--sb-bg-tertiary);
+    color: var(--sb-accent);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================================================
+   STATS BAR
+   ============================================================================ */
+
+.garage-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--sb-text-tertiary);
+    padding: 0 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.garage-stats b {
+    color: var(--sb-text-secondary);
+}
+
+/* ============================================================================
+   VEHICLE LIST
+   ============================================================================ */
+
+.vehicle-list {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* ============================================================================
+   VEHICLE CARD
+   ============================================================================ */
+
+.vehicle-card {
+    background: var(--sb-bg-tertiary);
+    border: 1px solid var(--sb-border);
+    border-radius: var(--sb-radius-lg);
+    padding: 20px;
+    transition: all var(--sb-transition-fast);
+    position: relative;
+    overflow: hidden;
+    animation: cardSlideIn 0.3s cubic-bezier(0, 0, 0.2, 1) backwards;
+}
+
+.vehicle-card:nth-child(1) { animation-delay: 0.02s; }
+.vehicle-card:nth-child(2) { animation-delay: 0.06s; }
+.vehicle-card:nth-child(3) { animation-delay: 0.10s; }
+.vehicle-card:nth-child(4) { animation-delay: 0.14s; }
+.vehicle-card:nth-child(5) { animation-delay: 0.18s; }
+.vehicle-card:nth-child(6) { animation-delay: 0.22s; }
+.vehicle-card:nth-child(7) { animation-delay: 0.26s; }
+.vehicle-card:nth-child(8) { animation-delay: 0.30s; }
+.vehicle-card:nth-child(9) { animation-delay: 0.34s; }
+
+@keyframes cardSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.vehicle-card:hover {
+    border-color: var(--sb-accent-hover);
+    transform: translateX(5px);
+    background: var(--sb-bg-elevated);
+}
+
+.vehicle-card.different-garage {
+    border-color: rgba(251, 191, 36, 0.2);
+}
+
+.vehicle-card.different-garage:hover {
+    border-color: rgba(251, 191, 36, 0.4);
+}
+
+/* Card Header */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.card-header h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+    line-height: 1.3;
+}
+
+.vehicle-location {
+    color: var(--sb-text-tertiary);
+    font-size: 0.75rem;
+}
+
+.transfer-fee {
+    color: #fbbf24;
+    font-size: 0.7rem;
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+.plate-badge {
+    font-family: 'Consolas', 'JetBrains Mono', monospace;
+    background: #e2e2e2;
+    color: #1a1a1a;
+    padding: 2px 8px;
+    border-radius: var(--sb-radius-sm);
+    font-weight: 700;
+    font-size: 0.8rem;
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+/* ============================================================================
+   STATUS BARS
+   ============================================================================ */
+
+.status-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.status-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.status-label {
+    font-size: 0.7rem;
+    color: var(--sb-text-secondary);
+    width: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+}
+
+.progress-bg {
+    flex: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.5s ease-out;
+}
+
+.progress-fill.good {
+    background: var(--sb-success);
+}
+
+.progress-fill.warning {
+    background: var(--sb-warning);
+}
+
+.progress-fill.danger {
+    background: var(--sb-error);
+}
+
+.progress-fill.fuel {
+    background: var(--sb-info);
+}
+
+.status-value {
+    font-size: 0.7rem;
+    color: var(--sb-text-tertiary);
+    width: 30px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+/* ============================================================================
+   RETRIEVE BUTTON
+   ============================================================================ */
+
+.btn-retrieve {
+    width: 100%;
+    padding: 12px;
+    background: var(--sb-accent);
+    border: none;
+    border-radius: var(--sb-radius-md);
+    color: var(--sb-text-primary);
+    font-family: var(--sb-font-family);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all var(--sb-transition-fast);
+}
+
+.btn-retrieve:hover:not(:disabled) {
+    background: var(--sb-accent-hover);
+    box-shadow: var(--sb-shadow-glow);
+    transform: translateY(-1px);
+}
+
+.btn-retrieve:active:not(:disabled) {
+    background: var(--sb-accent-active);
+    transform: translateY(0);
+}
+
+.btn-retrieve:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.btn-retrieve [data-lucide] {
+    width: 16px;
+    height: 16px;
+}
+
+/* Transfer variant */
+.btn-retrieve.transfer {
+    background: transparent;
+    border: 1px solid #fbbf24;
+    color: #fbbf24;
+}
+
+.btn-retrieve.transfer:hover:not(:disabled) {
+    background: rgba(251, 191, 36, 0.1);
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
+}
+
+/* ============================================================================
+   EMPTY STATE
+   ============================================================================ */
+
+.empty-state {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--sb-text-tertiary);
+    gap: 15px;
+    padding: 40px;
+}
+
+.empty-state .empty-icon {
+    width: 64px;
+    height: 64px;
+    color: var(--sb-bg-elevated);
+}
+
+.empty-state h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--sb-text-secondary);
+}
+
+.empty-state p {
+    font-size: 0.9rem;
+    max-width: 220px;
+    line-height: 1.5;
+}
+
+/* ============================================================================
+   FOOTER BALANCE
+   ============================================================================ */
+
+.footer-balance {
+    padding-top: 15px;
+    border-top: 1px solid var(--sb-border);
+    display: flex;
+    justify-content: space-between;
+}
+
+.balance-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.balance-item > [data-lucide] {
+    color: var(--sb-success);
+    width: 20px;
+    height: 20px;
+}
+
+.balance-item span {
+    font-size: 0.7rem;
+    color: var(--sb-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+}
+
+.balance-item div {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* ============================================================================
+   EXIT HINT
+   ============================================================================ */
+
+.exit-hint {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    background: var(--sb-bg-tertiary);
+    border: 1px solid var(--sb-border);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: var(--sb-text-secondary);
+    animation: fadeIn 0.5s ease 0.3s backwards;
+}
+
+.keycap {
+    color: var(--sb-accent);
+    font-weight: 800;
+    padding: 0 4px;
+}
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+#garage-container:not(.hidden) {
+    animation: fadeIn 0.2s ease;
+}

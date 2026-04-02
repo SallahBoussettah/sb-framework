@@ -1,0 +1,529 @@
+/*
+    Everyday Chaos RP - Vehicle Shop Styles
+    SB Design System v1.0
+    Author: Salah Eddine Boussettah
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+:root {
+    /* Background Colors */
+    --sb-bg-primary: #0a0a0a;
+    --sb-bg-secondary: #141414;
+    --sb-bg-tertiary: #1a1a1a;
+    --sb-bg-elevated: #242424;
+    --sb-bg-overlay: rgba(0, 0, 0, 0.8);
+
+    /* Accent Color (Brand Orange) */
+    --sb-accent: #ff6b35;
+    --sb-accent-hover: #ff8555;
+    --sb-accent-active: #e55a25;
+    --sb-accent-muted: rgba(255, 107, 53, 0.2);
+    --sb-accent-glow: rgba(255, 107, 53, 0.4);
+
+    /* Text Colors */
+    --sb-text-primary: #ffffff;
+    --sb-text-secondary: #888888;
+    --sb-text-tertiary: #555555;
+
+    /* Status Colors */
+    --sb-success: #22c55e;
+    --sb-success-muted: rgba(34, 197, 94, 0.2);
+    --sb-error: #ef4444;
+    --sb-error-muted: rgba(239, 68, 68, 0.2);
+    --sb-warning: #f59e0b;
+    --sb-info: #3b82f6;
+
+    /* Borders */
+    --sb-border: #2a2a2a;
+    --sb-border-hover: #3a3a3a;
+
+    /* Spacing */
+    --sb-spacing-1: 0.25rem;
+    --sb-spacing-2: 0.5rem;
+    --sb-spacing-3: 0.75rem;
+    --sb-spacing-4: 1rem;
+    --sb-spacing-5: 1.25rem;
+    --sb-spacing-6: 1.5rem;
+    --sb-spacing-8: 2rem;
+
+    /* Radius */
+    --sb-radius-sm: 4px;
+    --sb-radius-md: 8px;
+    --sb-radius-lg: 12px;
+    --sb-radius-xl: 16px;
+    --sb-radius-full: 9999px;
+
+    /* Shadows */
+    --sb-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.5);
+    --sb-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+    --sb-shadow-glow: 0 0 20px var(--sb-accent-glow);
+
+    /* Transitions */
+    --sb-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --sb-transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Font */
+    --sb-font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    font-family: var(--sb-font-family);
+    font-size: 16px;
+    color: var(--sb-text-primary);
+    background: transparent;
+    overflow: hidden;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#app {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--sb-bg-elevated);
+    border-radius: var(--sb-radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--sb-border-hover);
+}
+
+/* ============================================
+   LEFT SIDE PANEL
+   ============================================ */
+
+.dealer-container {
+    width: 450px;
+    height: 100vh;
+    background: var(--sb-bg-primary);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    animation: slideIn 0.5s cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-icon {
+    color: var(--sb-accent);
+    width: 28px;
+    height: 28px;
+}
+
+.header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+}
+
+.header span {
+    color: var(--sb-text-secondary);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ============================================
+   TABS / CATEGORIES
+   ============================================ */
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tab {
+    background: var(--sb-bg-tertiary);
+    border: 1px solid var(--sb-border);
+    padding: 8px 16px;
+    border-radius: var(--sb-radius-md);
+    color: var(--sb-text-secondary);
+    font-family: var(--sb-font-family);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--sb-transition-fast);
+}
+
+.tab:hover {
+    border-color: var(--sb-accent);
+    color: var(--sb-text-primary);
+}
+
+.tab.active {
+    background: var(--sb-accent);
+    border-color: var(--sb-accent);
+    color: var(--sb-text-primary);
+}
+
+/* ============================================
+   VEHICLE LIST
+   ============================================ */
+
+.car-list {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.car-item {
+    background: var(--sb-bg-tertiary);
+    border: 1px solid var(--sb-border);
+    border-radius: var(--sb-radius-lg);
+    padding: 16px;
+    cursor: pointer;
+    transition: all var(--sb-transition-fast);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.car-item:hover {
+    border-color: var(--sb-border-hover);
+    transform: translateX(5px);
+    background: var(--sb-bg-elevated);
+}
+
+.car-item.selected {
+    border-color: var(--sb-accent);
+    box-shadow: var(--sb-shadow-glow);
+}
+
+.car-info h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.car-info p {
+    color: var(--sb-text-secondary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.car-price {
+    color: var(--sb-success);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* ============================================
+   SELECTION PANEL
+   ============================================ */
+
+.selection-panel {
+    background: var(--sb-bg-secondary);
+    border: 1px solid var(--sb-border);
+    border-radius: var(--sb-radius-lg);
+    padding: 24px;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.no-selection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: var(--sb-text-tertiary);
+}
+
+.no-selection-icon {
+    width: 48px;
+    height: 48px;
+    opacity: 0.4;
+}
+
+.no-selection p {
+    font-size: 0.85rem;
+}
+
+.vehicle-details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--sb-border);
+    padding-bottom: 8px;
+}
+
+.detail-label {
+    color: var(--sb-text-secondary);
+    font-size: 0.8rem;
+}
+
+.detail-value {
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+.detail-value.price {
+    color: var(--sb-success);
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    flex: 1;
+    padding: 14px;
+    border-radius: var(--sb-radius-md);
+    font-family: var(--sb-font-family);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all var(--sb-transition-fast);
+}
+
+.btn-primary {
+    background: var(--sb-accent);
+    color: var(--sb-text-primary);
+}
+
+.btn-primary:hover {
+    background: var(--sb-accent-hover);
+    box-shadow: var(--sb-shadow-glow);
+    transform: translateY(-2px);
+}
+
+.btn-primary:active {
+    background: var(--sb-accent-active);
+    transform: translateY(0);
+}
+
+.btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.btn-secondary {
+    background: var(--sb-bg-elevated);
+    color: var(--sb-text-primary);
+    border: 1px solid var(--sb-border);
+}
+
+.btn-secondary:hover {
+    background: var(--sb-bg-tertiary);
+    border-color: var(--sb-border-hover);
+}
+
+/* ============================================
+   WALLET FOOTER
+   ============================================ */
+
+.wallet {
+    display: flex;
+    gap: 20px;
+    padding-top: 10px;
+    border-top: 1px solid var(--sb-border);
+}
+
+.money-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.money-item svg {
+    color: var(--sb-success);
+    width: 18px;
+    height: 18px;
+}
+
+.money-item div {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.money-label {
+    font-size: 0.7rem;
+    color: var(--sb-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+}
+
+/* ============================================
+   EXIT HINT (Top Right)
+   ============================================ */
+
+.exit-hint {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--sb-text-secondary);
+    background: var(--sb-bg-tertiary);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    border: 1px solid var(--sb-border);
+    animation: fadeIn 0.5s 0.3s both;
+}
+
+.keycap {
+    background: var(--sb-bg-elevated);
+    padding: 2px 8px;
+    border-radius: var(--sb-radius-sm);
+    color: var(--sb-accent);
+    font-weight: 700;
+    border: 1px solid var(--sb-border);
+}
+
+/* ============================================
+   PREVIEW CONTROLS (Bottom Right)
+   ============================================ */
+
+.preview-controls {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--sb-bg-tertiary);
+    padding: 12px 20px;
+    border-radius: var(--sb-radius-lg);
+    border: 1px solid var(--sb-border);
+    animation: fadeIn 0.3s ease;
+}
+
+.preview-controls span {
+    color: var(--sb-text-secondary);
+    font-size: 0.8rem;
+}
+
+.rotate-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: var(--sb-radius-md);
+    background: var(--sb-bg-elevated);
+    color: var(--sb-text-primary);
+    cursor: pointer;
+    transition: all var(--sb-transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rotate-btn:hover {
+    background: var(--sb-accent-muted);
+    color: var(--sb-accent);
+}
+
+.rotate-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes itemSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.car-item {
+    animation: itemSlideIn 0.2s ease both;
+}
+
+/* Focus visible only for keyboard navigation */
+:focus-visible {
+    outline: 2px solid var(--sb-accent);
+    outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+    outline: none;
+}

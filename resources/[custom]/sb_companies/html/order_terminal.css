@@ -1,0 +1,645 @@
+/* sb_companies | Order Terminal CSS */
+/* Dark theme: #0c0c0e bg, #ff6b35 accent, no backdrop-filter: blur() */
+
+/* ===== PANEL FRAME ===== */
+#order-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 820px;
+    height: 560px;
+    background: #0c0c0e;
+    border-radius: 12px;
+    border: 1px solid #1f1f22;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(80, 80, 80, 0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: orderIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes orderIn {
+    from { opacity: 0; transform: translate(-50%, -48%) scale(0.94); }
+    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* ===== HEADER ===== */
+.order-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: linear-gradient(180deg, #111113 0%, #0e0e10 100%);
+    border-bottom: 1px solid #1f1f22;
+    flex-shrink: 0;
+}
+
+.order-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.order-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: #ff6b35;
+    background: rgba(255, 107, 53, 0.12);
+    border: 1px solid rgba(255, 107, 53, 0.25);
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+}
+
+.order-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: #e0e0e0;
+    letter-spacing: 1px;
+}
+
+.order-close-btn {
+    background: #1a1a1c;
+    border: 1px solid #2a2a2c;
+    color: #666;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.order-close-btn:hover {
+    background: #ff4757;
+    border-color: #ff4757;
+    color: #fff;
+}
+
+/* ===== COMPANY TABS ===== */
+.order-company-tabs {
+    display: flex;
+    background: #0a0a0c;
+    border-bottom: 1px solid #1a1a1c;
+    flex-shrink: 0;
+}
+
+.order-company-tab {
+    flex: 1;
+    padding: 8px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: #666;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: 1px solid #151517;
+    letter-spacing: 0.5px;
+}
+
+.order-company-tab:last-child {
+    border-right: none;
+}
+
+.order-company-tab:hover {
+    color: #bbb;
+    background: #111113;
+}
+
+.order-company-tab.active {
+    color: #ff6b35;
+    border-bottom-color: #ff6b35;
+    background: rgba(255, 107, 53, 0.04);
+}
+
+/* History tab special */
+.order-company-tab.history-tab {
+    max-width: 120px;
+}
+
+.order-company-tab.history-tab.active {
+    color: #4a9eff;
+    border-bottom-color: #4a9eff;
+    background: rgba(74, 158, 255, 0.04);
+}
+
+/* ===== MAIN CONTENT SPLIT ===== */
+.order-content {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+/* ===== PRODUCT LIST (LEFT) ===== */
+.order-products {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #1a1a1c;
+    overflow: hidden;
+}
+
+.order-products-header {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-bottom: 1px solid #151517;
+    background: #0a0a0c;
+}
+
+.order-search {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    color: #ccc;
+    padding: 2px 0;
+}
+
+.order-search::placeholder {
+    color: #444;
+}
+
+.order-search-icon {
+    color: #444;
+    font-size: 11px;
+    margin-right: 6px;
+}
+
+.order-product-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2px 0;
+}
+
+.order-product-list::-webkit-scrollbar { width: 4px; }
+.order-product-list::-webkit-scrollbar-track { background: transparent; }
+.order-product-list::-webkit-scrollbar-thumb { background: #2a2a2c; border-radius: 2px; }
+.order-product-list::-webkit-scrollbar-thumb:hover { background: #3a3a3c; }
+
+/* Product row */
+.order-product-row {
+    display: flex;
+    align-items: center;
+    padding: 7px 12px;
+    gap: 8px;
+    border-bottom: 1px solid #131315;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.order-product-row:hover {
+    background: #151517;
+}
+
+.order-product-name {
+    flex: 1;
+    font-size: 11px;
+    color: #bbb;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.order-product-category {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 600;
+    color: #555;
+    background: #151517;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.order-product-price {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #2ed573;
+    font-weight: 600;
+    min-width: 50px;
+    text-align: right;
+}
+
+.order-product-stock {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #666;
+    min-width: 35px;
+    text-align: center;
+}
+
+.order-product-stock.out {
+    color: #ff4757;
+}
+
+.order-add-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 107, 53, 0.3);
+    background: rgba(255, 107, 53, 0.1);
+    color: #ff6b35;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.order-add-btn:hover {
+    background: rgba(255, 107, 53, 0.2);
+    border-color: rgba(255, 107, 53, 0.5);
+}
+
+.order-add-btn:disabled {
+    background: #1a1a1c;
+    border-color: #2a2a2c;
+    color: #444;
+    cursor: not-allowed;
+}
+
+/* ===== CART (RIGHT) ===== */
+.order-cart {
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    background: #0a0a0c;
+    flex-shrink: 0;
+}
+
+.order-cart-header {
+    padding: 10px 12px;
+    border-bottom: 1px solid #1a1a1c;
+}
+
+.order-cart-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: #555;
+    letter-spacing: 1.5px;
+}
+
+.order-cart-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #444;
+    margin-left: 6px;
+}
+
+.order-cart-items {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px 0;
+}
+
+.order-cart-items::-webkit-scrollbar { width: 4px; }
+.order-cart-items::-webkit-scrollbar-track { background: transparent; }
+.order-cart-items::-webkit-scrollbar-thumb { background: #2a2a2c; border-radius: 2px; }
+
+/* Cart item row */
+.order-cart-row {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    gap: 6px;
+    border-bottom: 1px solid #111113;
+}
+
+.order-cart-item-name {
+    flex: 1;
+    font-size: 10px;
+    color: #bbb;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.order-cart-item-qty {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.order-cart-qty-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 1px solid #2a2a2c;
+    background: #151517;
+    color: #888;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    padding: 0;
+    line-height: 1;
+}
+
+.order-cart-qty-btn:hover {
+    background: #1f1f22;
+    color: #ccc;
+}
+
+.order-cart-qty-display {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: #ddd;
+    min-width: 18px;
+    text-align: center;
+}
+
+.order-cart-item-total {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #2ed573;
+    font-weight: 600;
+    min-width: 50px;
+    text-align: right;
+}
+
+.order-cart-remove {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #ff4757;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 2px;
+    transition: color 0.15s;
+}
+
+.order-cart-remove:hover {
+    color: #ff6b75;
+}
+
+/* Cart empty */
+.order-cart-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 6px;
+    color: #333;
+    font-size: 11px;
+}
+
+/* Cart footer */
+.order-cart-footer {
+    border-top: 1px solid #1a1a1c;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.order-cart-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.order-cart-total-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #666;
+    letter-spacing: 1px;
+}
+
+.order-cart-total-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+}
+
+/* Payment selector */
+.order-payment {
+    display: flex;
+    gap: 6px;
+}
+
+.order-pay-btn {
+    flex: 1;
+    padding: 6px;
+    background: #151517;
+    border: 1px solid #2a2a2c;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: #888;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+}
+
+.order-pay-btn:hover {
+    background: #1f1f22;
+}
+
+.order-pay-btn.active {
+    background: rgba(255, 107, 53, 0.12);
+    border-color: rgba(255, 107, 53, 0.3);
+    color: #ff6b35;
+}
+
+/* Place order button */
+.order-place-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+}
+
+.order-place-btn:not(:disabled) {
+    background: linear-gradient(135deg, #ff6b35, #e05a2a);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+}
+
+.order-place-btn:not(:disabled):hover {
+    background: linear-gradient(135deg, #ff7b45, #f06a3a);
+    box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
+    transform: translateY(-1px);
+}
+
+.order-place-btn:disabled {
+    background: #1a1a1c;
+    color: #444;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* ===== ORDER HISTORY VIEW ===== */
+.order-history {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.order-history-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2px 0;
+}
+
+.order-history-list::-webkit-scrollbar { width: 4px; }
+.order-history-list::-webkit-scrollbar-track { background: transparent; }
+.order-history-list::-webkit-scrollbar-thumb { background: #2a2a2c; border-radius: 2px; }
+
+.order-history-row {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 10px;
+    border-bottom: 1px solid #131315;
+    transition: background 0.15s;
+}
+
+.order-history-row:hover {
+    background: #131315;
+}
+
+.order-history-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: #ff6b35;
+    min-width: 50px;
+}
+
+.order-history-items-summary {
+    flex: 1;
+    font-size: 10px;
+    color: #bbb;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.order-history-total {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #2ed573;
+    font-weight: 600;
+}
+
+.order-history-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 70px;
+    text-align: center;
+}
+
+.order-status-pending {
+    color: #ffb347;
+    background: rgba(255, 179, 71, 0.1);
+    border: 1px solid rgba(255, 179, 71, 0.15);
+}
+
+.order-status-processing {
+    color: #4a9eff;
+    background: rgba(74, 158, 255, 0.1);
+    border: 1px solid rgba(74, 158, 255, 0.15);
+}
+
+.order-status-ready {
+    color: #2ed573;
+    background: rgba(46, 213, 115, 0.1);
+    border: 1px solid rgba(46, 213, 115, 0.15);
+}
+
+.order-status-in_transit {
+    color: #a855f7;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.15);
+}
+
+.order-status-delivered {
+    color: #2ed573;
+    background: rgba(46, 213, 115, 0.08);
+    border: 1px solid rgba(46, 213, 115, 0.12);
+}
+
+.order-status-cancelled {
+    color: #ff4757;
+    background: rgba(255, 71, 87, 0.1);
+    border: 1px solid rgba(255, 71, 87, 0.15);
+}
+
+.order-history-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #555;
+    min-width: 70px;
+    text-align: right;
+}
+
+.order-history-cancel-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 71, 87, 0.3);
+    background: rgba(255, 71, 87, 0.08);
+    color: #ff4757;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+}
+
+.order-history-cancel-btn:hover {
+    background: rgba(255, 71, 87, 0.2);
+    border-color: rgba(255, 71, 87, 0.5);
+}
+
+/* History empty */
+.order-history-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 8px;
+    color: #333;
+    font-size: 11px;
+    padding: 40px;
+}

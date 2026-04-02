@@ -1,0 +1,509 @@
+/* sb_mechanic_v2 | Crafting & Supplier Tablet CSS */
+/* Same dark theme as diagnostics (#0c0c0e, orange accent #ff6b35) */
+/* No backdrop-filter: blur() per CLAUDE.md */
+
+/* ===== CRAFT DEVICE FRAME ===== */
+#craft-device {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: tabletIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.craft-bezel {
+    width: 820px;
+    height: 560px;
+}
+
+/* ===== QUALITY CHIP ===== */
+.craft-quality-chip {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #151517;
+    border: 1px solid #2a2a2c;
+    border-radius: 6px;
+    padding: 4px 10px;
+}
+
+.craft-quality-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #555;
+}
+
+.craft-quality-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: #cccccc;
+}
+
+/* Quality tier colors */
+.quality-poor      { color: #888888 !important; }
+.quality-standard  { color: #cccccc !important; }
+.quality-good      { color: #2ed573 !important; }
+.quality-excellent { color: #4a9eff !important; }
+.quality-superior  { color: #a855f7 !important; }
+
+/* ===== LEFT PANEL: RECIPE / SUPPLIER LIST ===== */
+.craft-panel-left {
+    width: 38%;
+    display: flex;
+    flex-direction: column;
+    background: #0a0a0c;
+    border-right: 1px solid #1a1a1c;
+}
+
+.craft-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-bottom: 1px solid #1a1a1c;
+    background: #0c0c0e;
+}
+
+.craft-search-bar input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    color: #ccc;
+}
+
+.craft-search-bar input::placeholder {
+    color: #444;
+}
+
+.craft-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2px 0;
+}
+
+.craft-list::-webkit-scrollbar { width: 4px; }
+.craft-list::-webkit-scrollbar-track { background: transparent; }
+.craft-list::-webkit-scrollbar-thumb { background: #2a2a2c; border-radius: 2px; }
+.craft-list::-webkit-scrollbar-thumb:hover { background: #3a3a3c; }
+
+/* Recipe row */
+.craft-row {
+    display: flex;
+    align-items: center;
+    padding: 7px 10px;
+    gap: 8px;
+    border-bottom: 1px solid #131315;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.craft-row:hover {
+    background: #151517;
+}
+
+.craft-row.selected {
+    background: rgba(255, 107, 53, 0.08);
+    border-left: 2px solid #ff6b35;
+}
+
+.craft-row-name {
+    flex: 1;
+    font-size: 11px;
+    color: #bbb;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.craft-row-level {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: rgba(255, 107, 53, 0.1);
+    color: #ff6b35;
+    border: 1px solid rgba(255, 107, 53, 0.2);
+}
+
+.craft-row-amount {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #555;
+}
+
+.craft-row-cancraft {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ff4757;
+    flex-shrink: 0;
+}
+
+.craft-row-cancraft.can {
+    background: #2ed573;
+}
+
+/* Supplier row */
+.supplier-row {
+    display: flex;
+    align-items: center;
+    padding: 7px 10px;
+    gap: 8px;
+    border-bottom: 1px solid #131315;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.supplier-row:hover {
+    background: #151517;
+}
+
+.supplier-row.selected {
+    background: rgba(255, 107, 53, 0.08);
+    border-left: 2px solid #ff6b35;
+}
+
+.supplier-row-name {
+    flex: 1;
+    font-size: 11px;
+    color: #bbb;
+}
+
+.supplier-row-price {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #2ed573;
+    font-weight: 600;
+}
+
+/* ===== RIGHT PANEL: DETAIL VIEW ===== */
+.craft-panel-right {
+    width: 62%;
+    display: flex;
+    flex-direction: column;
+    background: #0c0c0e;
+    overflow-y: auto;
+}
+
+.craft-detail {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 14px;
+    overflow-y: auto;
+}
+
+.craft-detail-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 8px;
+    color: #333;
+    font-size: 12px;
+}
+
+/* Recipe detail content */
+.craft-detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.craft-detail-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: #e0e0e0;
+    letter-spacing: 0.5px;
+}
+
+.craft-detail-result {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #666;
+}
+
+.craft-detail-section {
+    margin-bottom: 10px;
+}
+
+.craft-detail-section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 600;
+    color: #555;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+/* Ingredient rows */
+.ingredient-row {
+    display: flex;
+    align-items: center;
+    padding: 5px 8px;
+    gap: 8px;
+    border-radius: 4px;
+    margin-bottom: 3px;
+    background: #111113;
+}
+
+.ingredient-icon {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ingredient-check {
+    font-size: 12px;
+}
+
+.ingredient-check.has {
+    color: #2ed573;
+}
+
+.ingredient-check.missing {
+    color: #ff4757;
+}
+
+.ingredient-name {
+    flex: 1;
+    font-size: 11px;
+    color: #bbb;
+}
+
+.ingredient-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.ingredient-count.has {
+    color: #2ed573;
+}
+
+.ingredient-count.missing {
+    color: #ff4757;
+}
+
+/* Quality preview */
+.craft-quality-preview {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: #111113;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.craft-quality-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.craft-quality-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.craft-quality-stats {
+    font-size: 9px;
+    color: #666;
+    margin-left: auto;
+}
+
+/* Craft button */
+.craft-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    margin-top: auto;
+}
+
+.craft-btn:not(:disabled) {
+    background: linear-gradient(135deg, #ff6b35, #e05a2a);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+}
+
+.craft-btn:not(:disabled):hover {
+    background: linear-gradient(135deg, #ff7b45, #f06a3a);
+    box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
+    transform: translateY(-1px);
+}
+
+.craft-btn:disabled {
+    background: #1a1a1c;
+    color: #444;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* ===== SUPPLIER DETAIL ===== */
+.supplier-cart {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 10px;
+}
+
+.supplier-cart-header {
+    margin-bottom: 4px;
+}
+
+.supplier-cart-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: #555;
+    letter-spacing: 1.5px;
+}
+
+.supplier-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px;
+    background: #111113;
+    border-radius: 6px;
+}
+
+.supplier-item-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ddd;
+}
+
+.supplier-item-price {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #2ed573;
+}
+
+/* Quantity controls */
+.supplier-qty-controls {
+    display: flex;
+    gap: 6px;
+}
+
+.qty-btn {
+    flex: 1;
+    padding: 8px;
+    background: #151517;
+    border: 1px solid #2a2a2c;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: #888;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.qty-btn:hover {
+    background: #1f1f22;
+    color: #ccc;
+}
+
+.qty-btn.active {
+    background: rgba(255, 107, 53, 0.12);
+    border-color: rgba(255, 107, 53, 0.3);
+    color: #ff6b35;
+}
+
+/* Total */
+.supplier-total {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    background: #111113;
+    border-radius: 6px;
+}
+
+.supplier-total-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #666;
+}
+
+.supplier-total-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.supplier-discount {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #2ed573;
+    margin-left: auto;
+}
+
+/* Payment buttons */
+.supplier-payment {
+    display: flex;
+    gap: 6px;
+}
+
+.pay-btn {
+    flex: 1;
+    padding: 8px;
+    background: #151517;
+    border: 1px solid #2a2a2c;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: #888;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.pay-btn:hover {
+    background: #1f1f22;
+}
+
+.pay-btn.active {
+    background: rgba(255, 107, 53, 0.12);
+    border-color: rgba(255, 107, 53, 0.3);
+    color: #ff6b35;
+}
+
+.supplier-buy-btn {
+    margin-top: auto;
+}
+
+/* Balance display */
+.craft-balance {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #2ed573;
+    font-weight: 600;
+}

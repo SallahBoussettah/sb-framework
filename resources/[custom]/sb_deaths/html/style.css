@@ -1,0 +1,248 @@
+/*
+    Everyday Chaos RP - Death Screen
+    SB Design System (accent: #f97316)
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    user-select: none;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+}
+
+#death-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+#death-screen.visible {
+    display: block;
+    opacity: 1;
+}
+
+/* Vignette - radial gradient from transparent center to dark red/black edges */
+.vignette {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 20%,
+        rgba(0, 0, 0, 0.3) 45%,
+        rgba(40, 0, 0, 0.6) 65%,
+        rgba(60, 5, 5, 0.85) 80%,
+        rgba(30, 0, 0, 0.95) 100%
+    );
+    pointer-events: none;
+    animation: vignettePulse 3s ease-in-out infinite;
+}
+
+@keyframes vignettePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.85; }
+}
+
+/* Content container */
+.content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+/* Skull icon */
+.death-icon {
+    width: 60px;
+    height: 60px;
+    color: #f97316;
+    margin-bottom: 20px;
+    opacity: 0.9;
+    animation: iconFloat 2.5s ease-in-out infinite;
+}
+
+.death-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes iconFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+/* Title (smaller, muted) */
+.title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: rgba(249, 115, 22, 0.8);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+/* Subtitle (larger, white) */
+.subtitle {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 0 30px rgba(249, 115, 22, 0.3);
+    margin-bottom: 30px;
+}
+
+/* Timer */
+.timer-container {
+    margin-bottom: 25px;
+}
+
+.timer {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #ef4444;
+    letter-spacing: 3px;
+    text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+    font-variant-numeric: tabular-nums;
+}
+
+/* Killer info */
+.killer-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.killer-info.visible {
+    opacity: 1;
+}
+
+.killer-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 3px;
+    margin-bottom: 4px;
+}
+
+.killer-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #f97316;
+    letter-spacing: 1px;
+}
+
+/* Action buttons */
+.actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 10px;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.btn-icon {
+    font-size: 1.2rem;
+}
+
+.btn-emergency {
+    background: rgba(249, 115, 22, 0.3);
+    color: #fff;
+    border: 2px solid rgba(249, 115, 22, 0.7);
+    box-shadow: 0 2px 15px rgba(249, 115, 22, 0.2);
+}
+
+.btn-emergency:hover {
+    background: rgba(249, 115, 22, 0.5);
+    border-color: #f97316;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 25px rgba(249, 115, 22, 0.4);
+}
+
+.btn-respawn {
+    background: rgba(239, 68, 68, 0.3);
+    color: #fff;
+    border: 2px solid rgba(239, 68, 68, 0.7);
+    box-shadow: 0 2px 15px rgba(239, 68, 68, 0.2);
+    animation: fadeInUp 0.4s ease forwards;
+}
+
+.btn-respawn:hover {
+    background: rgba(239, 68, 68, 0.5);
+    border-color: #ef4444;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 25px rgba(239, 68, 68, 0.4);
+}
+
+.btn.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Respawn info text */
+.respawn-info {
+    margin-top: 20px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+/* Fade-in animation for content elements */
+.content > * {
+    animation: fadeInUp 0.6s ease forwards;
+    opacity: 0;
+}
+
+.content > *:nth-child(1) { animation-delay: 0.1s; }
+.content > *:nth-child(2) { animation-delay: 0.2s; }
+.content > *:nth-child(3) { animation-delay: 0.3s; }
+.content > *:nth-child(4) { animation-delay: 0.5s; }
+.content > *:nth-child(5) { animation-delay: 0.7s; }
+.content > *:nth-child(6) { animation-delay: 1.0s; }
+.content > *:nth-child(7) { animation-delay: 1.2s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

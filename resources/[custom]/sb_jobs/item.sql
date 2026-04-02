@@ -1,0 +1,2 @@
+INSERT INTO `sb_items` (`name`, `label`, `type`, `category`, `image`, `stackable`, `max_stack`, `useable`, `shouldClose`, `description`)
+VALUES ('newspaper', 'Newspaper', 'item', 'tool', 'newspaper.png', 1, 20, 1, 1, 'A rolled-up newspaper for delivery.');

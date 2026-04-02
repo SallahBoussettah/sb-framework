@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wasabi ATM Terminal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --terminal-bg: #121212;
+            --accent-green: #2ecc71;
+            --accent-dim: rgba(46, 204, 113, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #666666;
+            --border: rgba(255, 255, 255, 0.05);
+            --error: #e74c3c;
+        }
+
+        * { box-sizing: border-box; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
+        
+        body { 
+            background: rgba(0,0,0,0.85); /* Blurred background for FiveM */
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            color: var(--text-main);
+            overflow: hidden;
+        }
+
+        /* ATM Frame */
+        .atm-container {
+            width: 500px;
+            background: var(--terminal-bg);
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 0 50px rgba(0,0,0,1), 0 0 20px rgba(46, 204, 113, 0.05);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Top Bar */
+        .atm-header {
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(to bottom, #181818, #121212);
+        }
+        .atm-header h1 { font-size: 14px; letter-spacing: 4px; color: var(--accent-green); font-weight: 800; text-transform: uppercase; }
+        .atm-header p { font-size: 11px; color: var(--text-dim); margin-top: 5px; }
+
+        .screen-content { padding: 30px; min-height: 450px; display: flex; flex-direction: column; }
+
+        /* Screen States */
+        .screen { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100%; animation: fadeIn 0.3s ease; }
+        .screen.active { display: flex; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+
+        /* PIN Pad Styles */
+        .pin-display {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .pin-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            transition: 0.2s;
+        }
+        .pin-dot.filled { background: var(--accent-green); border-color: var(--accent-green); box-shadow: 0 0 10px var(--accent-green); }
+
+        .numpad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 280px;
+        }
+        .num-btn {
+            background: #1a1a1a;
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .num-btn:hover { background: var(--accent-dim); border-color: var(--accent-green); color: var(--accent-green); }
+        .num-btn.action { font-size: 14px; text-transform: uppercase; }
+        .num-btn.clear { color: var(--error); }
+        .num-btn.enter { color: var(--accent-green); }
+
+        /* Menu Styles */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+        }
+        .menu-btn {
+            background: #1a1a1a;
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 25px 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .menu-btn:hover { background: var(--accent-dim); border-color: var(--accent-green); }
+        .menu-btn i { font-size: 20px; color: var(--accent-green); }
+        .menu-btn span { font-size: 13px; font-weight: 600; }
+
+        /* Withdraw Presets */
+        .amount-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+        }
+        .amt-btn {
+            background: var(--accent-dim);
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+        }
+        .amt-btn:hover { background: var(--accent-green); color: #000; }
+
+        .footer-note {
+            margin-top: auto;
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-dim);
+        }
+
+        /* Success Animation */
+        .success-icon { font-size: 60px; color: var(--accent-green); margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="atm-container">
+        <div class="atm-header">
+            <h1>Wasabi Bank</h1>
+            <p>Secure ATM Terminal #042</p>
+        </div>
+
+        <div class="screen-content">
+            
+            <!-- Screen 1: PIN Entry -->
+            <div id="screen-pin" class="screen active">
+                <p style="margin-bottom: 20px; font-size: 14px; color: var(--text-dim);">Please enter your 4-digit PIN</p>
+                <div class="pin-display">
+                    <div class="pin-dot"></div>
+                    <div class="pin-dot"></div>
+                    <div class="pin-dot"></div>
+                    <div class="pin-dot"></div>
+                </div>
+                <div class="numpad">
+                    <button class="num-btn" onclick="pressNum(1)">1</button>
+                    <button class="num-btn" onclick="pressNum(2)">2</button>
+                    <button class="num-btn" onclick="pressNum(3)">3</button>
+                    <button class="num-btn" onclick="pressNum(4)">4</button>
+                    <button class="num-btn" onclick="pressNum(5)">5</button>
+                    <button class="num-btn" onclick="pressNum(6)">6</button>
+                    <button class="num-btn" onclick="pressNum(7)">7</button>
+                    <button class="num-btn" onclick="pressNum(8)">8</button>
+                    <button class="num-btn" onclick="pressNum(9)">9</button>
+                    <button class="num-btn action clear" onclick="clearPin()">CLR</button>
+                    <button class="num-btn" onclick="pressNum(0)">0</button>
+                    <button class="num-btn action enter" onclick="submitPin()">OK</button>
+                </div>
+            </div>
+
+            <!-- Screen 2: Main Menu -->
+            <div id="screen-menu" class="screen">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <p style="font-size: 12px; color: var(--text-dim);">Current Balance</p>
+                    <h2 style="font-size: 28px; color: var(--accent-green);">$43,892</h2>
+                </div>
+                <div class="menu-grid">
+                    <div class="menu-btn" onclick="changeScreen('screen-withdraw')">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <span>Withdraw</span>
+                    </div>
+                    <div class="menu-btn">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Fast Cash ($100)</span>
+                    </div>
+                    <div class="menu-btn">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>Transfer</span>
+                    </div>
+                    <div class="menu-btn" onclick="window.location.reload()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Exit</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Screen 3: Withdraw Presets -->
+            <div id="screen-withdraw" class="screen">
+                <h3 style="margin-bottom: 20px;">Select Amount</h3>
+                <div class="amount-grid">
+                    <div class="amt-btn">$50</div>
+                    <div class="amt-btn">$100</div>
+                    <div class="amt-btn">$500</div>
+                    <div class="amt-btn">$1,000</div>
+                    <div class="amt-btn">$5,000</div>
+                    <div class="amt-btn" style="background: var(--card-bg); border-color: var(--border); color: #fff;">Other</div>
+                </div>
+                <button onclick="changeScreen('screen-menu')" style="margin-top: 30px; background: transparent; border: none; color: var(--text-dim); cursor: pointer;"><i class="fas fa-chevron-left"></i> Back to Menu</button>
+            </div>
+
+            <!-- Screen 4: Success -->
+            <div id="screen-success" class="screen">
+                <i class="fas fa-check-circle success-icon"></i>
+                <h2>Transaction Success</h2>
+                <p style="color: var(--text-dim); margin-top: 10px;">Please take your cash and receipt.</p>
+                <button class="amt-btn" style="margin-top: 40px; width: 200px;" onclick="window.location.reload()">Finish</button>
+            </div>
+
+            <div class="footer-note">
+                <i class="fas fa-shield-alt"></i> Encrypted Transaction
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPin = "";
+
+        function pressNum(num) {
+            if (currentPin.length < 4) {
+                currentPin += num;
+                updatePinDisplay();
+            }
+            if (currentPin.length === 4) {
+                // Auto submit or wait for "OK"
+                setTimeout(submitPin, 500);
+            }
+        }
+
+        function clearPin() {
+            currentPin = "";
+            updatePinDisplay();
+        }
+
+        function updatePinDisplay() {
+            const dots = document.querySelectorAll('.pin-dot');
+            dots.forEach((dot, index) => {
+                if (index < currentPin.length) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            });
+        }
+
+        function submitPin() {
+            if (currentPin.length === 4) {
+                changeScreen('screen-menu');
+            }
+        }
+
+        function changeScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        // Mocking a withdrawal click
+        document.querySelectorAll('.amt-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if(btn.innerText !== "Other" && btn.innerText !== "Finish") {
+                    changeScreen('screen-success');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

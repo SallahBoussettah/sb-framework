@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drug Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="shop-container" class="hidden">
+        <div class="shop-sidebar">
+            <div class="shop-logo">
+                <i class="fas fa-skull-crossbones"></i>
+                <span id="shop-name">Dealer</span>
+            </div>
+            <div class="shop-items-list" id="items-list"></div>
+            <div class="shop-balance">
+                <div class="balance-row">
+                    <i class="fas fa-wallet"></i>
+                    <span>Cash: $<span id="balance-cash">0</span></span>
+                </div>
+                <div class="balance-row">
+                    <i class="fas fa-building-columns"></i>
+                    <span>Bank: $<span id="balance-bank">0</span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="shop-cart">
+            <div class="cart-header">
+                <i class="fas fa-cart-shopping"></i>
+                <span>Cart</span>
+                <span class="cart-count" id="cart-count">0</span>
+                <button class="close-btn" id="close-btn">
+                    <i class="fas fa-xmark"></i>
+                </button>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <div class="cart-empty">
+                    <i class="fas fa-basket-shopping"></i>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total</span>
+                    <span id="cart-total">$0</span>
+                </div>
+                <button class="checkout-btn" id="checkout-btn" disabled>
+                    <i class="fas fa-money-bill-wave"></i>
+                    Purchase
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

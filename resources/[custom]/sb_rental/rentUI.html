@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everyday Chaos RP - Vehicle Rentals</title>
+    <!-- Font Import -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icon Library -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            /* Design System Core */
+            --sb-bg-primary: #0a0a0a;
+            --sb-bg-secondary: #141414;
+            --sb-bg-tertiary: #1a1a1a;
+            --sb-bg-elevated: #242424;
+            --sb-accent: #ff6b35;
+            --sb-accent-hover: #ff8555;
+            --sb-text-primary: #ffffff;
+            --sb-text-secondary: #888888;
+            --sb-text-tertiary: #555555;
+            --sb-success: #22c55e;
+            --sb-border: #2a2a2a;
+            --sb-radius-lg: 12px;
+            --sb-radius-md: 8px;
+            --sb-shadow-glow: 0 0 20px rgba(255, 107, 53, 0.2);
+            --sb-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+
+        body {
+            width: 100vw; height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background: transparent;
+            color: var(--sb-text-primary);
+            overflow: hidden;
+            display: flex;
+        }
+
+        /* Side Panel Container */
+        .rental-panel {
+            width: 450px;
+            height: 100vh;
+            background: linear-gradient(to right, var(--sb-bg-primary) 0%, rgba(10, 10, 10, 0.9) 85%, transparent 100%);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Header */
+        .header { display: flex; align-items: center; gap: 15px; }
+        .header-icon { 
+            color: var(--sb-accent);
+            background: var(--sb-bg-secondary);
+            padding: 10px;
+            border-radius: var(--sb-radius-md);
+            border: 1px solid var(--sb-border);
+        }
+        .header h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; }
+        .header span { color: var(--sb-text-secondary); font-size: 0.75rem; text-transform: uppercase; display: block; }
+
+        /* Categories (Tabs) */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            background: var(--sb-bg-secondary);
+            padding: 5px;
+            border-radius: var(--sb-radius-md);
+            border: 1px solid var(--sb-border);
+        }
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--sb-text-secondary);
+            cursor: pointer;
+            border-radius: 6px;
+            transition: var(--sb-transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .tab:hover { color: var(--sb-text-primary); }
+        .tab.active {
+            background: var(--sb-accent);
+            color: white;
+            box-shadow: var(--sb-shadow-glow);
+        }
+
+        /* Vehicle List */
+        .vehicle-list {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .vehicle-list::-webkit-scrollbar { width: 4px; }
+        .vehicle-list::-webkit-scrollbar-thumb { background: var(--sb-bg-elevated); border-radius: 10px; }
+
+        /* Rental Card */
+        .rental-card {
+            background: var(--sb-bg-tertiary);
+            border: 1px solid var(--sb-border);
+            border-radius: var(--sb-radius-lg);
+            padding: 18px;
+            cursor: pointer;
+            transition: var(--sb-transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .rental-card:hover {
+            border-color: var(--sb-text-tertiary);
+            transform: translateX(5px);
+            background: var(--sb-bg-elevated);
+        }
+        .rental-card.selected {
+            border-color: var(--sb-accent);
+            box-shadow: var(--sb-shadow-glow);
+            background: var(--sb-bg-elevated);
+        }
+
+        .card-info h3 { font-size: 1rem; font-weight: 600; margin-bottom: 2px; }
+        .card-info p { color: var(--sb-text-tertiary); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .card-price {
+            text-align: right;
+            color: var(--sb-success);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .card-price span { display: block; font-size: 0.6rem; color: var(--sb-text-tertiary); text-transform: uppercase; }
+
+        /* Summary Panel */
+        .summary-panel {
+            background: var(--sb-bg-secondary);
+            border: 1px solid var(--sb-border);
+            border-radius: var(--sb-radius-lg);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .summary-row { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--sb-text-secondary); }
+        .summary-row b { color: var(--sb-text-primary); }
+
+        .btn-rent {
+            width: 100%;
+            padding: 14px;
+            background: var(--sb-accent);
+            border: none;
+            border-radius: var(--sb-radius-md);
+            color: white;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: var(--sb-transition);
+            margin-top: 5px;
+        }
+        .btn-rent:hover { background: var(--sb-accent-hover); box-shadow: var(--sb-shadow-glow); transform: translateY(-2px); }
+
+        /* Footer Balances */
+        .wallet {
+            padding-top: 15px;
+            border-top: 1px solid var(--sb-border);
+            display: flex; justify-content: space-between;
+        }
+        .money-item { display: flex; align-items: center; gap: 10px; }
+        .money-item i { color: var(--sb-success); }
+        .money-label { font-size: 0.65rem; color: var(--sb-text-tertiary); text-transform: uppercase; display: block; }
+        .money-value { font-weight: 600; font-size: 1rem; }
+
+        /* Exit Hint */
+        .exit-hint {
+            position: absolute; top: 40px; right: 40px;
+            background: var(--sb-bg-tertiary);
+            border: 1px solid var(--sb-border);
+            padding: 8px 16px; border-radius: 20px;
+            font-size: 0.8rem; color: var(--sb-text-secondary);
+        }
+        .keycap { color: var(--sb-accent); font-weight: 800; padding: 0 4px; }
+    </style>
+</head>
+<body>
+
+    <div class="rental-panel">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-icon">
+                <i data-lucide="key" size="24"></i>
+            </div>
+            <div>
+                <span>Mirror Park</span>
+                <h1>Vehicle Rentals</h1>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="tabs">
+            <div class="tab active"><i data-lucide="bike" size="16"></i> Bicycles</div>
+            <div class="tab"><i data-lucide="motorcycle" size="16"></i> Scooters</div>
+            <div class="tab"><i data-lucide="car" size="16"></i> Cars</div>
+        </div>
+
+        <!-- Vehicle List -->
+        <div class="vehicle-list" id="vehicleList">
+            
+            <div class="rental-card selected">
+                <div class="card-info">
+                    <h3>BMX</h3>
+                    <p>Standard Bicycle</p>
+                </div>
+                <div class="card-price">
+                    $25
+                    <span>Per Day</span>
+                </div>
+            </div>
+
+            <div class="rental-card">
+                <div class="card-info">
+                    <h3>Cruiser</h3>
+                    <p>City Bicycle</p>
+                </div>
+                <div class="card-price">
+                    $30
+                    <span>Per Day</span>
+                </div>
+            </div>
+
+            <div class="rental-card">
+                <div class="card-info">
+                    <h3>Scorcher</h3>
+                    <p>Mountain Bike</p>
+                </div>
+                <div class="card-price">
+                    $35
+                    <span>Per Day</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Summary & Actions -->
+        <div class="summary-panel">
+            <div class="summary-row">
+                <span>Selected</span>
+                <b id="selName">BMX</b>
+            </div>
+            <div class="summary-row">
+                <span>Rental Period</span>
+                <b>24 Hours</b>
+            </div>
+            <div class="summary-row" style="border-top: 1px solid var(--sb-border); padding-top: 10px; margin-top: 5px;">
+                <span>Total Due</span>
+                <b style="color: var(--sb-accent); font-size: 1rem;" id="selPrice">$25.00</b>
+            </div>
+
+            <button class="btn-rent">
+                <i data-lucide="check-circle" size="18"></i> Confirm Rental
+            </button>
+        </div>
+
+        <!-- Wallet Info -->
+        <div class="wallet">
+            <div class="money-item">
+                <i data-lucide="banknote"></i>
+                <div>
+                    <span class="money-label">Cash</span>
+                    <div class="money-value">$450</div>
+                </div>
+            </div>
+            <div class="money-item">
+                <i data-lucide="landmark"></i>
+                <div>
+                    <span class="money-label">Bank</span>
+                    <div class="money-value">$22,200</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right side exit hint -->
+    <div class="exit-hint">
+        Press <span class="keycap">ESC</span> to cancel rental
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Selection Logic for Demo
+        const cards = document.querySelectorAll('.rental-card');
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                cards.forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+
+                const name = card.querySelector('h3').innerText;
+                const price = card.querySelector('.card-price').childNodes[0].textContent.trim();
+                
+                document.getElementById('selName').innerText = name;
+                document.getElementById('selPrice').innerText = price + ".00";
+            });
+        });
+
+        // Close logic
+        window.addEventListener('keyup', (e) => {
+            if (e.key === 'Escape') {
+                console.log("Closing Rental UI");
+                // fetch(`https://${GetParentResourceName()}/close`, { method: 'POST' });
+            }
+        });
+    </script>
+</body>
+</html>

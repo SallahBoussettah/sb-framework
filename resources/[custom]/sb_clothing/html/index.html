@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wardrobe</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="app" class="hidden">
+        <!-- Left Panel - Wardrobe -->
+        <div class="panel panel-left">
+            <div class="panel-header">
+                <h1 class="panel-title">WARDROBE</h1>
+                <p class="panel-subtitle">CHARACTER CUSTOMIZATION</p>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="category-tabs" id="categoryTabs">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Store Content (browsing/buying) -->
+            <div id="storeContent">
+                <!-- Component Tabs (within category) -->
+                <div class="component-tabs" id="componentTabs">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Drawable Slider -->
+                <div class="drawable-control">
+                    <div class="drawable-slider">
+                        <button class="slider-btn" onclick="changeDrawable(-1)"><i class="fas fa-chevron-left"></i></button>
+                        <div class="slider-track">
+                            <div class="slider-fill" id="sliderFill"></div>
+                        </div>
+                        <button class="slider-btn" onclick="changeDrawable(1)"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="drawable-info">
+                        <span id="drawableLabel">Style</span>
+                        <span id="drawableValue">0 / 0</span>
+                    </div>
+                </div>
+
+                <!-- Clothing Grid Preview -->
+                <div class="clothing-grid" id="clothingGrid">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Texture Selector -->
+                <div class="texture-control">
+                    <span class="texture-label">VARIATION</span>
+                    <div class="texture-selector">
+                        <button class="texture-btn" onclick="changeTexture(-1)"><i class="fas fa-chevron-left"></i></button>
+                        <span id="textureValue">1 / 1</span>
+                        <button class="texture-btn" onclick="changeTexture(1)"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Add to Cart Button -->
+                <div class="add-section">
+                    <button class="btn-add-cart" onclick="addToCart()">
+                        <i class="fas fa-plus"></i> ADD TO CART
+                    </button>
+                    <span class="item-price" id="itemPrice">$0</span>
+                </div>
+            </div>
+
+            <!-- Wardrobe Content (viewing owned items) -->
+            <div id="wardrobeContent" class="hidden">
+                <div class="wardrobe-header">
+                    <h3>MY PURCHASED ITEMS</h3>
+                    <p>Click an item to equip it (free)</p>
+                </div>
+                <div class="wardrobe-items" id="wardrobeItems">
+                    <!-- Populated by JS -->
+                </div>
+                <div class="wardrobe-actions">
+                    <button class="btn-save-wardrobe" onclick="saveWardrobeChanges()">
+                        <i class="fas fa-save"></i> SAVE OUTFIT
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center - Character Preview Area (transparent for ped view) -->
+        <div class="center-area"></div>
+
+        <!-- Right Panel - Identity & Cart -->
+        <div class="panel panel-right">
+            <div class="panel-header">
+                <h1 class="panel-title">IDENTITY</h1>
+                <p class="panel-subtitle">CITIZEN PROFILE</p>
+            </div>
+
+            <!-- Player Info -->
+            <div class="player-info">
+                <div class="info-row">
+                    <span class="info-label">NAME</span>
+                    <span class="info-value" id="playerName">Unknown</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">CITIZEN ID</span>
+                    <span class="info-value" id="playerCitizenId">EC-00000</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">STORE</span>
+                    <span class="info-value" id="storeName">Clothing Store</span>
+                </div>
+            </div>
+
+            <!-- Money Bars -->
+            <div class="money-bars">
+                <div class="money-bar">
+                    <div class="bar-header">
+                        <span>CASH</span>
+                        <span id="cashDisplay">$0</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill cash-fill" id="cashBar"></div>
+                    </div>
+                </div>
+                <div class="money-bar">
+                    <div class="bar-header">
+                        <span>BANK</span>
+                        <span id="bankDisplay">$0</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill bank-fill" id="bankBar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Selected Items (Cart) -->
+            <div class="selected-items">
+                <h3 class="section-title">SELECTED ITEMS</h3>
+                <div class="items-list" id="cartItems">
+                    <div class="empty-cart">No items selected</div>
+                </div>
+            </div>
+
+            <!-- Total & Purchase -->
+            <div class="purchase-section">
+                <div class="total-row">
+                    <div class="total-info">
+                        <span class="total-label">TOTAL COST</span>
+                        <span class="total-value" id="totalCost">$0</span>
+                    </div>
+                    <div class="balance-info">
+                        <span class="balance-label">BALANCE AFTER</span>
+                        <span class="balance-value" id="balanceAfter">$0</span>
+                    </div>
+                </div>
+                <button class="btn-purchase" onclick="checkout()">
+                    <i class="fas fa-check-circle"></i>
+                    COMPLETE PURCHASE
+                </button>
+                <button class="btn-cancel" onclick="cancelShopping()">
+                    <i class="fas fa-times"></i>
+                    CANCEL
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="death-screen">
+        <!-- Vignette overlay -->
+        <div class="vignette"></div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="death-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6v2h8v-2c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"/>
+                    <circle cx="9.5" cy="8.5" r="1.5"/>
+                    <circle cx="14.5" cy="8.5" r="1.5"/>
+                    <path d="M9 12h6"/>
+                    <path d="M10 17v3"/>
+                    <path d="M14 17v3"/>
+                </svg>
+            </div>
+
+            <h2 class="title" id="title">YOU ARE DYING</h2>
+            <h1 class="subtitle" id="subtitle">BLEEDOUT IMMINENT</h1>
+
+            <div class="timer-container">
+                <span class="timer" id="timer">00:00</span>
+            </div>
+
+            <div class="killer-info" id="killer-section">
+                <span class="killer-label" id="killer-label">KILLED BY</span>
+                <span class="killer-name" id="killer-name">Unknown</span>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-emergency" id="btn-emergency">
+                    <span class="btn-icon">&#9742;</span>
+                    <span id="btn-emergency-text">CALL EMERGENCY</span>
+                </button>
+                <button class="btn btn-respawn" id="btn-respawn" style="display:none;">
+                    <span class="btn-icon">&#9960;</span>
+                    <span>RESPAWN ($500)</span>
+                </button>
+            </div>
+
+            <div class="respawn-info" id="respawn-info">
+                You will be able to respawn when the timer expires
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

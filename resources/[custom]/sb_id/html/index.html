@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government ID</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- APPLICATION FORM -->
+    <div id="form-container" class="hidden">
+        <div class="form-card">
+            <div class="form-header">
+                <i class="fa-solid fa-building-columns"></i>
+                <div>
+                    <h2>City Hall</h2>
+                    <p id="form-subtitle">ID Card Application</p>
+                </div>
+            </div>
+            <div class="form-body">
+                <label for="address-input">Residential Address</label>
+                <input type="text" id="address-input" placeholder="e.g. 124 Vespucci Blvd, Los Santos, SA 90210" maxlength="100" />
+                <p class="form-hint">This address will appear on your ID card.</p>
+
+                <label>Card Style</label>
+                <div class="theme-picker">
+                    <button type="button" class="theme-option selected" data-theme="white">
+                        <div class="theme-preview theme-preview-white"></div>
+                        <span>Classic</span>
+                    </button>
+                    <button type="button" class="theme-option" data-theme="black">
+                        <div class="theme-preview theme-preview-black"></div>
+                        <span>Dark</span>
+                    </button>
+                </div>
+
+                <div class="form-cost">
+                    Fee: <span id="form-cost-value">$50</span>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button id="btn-cancel" class="btn btn-cancel">Cancel</button>
+                <button id="btn-submit" class="btn btn-submit">Submit Application</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ID CARD DISPLAY -->
+    <div id="card-container" class="hidden">
+        <div class="id-card">
+            <!-- Expired stamp -->
+            <div id="expired-overlay" class="expired-overlay hidden">
+                <span>EXPIRED</span>
+            </div>
+
+            <!-- Top blue header bar -->
+            <div class="card-header">
+                <div class="header-left">
+                    <span class="header-state">Everyday Chaos</span>
+                    <span class="header-country">USA</span>
+                </div>
+                <div class="header-right">
+                    <span class="header-title">IDENTIFICATION CARD</span>
+                </div>
+            </div>
+
+            <!-- Thin accent line -->
+            <div class="card-accent-line"></div>
+
+            <!-- Main body -->
+            <div class="card-body">
+                <!-- Left column: photo + signature -->
+                <div class="card-left">
+                    <div class="photo-frame" id="photo-frame">
+                        <i class="fa-solid fa-user photo-placeholder"></i>
+                    </div>
+                    <div class="signature-area">
+                        <span class="signature-text" id="card-signature">---</span>
+                        <div class="signature-line"></div>
+                    </div>
+                </div>
+
+                <!-- Right column: fields -->
+                <div class="card-right">
+                    <!-- ID Number -->
+                    <div class="field-row">
+                        <span class="field-label">ID</span>
+                        <span class="field-value field-id" id="card-citizenid">---</span>
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="field-row">
+                        <span class="field-label">LN</span>
+                        <span class="field-value" id="card-lastname">---</span>
+                    </div>
+
+                    <!-- First Name -->
+                    <div class="field-row">
+                        <span class="field-label">FN</span>
+                        <span class="field-value" id="card-firstname">---</span>
+                    </div>
+
+                    <!-- Address -->
+                    <div class="field-row">
+                        <span class="field-value field-address" id="card-address">---</span>
+                    </div>
+
+                    <!-- DOB row -->
+                    <div class="field-row">
+                        <span class="field-label">DOB</span>
+                        <span class="field-value" id="card-dob">---</span>
+                    </div>
+
+                    <!-- Physical characteristics row -->
+                    <div class="field-row field-row-multi">
+                        <div class="field-inline">
+                            <span class="field-label">SEX</span>
+                            <span class="field-value" id="card-gender">---</span>
+                        </div>
+                        <div class="field-inline">
+                            <span class="field-label">HAIR</span>
+                            <span class="field-value" id="card-hair">BLK</span>
+                        </div>
+                        <div class="field-inline">
+                            <span class="field-label">EYES</span>
+                            <span class="field-value" id="card-eyes">BRN</span>
+                        </div>
+                    </div>
+
+                    <div class="field-row field-row-multi">
+                        <div class="field-inline">
+                            <span class="field-label">HGT</span>
+                            <span class="field-value" id="card-height">5'10</span>
+                        </div>
+                        <div class="field-inline">
+                            <span class="field-label">WGT</span>
+                            <span class="field-value" id="card-weight">175 lb</span>
+                        </div>
+                        <div class="field-inline">
+                            <span class="field-label">BLD</span>
+                            <span class="field-value" id="card-bloodtype">---</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom dates bar -->
+            <div class="card-footer">
+                <div class="footer-item">
+                    <span class="footer-label">ISS</span>
+                    <span class="footer-value" id="card-issued">---</span>
+                </div>
+                <div class="footer-item">
+                    <span class="footer-label">EXP</span>
+                    <span class="footer-value" id="card-expiry">---</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

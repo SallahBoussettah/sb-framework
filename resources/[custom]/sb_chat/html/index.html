@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sb_chat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=3">
+</head>
+<body>
+    <div id="chat-container">
+        <!-- Message History -->
+        <div id="message-list"></div>
+
+        <!-- Chat Input -->
+        <div id="input-area" class="hidden">
+            <span class="input-prefix">&#10095;</span>
+            <input type="text" id="chat-input" placeholder="Type a message or /command..." autocomplete="off" maxlength="256">
+        </div>
+
+        <!-- Command Suggestions (below input) -->
+        <div id="command-suggestions" class="hidden"></div>
+    </div>
+
+    <script src="script.js?v=3"></script>
+</body>
+</html>

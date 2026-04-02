@@ -1,0 +1,685 @@
+/* sb_companies | Company Management Dashboard CSS */
+/* Dark theme: #0c0c0e bg, #ff6b35 accent, no backdrop-filter: blur() */
+
+/* ===== PANEL FRAME ===== */
+#management-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 860px;
+    height: 580px;
+    background: #0c0c0e;
+    border-radius: 12px;
+    border: 1px solid #1f1f22;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(80, 80, 80, 0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: mgmtIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes mgmtIn {
+    from { opacity: 0; transform: translate(-50%, -48%) scale(0.94); }
+    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* ===== HEADER ===== */
+.mgmt-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: linear-gradient(180deg, #111113 0%, #0e0e10 100%);
+    border-bottom: 1px solid #1f1f22;
+    flex-shrink: 0;
+}
+
+.mgmt-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mgmt-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: #ff6b35;
+    background: rgba(255, 107, 53, 0.12);
+    border: 1px solid rgba(255, 107, 53, 0.25);
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+}
+
+.mgmt-title-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.mgmt-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: #e0e0e0;
+    letter-spacing: 1px;
+}
+
+.mgmt-subtitle {
+    font-size: 9px;
+    color: #555;
+    margin-top: -1px;
+}
+
+.mgmt-close-btn {
+    background: #1a1a1c;
+    border: 1px solid #2a2a2c;
+    color: #666;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.mgmt-close-btn:hover {
+    background: #ff4757;
+    border-color: #ff4757;
+    color: #fff;
+}
+
+/* ===== TAB BAR ===== */
+.mgmt-tabs {
+    display: flex;
+    background: #0a0a0c;
+    border-bottom: 1px solid #1a1a1c;
+    flex-shrink: 0;
+}
+
+.mgmt-tab {
+    padding: 8px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    letter-spacing: 0.5px;
+}
+
+.mgmt-tab:hover {
+    color: #bbb;
+    background: #111113;
+}
+
+.mgmt-tab.active {
+    color: #ff6b35;
+    border-bottom-color: #ff6b35;
+    background: rgba(255, 107, 53, 0.04);
+}
+
+/* ===== CONTENT ===== */
+.mgmt-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+}
+
+.mgmt-content::-webkit-scrollbar { width: 4px; }
+.mgmt-content::-webkit-scrollbar-track { background: transparent; }
+.mgmt-content::-webkit-scrollbar-thumb { background: #2a2a2c; border-radius: 2px; }
+
+/* ===== OVERVIEW TAB ===== */
+.mgmt-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.mgmt-stat-card {
+    background: #111113;
+    border: 1px solid #1f1f22;
+    border-radius: 8px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mgmt-stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 600;
+    color: #555;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.mgmt-stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: #e0e0e0;
+}
+
+.mgmt-stat-value.money {
+    color: #2ed573;
+}
+
+.mgmt-stat-sub {
+    font-size: 9px;
+    color: #555;
+}
+
+/* Recent activity */
+.mgmt-section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: #555;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.mgmt-activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.mgmt-activity-row {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    gap: 10px;
+    background: #111113;
+    border-radius: 4px;
+}
+
+.mgmt-activity-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #555;
+    min-width: 60px;
+}
+
+.mgmt-activity-text {
+    flex: 1;
+    font-size: 10px;
+    color: #bbb;
+}
+
+.mgmt-activity-amount {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    min-width: 60px;
+    text-align: right;
+}
+
+.mgmt-activity-amount.income {
+    color: #2ed573;
+}
+
+.mgmt-activity-amount.expense {
+    color: #ff4757;
+}
+
+/* ===== CATALOG TAB ===== */
+.mgmt-catalog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.mgmt-catalog-row {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 10px;
+    background: #111113;
+    border-radius: 4px;
+    transition: background 0.15s;
+}
+
+.mgmt-catalog-row:hover {
+    background: #151517;
+}
+
+.mgmt-catalog-name {
+    flex: 1;
+    font-size: 11px;
+    color: #bbb;
+}
+
+.mgmt-catalog-category {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 600;
+    color: #555;
+    background: #1a1a1c;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.mgmt-catalog-cost {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #666;
+    min-width: 55px;
+    text-align: right;
+}
+
+.mgmt-catalog-price-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.mgmt-price-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 1px solid #2a2a2c;
+    background: #151517;
+    color: #888;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    padding: 0;
+    line-height: 1;
+}
+
+.mgmt-price-btn:hover {
+    background: #1f1f22;
+    color: #ccc;
+}
+
+.mgmt-catalog-price {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: #2ed573;
+    min-width: 60px;
+    text-align: center;
+}
+
+.mgmt-price-save-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: none;
+    background: linear-gradient(135deg, #ff6b35, #e05a2a);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.mgmt-price-save-btn:hover {
+    background: linear-gradient(135deg, #ff7b45, #f06a3a);
+}
+
+/* ===== EMPLOYEES TAB ===== */
+.mgmt-employees-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.mgmt-hire-form {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mgmt-hire-input {
+    background: #111113;
+    border: 1px solid #2a2a2c;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    color: #ccc;
+    outline: none;
+    width: 180px;
+    transition: border-color 0.2s;
+}
+
+.mgmt-hire-input:focus {
+    border-color: rgba(255, 107, 53, 0.4);
+}
+
+.mgmt-hire-input::placeholder {
+    color: #444;
+}
+
+.mgmt-role-select {
+    background: #111113;
+    border: 1px solid #2a2a2c;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #ccc;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.mgmt-hire-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: none;
+    background: linear-gradient(135deg, #2ed573, #25b862);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.mgmt-hire-btn:hover {
+    background: linear-gradient(135deg, #3ee583, #2ed573);
+    box-shadow: 0 2px 8px rgba(46, 213, 115, 0.3);
+}
+
+.mgmt-employee-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.mgmt-employee-row {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 10px;
+    background: #111113;
+    border-radius: 4px;
+    transition: background 0.15s;
+}
+
+.mgmt-employee-row:hover {
+    background: #151517;
+}
+
+.mgmt-employee-name {
+    flex: 1;
+    font-size: 11px;
+    color: #bbb;
+}
+
+.mgmt-employee-cid {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #555;
+}
+
+.mgmt-employee-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.mgmt-role-worker {
+    color: #4a9eff;
+    background: rgba(74, 158, 255, 0.1);
+    border: 1px solid rgba(74, 158, 255, 0.15);
+}
+
+.mgmt-role-driver {
+    color: #a855f7;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.15);
+}
+
+.mgmt-role-manager {
+    color: #ff6b35;
+    background: rgba(255, 107, 53, 0.1);
+    border: 1px solid rgba(255, 107, 53, 0.15);
+}
+
+.mgmt-fire-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 71, 87, 0.3);
+    background: rgba(255, 71, 87, 0.08);
+    color: #ff4757;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+}
+
+.mgmt-fire-btn:hover {
+    background: rgba(255, 71, 87, 0.2);
+    border-color: rgba(255, 71, 87, 0.5);
+}
+
+/* ===== FINANCES TAB ===== */
+.mgmt-finance-actions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.mgmt-finance-card {
+    flex: 1;
+    background: #111113;
+    border: 1px solid #1f1f22;
+    border-radius: 8px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mgmt-finance-card-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 600;
+    color: #555;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.mgmt-finance-input-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mgmt-finance-input {
+    flex: 1;
+    background: #0c0c0e;
+    border: 1px solid #2a2a2c;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #ccc;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.mgmt-finance-input:focus {
+    border-color: rgba(255, 107, 53, 0.4);
+}
+
+.mgmt-finance-input::placeholder {
+    color: #444;
+}
+
+.mgmt-withdraw-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: none;
+    background: linear-gradient(135deg, #ff6b35, #e05a2a);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.mgmt-withdraw-btn:hover {
+    background: linear-gradient(135deg, #ff7b45, #f06a3a);
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+}
+
+.mgmt-deposit-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: none;
+    background: linear-gradient(135deg, #2ed573, #25b862);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.mgmt-deposit-btn:hover {
+    background: linear-gradient(135deg, #3ee583, #2ed573);
+    box-shadow: 0 2px 8px rgba(46, 213, 115, 0.3);
+}
+
+/* Transaction log */
+.mgmt-txn-log {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.mgmt-txn-row {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    gap: 10px;
+    background: #111113;
+    border-radius: 4px;
+}
+
+.mgmt-txn-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #555;
+    min-width: 80px;
+}
+
+.mgmt-txn-type {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 70px;
+    text-align: center;
+    color: #888;
+    background: #1a1a1c;
+    border: 1px solid #2a2a2c;
+}
+
+.mgmt-txn-type.sale {
+    color: #2ed573;
+    background: rgba(46, 213, 115, 0.08);
+    border-color: rgba(46, 213, 115, 0.15);
+}
+
+.mgmt-txn-type.purchase, .mgmt-txn-type.raw_purchase {
+    color: #ff4757;
+    background: rgba(255, 71, 87, 0.08);
+    border-color: rgba(255, 71, 87, 0.15);
+}
+
+.mgmt-txn-type.salary, .mgmt-txn-type.delivery_fee {
+    color: #ffb347;
+    background: rgba(255, 179, 71, 0.08);
+    border-color: rgba(255, 179, 71, 0.15);
+}
+
+.mgmt-txn-type.owner_withdraw, .mgmt-txn-type.owner_deposit {
+    color: #4a9eff;
+    background: rgba(74, 158, 255, 0.08);
+    border-color: rgba(74, 158, 255, 0.15);
+}
+
+.mgmt-txn-desc {
+    flex: 1;
+    font-size: 10px;
+    color: #bbb;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mgmt-txn-amount {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    min-width: 70px;
+    text-align: right;
+}
+
+.mgmt-txn-amount.positive {
+    color: #2ed573;
+}
+
+.mgmt-txn-amount.negative {
+    color: #ff4757;
+}
+
+/* Empty state */
+.mgmt-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    gap: 8px;
+    color: #333;
+    font-size: 11px;
+}

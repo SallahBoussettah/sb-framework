@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SB Minigame</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="overlay" class="hidden">
+        <!-- Game Label -->
+        <div id="game-label"></div>
+
+        <!-- Game Container -->
+        <div id="game-area">
+            <!-- Timing Bar Game -->
+            <div id="timing-game" class="game hidden">
+                <div class="timing-bar">
+                    <div class="timing-zone"></div>
+                    <div class="timing-marker"></div>
+                </div>
+                <div class="game-hint">Press <span class="keycap">SPACE</span> in the zone</div>
+            </div>
+
+            <!-- Sequence Game -->
+            <div id="sequence-game" class="game hidden">
+                <div class="sequence-display"></div>
+                <div class="sequence-input"></div>
+                <div class="game-hint sequence-hint">Watch the sequence...</div>
+            </div>
+
+            <!-- Precision Game -->
+            <div id="precision-game" class="game hidden">
+                <canvas id="precision-canvas" width="400" height="400"></canvas>
+                <div class="precision-bar">
+                    <div class="precision-bar-fill"></div>
+                </div>
+                <div class="game-hint">Keep cursor inside the circle</div>
+            </div>
+
+            <!-- Result (inside game area so card stays sized) -->
+            <div id="result-display" class="hidden">
+                <div class="result-icon"></div>
+                <div class="result-text"></div>
+            </div>
+        </div>
+
+        <!-- Round Counter -->
+        <div id="round-display"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

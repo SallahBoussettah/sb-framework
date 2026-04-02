@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SB Impound</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="impound-container" class="hidden">
+        <div class="impound-panel">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-icon">
+                    <i data-lucide="shield-alert" color="white"></i>
+                </div>
+                <div>
+                    <span class="header-subtitle">Impound Department</span>
+                    <h1 id="location-name">Impound Lot</h1>
+                </div>
+            </div>
+
+            <!-- Vehicle List -->
+            <div class="impound-list" id="vehicles-list">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state hidden" id="no-vehicles">
+                <i data-lucide="circle-check" class="empty-icon"></i>
+                <h3>All Clear</h3>
+                <p>No impounded vehicles at this location.</p>
+            </div>
+
+            <!-- Fee Info Panel -->
+            <div class="fee-panel">
+                <h4>Fee Structure</h4>
+                <div class="fee-row">
+                    <span>Base Release Fee</span>
+                    <b>$500</b>
+                </div>
+                <div class="fee-row">
+                    <span>Destruction Surcharge</span>
+                    <b>+$2,000</b>
+                </div>
+                <div class="fee-row">
+                    <span>Storage Fee</span>
+                    <b>$100/hour</b>
+                </div>
+            </div>
+
+            <!-- Wallet Footer -->
+            <div class="footer-balance">
+                <div class="balance-item">
+                    <i data-lucide="banknote"></i>
+                    <div>
+                        <span>Cash</span>
+                        <div id="cash-display">$0</div>
+                    </div>
+                </div>
+                <div class="balance-item">
+                    <i data-lucide="landmark"></i>
+                    <div>
+                        <span>Bank</span>
+                        <div id="bank-display">$0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exit Hint -->
+        <div class="exit-hint">
+            Press <span class="keycap">ESC</span> to close impound
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="modal hidden">
+        <div class="modal-overlay" onclick="closeModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <i data-lucide="alert-circle" class="modal-header-icon"></i>
+                <h2>Confirm Retrieval</h2>
+            </div>
+            <div class="modal-body">
+                <p>Retrieve <strong id="confirm-vehicle-name">Vehicle</strong>?</p>
+                <div class="fee-breakdown" id="fee-breakdown">
+                    <!-- Fee breakdown populated by JS -->
+                </div>
+                <div class="total-fee">
+                    <span>Total Fee</span>
+                    <span id="confirm-total-fee">$0</span>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="closeModal()">
+                    <i data-lucide="x"></i> Cancel
+                </button>
+                <button class="btn btn-confirm" id="confirm-retrieve-btn">
+                    <i data-lucide="check"></i> Pay & Retrieve
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SB Jobs</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="overlay" id="container" style="display:none;">
+        <div class="jobs-app" id="jobs-app">
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-brand">
+                    <div class="brand-logo"><i class="fas fa-briefcase"></i></div>
+                    <div class="brand-text">
+                        <span class="brand-name">EMPLOYMENT</span>
+                        <span class="brand-sub">CENTER</span>
+                    </div>
+                </div>
+
+                <!-- Current RP Job Badge -->
+                <div class="current-job-badge" id="current-job-badge">
+                    <span class="cjb-label">Current Job</span>
+                    <span class="cjb-name" id="current-job-name">Unemployed</span>
+                    <span class="cjb-grade" id="current-job-grade"></span>
+                </div>
+
+                <!-- Info text in sidebar -->
+                <div class="sidebar-info">
+                    <p>Public jobs don't replace your current roleplay job. You can do deliveries on the side!</p>
+                </div>
+
+                <div class="sidebar-spacer"></div>
+
+                <div class="sidebar-footer">
+                    <button class="nav-item nav-close" id="btn-close">
+                        <i class="fas fa-sign-out-alt"></i><span>Close</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Content: Browse Mode -->
+            <div class="main-content" id="browse-content">
+                <!-- Tab Bar -->
+                <div class="tab-bar">
+                    <button class="tab-btn active" data-tab="public" id="tab-public">
+                        <i class="fas fa-pizza-slice"></i> Public Jobs
+                    </button>
+                    <button class="tab-btn" data-tab="rp" id="tab-rp">
+                        <i class="fas fa-building"></i> Open Positions
+                    </button>
+                </div>
+
+                <!-- Public Jobs Tab -->
+                <div class="tab-content active" id="tab-content-public">
+                    <div class="content-header">
+                        <div class="header-left">
+                            <h2>Public Jobs</h2>
+                            <span class="job-count" id="public-job-count">0 available</span>
+                        </div>
+                    </div>
+                    <div class="jobs-grid" id="public-jobs-grid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- RP Listings Tab -->
+                <div class="tab-content" id="tab-content-rp">
+                    <div class="content-header">
+                        <div class="header-left">
+                            <h2>Open Positions</h2>
+                            <span class="job-count" id="rp-listing-count">0 listings</span>
+                        </div>
+                    </div>
+                    <div class="jobs-grid" id="rp-listings-grid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content: Boss Manage Mode -->
+            <div class="main-content" id="manage-content" style="display:none;">
+                <div class="content-header">
+                    <div class="header-left">
+                        <h2 id="boss-panel-title">Manage Listings</h2>
+                    </div>
+                </div>
+                <div class="boss-panel" id="boss-panel">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Detail Panel (slides from right) -->
+            <div class="detail-panel" id="detail-panel">
+                <div class="detail-header">
+                    <button class="detail-back" id="detail-back">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <span class="detail-title">Job Details</span>
+                </div>
+                <div class="detail-body" id="detail-body">
+                    <!-- Populated by JS -->
+                </div>
+                <div class="detail-footer" id="detail-footer">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

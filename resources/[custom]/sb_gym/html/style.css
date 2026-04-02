@@ -1,0 +1,297 @@
+/*
+    Everyday Chaos RP - Gym UI Styles
+    SB Design System: Dark theme with orange accent (#f97316)
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ============================================
+   PANEL BASE
+   ============================================ */
+
+.panel {
+    background: rgba(17, 17, 17, 0.95);
+    border: 1px solid rgba(249, 115, 22, 0.3);
+    border-radius: 12px;
+    width: 360px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #f97316;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.panel-header i {
+    font-size: 20px;
+}
+
+.close-btn {
+    margin-left: auto;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #888;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.close-btn:hover {
+    background: rgba(249, 115, 22, 0.2);
+    color: #f97316;
+}
+
+.panel-content {
+    padding: 20px;
+}
+
+.panel-footer {
+    padding: 12px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hint {
+    color: #666;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ============================================
+   SKILLS PANEL
+   ============================================ */
+
+.skill-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.skill-row:last-child {
+    margin-bottom: 0;
+}
+
+.skill-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 140px;
+    color: #fff;
+}
+
+.skill-info i {
+    color: #f97316;
+    width: 20px;
+    text-align: center;
+}
+
+.skill-name {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.skill-bar-container {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.skill-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #f97316, #fb923c);
+    border-radius: 4px;
+    transition: width 0.5s ease-out;
+    width: 0%;
+}
+
+.skill-bar.stamina {
+    background: linear-gradient(90deg, #22c55e, #4ade80);
+}
+
+.skill-bar.lung {
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
+}
+
+.skill-value {
+    width: 40px;
+    text-align: right;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Buff Indicator */
+.buff-indicator {
+    margin-top: 20px;
+    padding: 12px 16px;
+    background: rgba(249, 115, 22, 0.15);
+    border: 1px solid rgba(249, 115, 22, 0.3);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #f97316;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.buff-indicator i {
+    font-size: 16px;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+#buffTimer {
+    margin-left: auto;
+    font-weight: 600;
+}
+
+/* ============================================
+   EXERCISE MENU
+   ============================================ */
+
+.exercise-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid transparent;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.exercise-item:last-child {
+    margin-bottom: 0;
+}
+
+.exercise-item:hover {
+    background: rgba(249, 115, 22, 0.15);
+    border-color: rgba(249, 115, 22, 0.3);
+}
+
+.exercise-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(249, 115, 22, 0.2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f97316;
+    font-size: 18px;
+}
+
+.exercise-info {
+    flex: 1;
+}
+
+.exercise-label {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.exercise-meta {
+    display: flex;
+    gap: 12px;
+    font-size: 12px;
+    color: #888;
+}
+
+.exercise-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.exercise-meta i {
+    color: #666;
+}
+
+.exercise-arrow {
+    color: #666;
+    transition: transform 0.2s;
+}
+
+.exercise-item:hover .exercise-arrow {
+    transform: translateX(4px);
+    color: #f97316;
+}
+
+/* Skill badge colors */
+.skill-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.skill-badge.strength {
+    background: rgba(249, 115, 22, 0.2);
+    color: #f97316;
+}
+
+.skill-badge.stamina {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+}
+
+.skill-badge.lung {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+}

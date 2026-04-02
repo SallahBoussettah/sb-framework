@@ -1,0 +1,623 @@
+/*
+    Everyday Chaos RP - Vehicle Rental Styles
+    Author: Salah Eddine Boussettah
+    SB Design System: Left-panel rental UI
+*/
+
+:root {
+    /* Background Colors */
+    --sb-bg-primary: #0a0a0a;
+    --sb-bg-secondary: #141414;
+    --sb-bg-tertiary: #1a1a1a;
+    --sb-bg-elevated: #242424;
+
+    /* Accent Color (Brand Orange) */
+    --sb-accent: #ff6b35;
+    --sb-accent-hover: #ff8555;
+    --sb-accent-active: #e55a25;
+    --sb-accent-muted: rgba(255, 107, 53, 0.2);
+    --sb-accent-glow: rgba(255, 107, 53, 0.4);
+
+    /* Text Colors */
+    --sb-text-primary: #ffffff;
+    --sb-text-secondary: #888888;
+    --sb-text-tertiary: #555555;
+
+    /* Status Colors */
+    --sb-success: #22c55e;
+    --sb-error: #ef4444;
+    --sb-warning: #f59e0b;
+    --sb-info: #3b82f6;
+
+    /* Border Colors */
+    --sb-border: #2a2a2a;
+    --sb-border-hover: #3a3a3a;
+
+    /* Radius */
+    --sb-radius-sm: 4px;
+    --sb-radius-md: 8px;
+    --sb-radius-lg: 12px;
+    --sb-radius-xl: 16px;
+    --sb-radius-full: 9999px;
+
+    /* Shadows */
+    --sb-shadow-glow: 0 0 20px rgba(255, 107, 53, 0.2);
+
+    /* Transitions */
+    --sb-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --sb-transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Font */
+    --sb-font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    font-family: var(--sb-font-family);
+    background: transparent;
+    color: var(--sb-text-primary);
+    overflow: hidden;
+    display: flex;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ============================================================================
+   SCROLLBAR
+   ============================================================================ */
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--sb-bg-elevated);
+    border-radius: var(--sb-radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--sb-border-hover);
+}
+
+/* ============================================================================
+   MAIN CONTAINER
+   ============================================================================ */
+
+#rental-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+/* ============================================================================
+   SIDE PANEL
+   ============================================================================ */
+
+.rental-panel {
+    width: 450px;
+    height: 100vh;
+    background: var(--sb-bg-primary);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: slideIn 0.4s cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* ============================================================================
+   HEADER
+   ============================================================================ */
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-icon {
+    background: var(--sb-accent);
+    padding: 10px;
+    border-radius: var(--sb-radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-icon [data-lucide] {
+    width: 22px;
+    height: 22px;
+}
+
+.header-subtitle {
+    color: var(--sb-text-secondary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    display: block;
+}
+
+.header h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+}
+
+/* ============================================================================
+   TABS / CATEGORIES
+   ============================================================================ */
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    background: var(--sb-bg-secondary);
+    padding: 5px;
+    border-radius: var(--sb-radius-md);
+    border: 1px solid var(--sb-border);
+}
+
+.tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--sb-text-secondary);
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all var(--sb-transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    background: transparent;
+    font-family: var(--sb-font-family);
+}
+
+.tab:hover {
+    color: var(--sb-text-primary);
+}
+
+.tab.active {
+    background: var(--sb-accent);
+    color: var(--sb-text-primary);
+    box-shadow: var(--sb-shadow-glow);
+}
+
+.tab [data-lucide] {
+    width: 16px;
+    height: 16px;
+}
+
+/* ============================================================================
+   VEHICLE LIST
+   ============================================================================ */
+
+.vehicle-list {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ============================================================================
+   RENTAL CARD
+   ============================================================================ */
+
+.rental-card {
+    background: var(--sb-bg-tertiary);
+    border: 1px solid var(--sb-border);
+    border-radius: var(--sb-radius-lg);
+    padding: 14px;
+    cursor: pointer;
+    transition: all var(--sb-transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    animation: cardSlideIn 0.3s cubic-bezier(0, 0, 0.2, 1) backwards;
+}
+
+.rental-card:nth-child(1) { animation-delay: 0.02s; }
+.rental-card:nth-child(2) { animation-delay: 0.06s; }
+.rental-card:nth-child(3) { animation-delay: 0.10s; }
+.rental-card:nth-child(4) { animation-delay: 0.14s; }
+.rental-card:nth-child(5) { animation-delay: 0.18s; }
+.rental-card:nth-child(6) { animation-delay: 0.22s; }
+
+@keyframes cardSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.rental-card:hover {
+    border-color: var(--sb-border-hover);
+    transform: translateX(5px);
+    background: var(--sb-bg-elevated);
+}
+
+.rental-card.selected {
+    border-color: var(--sb-accent);
+    box-shadow: var(--sb-shadow-glow);
+    background: var(--sb-bg-elevated);
+}
+
+/* Vehicle Image Preview */
+.card-image {
+    width: 80px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--sb-radius-md);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.card-image .fallback-icon {
+    width: 28px;
+    height: 28px;
+    color: var(--sb-text-tertiary);
+}
+
+.rental-card.selected .card-image .fallback-icon {
+    color: var(--sb-accent);
+}
+
+/* Card Info */
+.card-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.card-info h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.card-info p {
+    color: var(--sb-text-tertiary);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Card Price */
+.card-price {
+    text-align: right;
+    color: var(--sb-success);
+    font-weight: 700;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.card-price span {
+    display: block;
+    font-size: 0.6rem;
+    color: var(--sb-text-tertiary);
+    text-transform: uppercase;
+}
+
+/* ============================================================================
+   NO SELECTION PLACEHOLDER
+   ============================================================================ */
+
+.no-selection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: var(--sb-text-tertiary);
+    padding: 30px;
+    background: var(--sb-bg-secondary);
+    border: 1px solid var(--sb-border);
+    border-radius: var(--sb-radius-lg);
+}
+
+.no-selection-icon {
+    width: 48px;
+    height: 48px;
+    opacity: 0.4;
+}
+
+.no-selection p {
+    font-size: 0.85rem;
+}
+
+/* ============================================================================
+   EMPTY STATE
+   ============================================================================ */
+
+.empty-state {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--sb-text-tertiary);
+    gap: 15px;
+    padding: 40px;
+}
+
+.empty-state .empty-icon {
+    width: 64px;
+    height: 64px;
+    color: var(--sb-bg-elevated);
+}
+
+.empty-state h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--sb-text-secondary);
+}
+
+.empty-state p {
+    font-size: 0.9rem;
+    max-width: 220px;
+    line-height: 1.5;
+}
+
+/* ============================================================================
+   SUMMARY PANEL
+   ============================================================================ */
+
+.summary-panel {
+    background: var(--sb-bg-secondary);
+    border: 1px solid var(--sb-border);
+    border-radius: var(--sb-radius-lg);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--sb-text-secondary);
+}
+
+.summary-row b {
+    color: var(--sb-text-primary);
+}
+
+.summary-total {
+    border-top: 1px solid var(--sb-border);
+    padding-top: 12px;
+    margin-top: 4px;
+}
+
+.summary-total b {
+    color: var(--sb-accent);
+    font-size: 1rem;
+}
+
+/* Duration Selector */
+.duration-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.duration-label {
+    font-size: 0.7rem;
+    color: var(--sb-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.duration-buttons {
+    display: flex;
+    gap: 6px;
+}
+
+.duration-btn {
+    flex: 1;
+    padding: 8px 0;
+    background: var(--sb-bg-tertiary);
+    border: 1px solid var(--sb-border);
+    border-radius: var(--sb-radius-sm);
+    color: var(--sb-text-secondary);
+    font-family: var(--sb-font-family);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--sb-transition-fast);
+    text-align: center;
+}
+
+.duration-btn:hover {
+    border-color: var(--sb-border-hover);
+    color: var(--sb-text-primary);
+}
+
+.duration-btn.active {
+    background: var(--sb-accent);
+    border-color: var(--sb-accent);
+    color: var(--sb-text-primary);
+    box-shadow: var(--sb-shadow-glow);
+}
+
+/* Return Info */
+.return-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--sb-accent-muted);
+    padding: 10px 14px;
+    border-radius: var(--sb-radius-md);
+    font-size: 0.75rem;
+    color: var(--sb-text-secondary);
+}
+
+.return-info [data-lucide] {
+    width: 14px;
+    height: 14px;
+    color: var(--sb-accent);
+    flex-shrink: 0;
+}
+
+.return-info b {
+    color: var(--sb-accent);
+}
+
+/* Rent Button */
+.btn-rent {
+    width: 100%;
+    padding: 14px;
+    background: var(--sb-accent);
+    border: none;
+    border-radius: var(--sb-radius-md);
+    color: var(--sb-text-primary);
+    font-family: var(--sb-font-family);
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all var(--sb-transition-fast);
+    margin-top: 4px;
+}
+
+.btn-rent:hover:not(:disabled) {
+    background: var(--sb-accent-hover);
+    box-shadow: var(--sb-shadow-glow);
+    transform: translateY(-2px);
+}
+
+.btn-rent:active:not(:disabled) {
+    background: var(--sb-accent-active);
+    transform: translateY(0);
+}
+
+.btn-rent:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.btn-rent [data-lucide] {
+    width: 18px;
+    height: 18px;
+}
+
+/* ============================================================================
+   FOOTER BALANCE
+   ============================================================================ */
+
+.footer-balance {
+    padding-top: 15px;
+    border-top: 1px solid var(--sb-border);
+    display: flex;
+    justify-content: space-between;
+}
+
+.balance-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.balance-item > [data-lucide] {
+    color: var(--sb-success);
+    width: 20px;
+    height: 20px;
+}
+
+.balance-item span {
+    font-size: 0.7rem;
+    color: var(--sb-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+}
+
+.balance-item div {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* ============================================================================
+   EXIT HINT
+   ============================================================================ */
+
+.exit-hint {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    background: var(--sb-bg-tertiary);
+    border: 1px solid var(--sb-border);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: var(--sb-text-secondary);
+    animation: fadeIn 0.5s ease 0.3s backwards;
+}
+
+.keycap {
+    color: var(--sb-accent);
+    font-weight: 800;
+    padding: 0 4px;
+}
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+#rental-container:not(.hidden) {
+    animation: fadeIn 0.2s ease;
+}

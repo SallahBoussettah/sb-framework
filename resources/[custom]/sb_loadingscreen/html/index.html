@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everyday Chaos RP</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <!-- Background Layer (screenshots slideshow OR video) -->
+    <div class="bg-layer" id="bgLayer"></div>
+    <video class="bg-video" id="bgVideo" autoplay loop muted playsinline></video>
+    <div class="scanlines"></div>
+
+    <!-- Main UI Area -->
+    <div class="ui-container">
+
+        <!-- Left: Branding -->
+        <div class="brand-zone fade-in">
+            <h1 class="logo-h1">Everyday<br>Chaos</h1>
+            <div class="tagline-wrap">
+                <div class="tagline-line"></div>
+                <span>Your chaos, your story</span>
+            </div>
+
+            <div class="audio-toggle" id="audioToggle" onclick="toggleAudio()">
+                <i data-lucide="volume-x" id="audio-icon"></i>
+                <span>AMBIENT AUDIO</span>
+            </div>
+        </div>
+
+        <!-- Right: Sidebar -->
+        <div class="sidebar fade-in" style="animation-delay: 0.2s;">
+            <div class="sidebar-section">
+                <h2><i data-lucide="command" size="14"></i> Quick Controls</h2>
+                <div class="sidebar-card">
+                    <div class="control-item"><span>Open Phone</span> <span class="key-cap">&#8593;</span></div>
+                    <div class="control-item"><span>Inventory</span> <span class="key-cap">I</span></div>
+                    <div class="control-item"><span>Interaction Menu</span> <span class="key-cap">ALT</span></div>
+                    <div class="control-item"><span>Voice Proximity</span> <span class="key-cap">F11</span></div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h2><i data-lucide="shield" size="14"></i> Server Rules</h2>
+                <div class="sidebar-card">
+                    <div class="rule-text"><b>01</b> Value your life. High stakes RP requires serious consequences.</div>
+                    <div class="rule-text"><b>02</b> Respect the community. No OOC toxicity or harassment.</div>
+                    <div class="rule-text"><b>03</b> No RDM/VDM. Every bullet fired must have a narrative reason.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom: Loading Footer -->
+    <footer class="footer fade-in" style="animation-delay: 0.4s;">
+        <div class="load-info">
+            <div class="status-block">
+                <span class="status-top" id="statusText">Handshaking with server...</span>
+                <span class="status-sub">Preparing assets and streaming content.</span>
+            </div>
+            <div class="percent-wrap">
+                <span class="percent-num" id="percentNum">0</span>
+                <span class="percent-sym">%</span>
+            </div>
+        </div>
+        <div class="progress-rail">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+    </footer>
+
+<script src="script.js"></script>
+</body>
+</html>

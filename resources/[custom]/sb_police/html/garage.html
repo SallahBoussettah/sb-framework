@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Police Garage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .garage-container {
+            display: none;
+            width: 900px;
+            height: 550px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .garage-header {
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .garage-header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .garage-header h1 i {
+            font-size: 24px;
+        }
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background: rgba(239, 68, 68, 0.8);
+        }
+
+        .garage-body {
+            display: flex;
+            height: calc(100% - 68px);
+        }
+
+        /* Categories Sidebar */
+        .categories {
+            width: 180px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .category-btn {
+            width: 100%;
+            padding: 12px 14px;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .category-btn i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .category-btn:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: #fff;
+        }
+
+        .category-btn.active {
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            color: #fff;
+        }
+
+        /* Vehicle List */
+        .vehicle-list {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .vehicle-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .vehicle-list::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+        }
+
+        .vehicle-list::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 3px;
+        }
+
+        .vehicle-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .vehicle-card {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 12px;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .vehicle-card:hover {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .vehicle-card.selected {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.3);
+        }
+
+        .vehicle-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .vehicle-card.locked:hover {
+            transform: none;
+            border-color: transparent;
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .vehicle-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .vehicle-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .vehicle-grade {
+            background: rgba(59, 130, 246, 0.3);
+            color: #60a5fa;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .vehicle-grade.locked {
+            background: rgba(239, 68, 68, 0.3);
+            color: #f87171;
+        }
+
+        .vehicle-category {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        /* Vehicle Preview */
+        .vehicle-preview {
+            width: 280px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-placeholder {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+        }
+
+        .preview-placeholder i {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        .preview-content {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .preview-content.active {
+            display: flex;
+        }
+
+        .preview-image {
+            width: 100%;
+            height: 140px;
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .preview-image i {
+            font-size: 48px;
+            color: #3b82f6;
+        }
+
+        .preview-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .preview-subtitle {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .preview-stats {
+            flex: 1;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .spawn-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            border: none;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .spawn-btn:hover {
+            background: linear-gradient(90deg, #1e3a8a, #2563eb);
+            transform: translateY(-2px);
+        }
+
+        .spawn-btn:disabled {
+            background: #374151;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .no-vehicles {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+
+        .no-vehicles i {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        /* Rank Badge Colors */
+        .rank-0 { background: rgba(156, 163, 175, 0.3); color: #9ca3af; }
+        .rank-1 { background: rgba(156, 163, 175, 0.3); color: #9ca3af; }
+        .rank-2 { background: rgba(34, 197, 94, 0.3); color: #4ade80; }
+        .rank-3 { background: rgba(34, 197, 94, 0.3); color: #4ade80; }
+        .rank-4 { background: rgba(59, 130, 246, 0.3); color: #60a5fa; }
+        .rank-5 { background: rgba(59, 130, 246, 0.3); color: #60a5fa; }
+        .rank-6 { background: rgba(168, 85, 247, 0.3); color: #c084fc; }
+        .rank-7 { background: rgba(168, 85, 247, 0.3); color: #c084fc; }
+        .rank-8 { background: rgba(245, 158, 11, 0.3); color: #fbbf24; }
+        .rank-9 { background: rgba(239, 68, 68, 0.3); color: #f87171; }
+    </style>
+</head>
+<body>
+    <div class="garage-container" id="garageContainer">
+        <div class="garage-header">
+            <h1><i class="fas fa-warehouse"></i> Police Garage</h1>
+            <button class="close-btn" onclick="closeGarage()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="garage-body">
+            <!-- Categories -->
+            <div class="categories" id="categoriesContainer">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Vehicle List -->
+            <div class="vehicle-list">
+                <div class="vehicle-grid" id="vehicleGrid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Preview Panel -->
+            <div class="vehicle-preview">
+                <div class="preview-placeholder" id="previewPlaceholder">
+                    <i class="fas fa-car"></i>
+                    <span>Select a vehicle</span>
+                </div>
+
+                <div class="preview-content" id="previewContent">
+                    <div class="preview-image">
+                        <i class="fas fa-car" id="previewIcon"></i>
+                    </div>
+                    <div class="preview-title" id="previewTitle">Vehicle Name</div>
+                    <div class="preview-subtitle" id="previewSubtitle">Category</div>
+
+                    <div class="preview-stats">
+                        <div class="stat-row">
+                            <span class="stat-label">Required Rank</span>
+                            <span class="stat-value" id="previewRank">Cadet</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Category</span>
+                            <span class="stat-value" id="previewCategory">Patrol</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Model</span>
+                            <span class="stat-value" id="previewModel">police</span>
+                        </div>
+                    </div>
+
+                    <button class="spawn-btn" id="spawnBtn" onclick="spawnVehicle()">
+                        <i class="fas fa-car"></i>
+                        Spawn Vehicle
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let vehicles = [];
+        let categories = [];
+        let playerGrade = 0;
+        let gradeMode = 'exact';
+        let selectedVehicle = null;
+        let selectedCategory = 'all';
+        let garageData = null;
+        let ranks = [];
+
+        // Listen for NUI messages
+        window.addEventListener('message', function(event) {
+            const data = event.data;
+
+            if (data.action === 'openGarage') {
+                vehicles = data.vehicles || [];
+                categories = data.categories || [];
+                playerGrade = data.playerGrade || 0;
+                gradeMode = data.gradeMode || 'exact';
+                garageData = data.garageData || null;
+                ranks = data.ranks || [];
+                openGarage();
+            } else if (data.action === 'closeGarage') {
+                closeGarage();
+            }
+        });
+
+        function openGarage() {
+            document.getElementById('garageContainer').style.display = 'block';
+            selectedVehicle = null;
+            selectedCategory = 'all';
+            renderCategories();
+            renderVehicles();
+            hidePreview();
+        }
+
+        function closeGarage() {
+            document.getElementById('garageContainer').style.display = 'none';
+            // Send to parent window which forwards to FiveM
+            if (window.parent !== window) {
+                window.parent.postMessage({ type: 'garageAction', action: 'closeGarage', payload: {} }, '*');
+            } else {
+                fetch(`https://${GetParentResourceName()}/closeGarage`, {
+                    method: 'POST',
+                    body: JSON.stringify({})
+                });
+            }
+        }
+
+        function renderCategories() {
+            const container = document.getElementById('categoriesContainer');
+            container.innerHTML = '';
+
+            categories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = `category-btn ${selectedCategory === cat.id ? 'active' : ''}`;
+                btn.innerHTML = `<i class="${cat.icon}"></i> ${cat.label}`;
+                btn.onclick = () => selectCategory(cat.id);
+                container.appendChild(btn);
+            });
+        }
+
+        function selectCategory(catId) {
+            selectedCategory = catId;
+            selectedVehicle = null;
+            renderCategories();
+            renderVehicles();
+            hidePreview();
+        }
+
+        function meetsGrade(vehicleGrade) {
+            return gradeMode === 'exact' ? playerGrade === vehicleGrade : playerGrade >= vehicleGrade;
+        }
+
+        function renderVehicles() {
+            const grid = document.getElementById('vehicleGrid');
+            grid.innerHTML = '';
+
+            // In exact mode: only show vehicles matching player grade
+            let gradeFiltered = gradeMode === 'exact'
+                ? vehicles.filter(v => v.grade === playerGrade)
+                : vehicles;
+
+            let filteredVehicles = gradeFiltered;
+            if (selectedCategory !== 'all') {
+                filteredVehicles = gradeFiltered.filter(v => v.category === selectedCategory);
+            }
+
+            if (filteredVehicles.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-vehicles" style="grid-column: span 2;">
+                        <i class="fas fa-car-burst"></i>
+                        <p>No vehicles in this category</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredVehicles.forEach(vehicle => {
+                const isLocked = !meetsGrade(vehicle.grade);
+                const card = document.createElement('div');
+                card.className = `vehicle-card ${isLocked ? 'locked' : ''} ${selectedVehicle === vehicle ? 'selected' : ''}`;
+
+                const rankName = getRankName(vehicle.grade);
+                const categoryName = getCategoryName(vehicle.category);
+                const categoryIcon = getCategoryIcon(vehicle.category);
+
+                card.innerHTML = `
+                    <div class="vehicle-card-header">
+                        <span class="vehicle-name">${vehicle.label}</span>
+                        <span class="vehicle-grade ${isLocked ? 'locked' : ''} rank-${vehicle.grade}">
+                            ${isLocked ? '<i class="fas fa-lock"></i>' : ''} ${rankName}
+                        </span>
+                    </div>
+                    <div class="vehicle-category">
+                        <i class="${categoryIcon}"></i>
+                        ${categoryName}
+                    </div>
+                `;
+
+                if (!isLocked) {
+                    card.onclick = () => selectVehicle(vehicle);
+                }
+
+                grid.appendChild(card);
+            });
+        }
+
+        function selectVehicle(vehicle) {
+            selectedVehicle = vehicle;
+            renderVehicles();
+            showPreview(vehicle);
+        }
+
+        function showPreview(vehicle) {
+            document.getElementById('previewPlaceholder').style.display = 'none';
+            document.getElementById('previewContent').classList.add('active');
+
+            document.getElementById('previewTitle').textContent = vehicle.label;
+            document.getElementById('previewSubtitle').textContent = getCategoryName(vehicle.category);
+            document.getElementById('previewRank').textContent = getRankName(vehicle.grade);
+            document.getElementById('previewCategory').textContent = getCategoryName(vehicle.category);
+            document.getElementById('previewModel').textContent = vehicle.model;
+
+            // Set icon based on category
+            const icon = document.getElementById('previewIcon');
+            icon.className = getCategoryIcon(vehicle.category);
+
+            const spawnBtn = document.getElementById('spawnBtn');
+            spawnBtn.disabled = !meetsGrade(vehicle.grade);
+        }
+
+        function hidePreview() {
+            document.getElementById('previewPlaceholder').style.display = 'flex';
+            document.getElementById('previewContent').classList.remove('active');
+        }
+
+        function spawnVehicle() {
+            if (!selectedVehicle || !meetsGrade(selectedVehicle.grade)) return;
+
+            const payload = {
+                model: selectedVehicle.model,
+                label: selectedVehicle.label,
+                category: selectedVehicle.category
+            };
+
+            // Send to parent window which forwards to FiveM
+            if (window.parent !== window) {
+                window.parent.postMessage({ type: 'garageAction', action: 'spawnVehicle', payload: payload }, '*');
+            } else {
+                fetch(`https://${GetParentResourceName()}/spawnVehicle`, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+            }
+
+            closeGarage();
+        }
+
+        function getRankName(grade) {
+            const rank = ranks.find(r => r.grade === grade);
+            return rank ? rank.name : `Grade ${grade}`;
+        }
+
+        function getCategoryName(catId) {
+            const cat = categories.find(c => c.id === catId);
+            return cat ? cat.label : catId;
+        }
+
+        function getCategoryIcon(catId) {
+            const cat = categories.find(c => c.id === catId);
+            return cat ? cat.icon : 'fas fa-car';
+        }
+
+        // Close on Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeGarage();
+            }
+        });
+    </script>
+</body>
+</html>

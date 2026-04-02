@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sb_mechanic_v2</title>
+    <link rel="stylesheet" href="diagnostics.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- ===== DIAGNOSTICS TABLET (existing) ===== -->
+    <div id="tablet-device" class="hidden">
+        <div class="tablet-bezel">
+            <div class="tablet-camera"></div>
+            <div class="tablet-screen">
+                <div class="status-bar">
+                    <div class="status-left">
+                        <span class="app-icon">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff6b35" stroke-width="2.5">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                            </svg>
+                        </span>
+                        <span class="app-name">AutoDiag Pro</span>
+                        <span class="app-version">v2.1</span>
+                    </div>
+                    <div class="status-right">
+                        <span class="status-signal">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="#4a9eff">
+                                <rect x="1" y="16" width="4" height="6" rx="1"/>
+                                <rect x="7" y="12" width="4" height="10" rx="1"/>
+                                <rect x="13" y="7" width="4" height="15" rx="1"/>
+                                <rect x="19" y="2" width="4" height="20" rx="1"/>
+                            </svg>
+                        </span>
+                        <span class="status-bluetooth">BT</span>
+                        <span class="status-battery">
+                            <svg width="18" height="12" viewBox="0 0 24 14" fill="none" stroke="#2ed573" stroke-width="1.5">
+                                <rect x="1" y="1" width="19" height="12" rx="2"/>
+                                <rect x="3" y="3" width="14" height="8" rx="1" fill="#2ed573"/>
+                                <rect x="21" y="4" width="2" height="6" rx="0.5" fill="#2ed573"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="header-bar">
+                    <div class="header-left">
+                        <div class="obd-badge">OBD-II</div>
+                        <div class="header-title-group">
+                            <span class="header-title">DIAGNOSTIC SCAN</span>
+                            <span class="header-subtitle">Full System Analysis</span>
+                        </div>
+                    </div>
+                    <div class="header-right">
+                        <div class="plate-chip">
+                            <span class="plate-icon">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2">
+                                    <rect x="1" y="3" width="22" height="18" rx="3"/>
+                                    <line x1="1" y1="9" x2="23" y2="9"/>
+                                </svg>
+                            </span>
+                            <span id="plate-display" class="plate-value">--------</span>
+                        </div>
+                        <button id="btn-close" class="close-btn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content-area">
+                    <div class="panel-left">
+                        <div class="vehicle-diagram-wrapper">
+                            <svg viewBox="0 0 220 440" xmlns="http://www.w3.org/2000/svg" id="vehicle-svg">
+                                <defs>
+                                    <filter id="glow-green" x="-30%" y="-30%" width="160%" height="160%">
+                                        <feGaussianBlur stdDeviation="4" result="blur"/>
+                                        <feFlood flood-color="#2ed573" flood-opacity="0.35"/>
+                                        <feComposite in2="blur" operator="in"/>
+                                        <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                    <filter id="glow-orange" x="-30%" y="-30%" width="160%" height="160%">
+                                        <feGaussianBlur stdDeviation="4" result="blur"/>
+                                        <feFlood flood-color="#ffb347" flood-opacity="0.45"/>
+                                        <feComposite in2="blur" operator="in"/>
+                                        <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                    <filter id="glow-red" x="-30%" y="-30%" width="160%" height="160%">
+                                        <feGaussianBlur stdDeviation="4" result="blur"/>
+                                        <feFlood flood-color="#ff4757" flood-opacity="0.45"/>
+                                        <feComposite in2="blur" operator="in"/>
+                                        <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#3a3a3a"/>
+                                        <stop offset="40%" stop-color="#2e2e2e"/>
+                                        <stop offset="100%" stop-color="#222"/>
+                                    </linearGradient>
+                                    <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#4a6878"/>
+                                        <stop offset="100%" stop-color="#253540"/>
+                                    </linearGradient>
+                                    <linearGradient id="wheelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="#222"/>
+                                        <stop offset="100%" stop-color="#111"/>
+                                    </linearGradient>
+                                    <radialGradient id="headlightGrad">
+                                        <stop offset="0%" stop-color="#8ab8d0"/>
+                                        <stop offset="100%" stop-color="#3a5a6a"/>
+                                    </radialGradient>
+                                </defs>
+                                <ellipse cx="110" cy="402" rx="80" ry="10" fill="rgba(0,0,0,0.35)"/>
+                                <path d="M68,60 Q68,36 88,28 L132,28 Q152,36 152,60 L157,112 L160,168 L160,298 L157,348 Q154,382 140,393 L80,393 Q66,382 63,348 L60,298 L60,168 L63,112 Z" fill="url(#bodyGrad)" stroke="#5a5a5a" stroke-width="1.8"/>
+                                <path d="M78,40 L142,40 L148,88 L72,88 Z" fill="none" stroke="#4a4a4a" stroke-width="0.8"/>
+                                <line x1="110" y1="42" x2="110" y2="86" stroke="#484848" stroke-width="0.6"/>
+                                <rect x="93" y="50" width="14" height="2" rx="1" fill="none" stroke="#4a4a4a" stroke-width="0.5"/>
+                                <rect x="93" y="55" width="14" height="2" rx="1" fill="none" stroke="#4a4a4a" stroke-width="0.5"/>
+                                <rect x="113" y="50" width="14" height="2" rx="1" fill="none" stroke="#4a4a4a" stroke-width="0.5"/>
+                                <rect x="113" y="55" width="14" height="2" rx="1" fill="none" stroke="#4a4a4a" stroke-width="0.5"/>
+                                <path d="M76,90 L144,90 L149,132 L71,132 Z" fill="url(#glassGrad)" stroke="#6a8898" stroke-width="1.2"/>
+                                <path d="M82,94 L115,94 L111,127 L75,127 Z" fill="rgba(130,180,220,0.07)"/>
+                                <line x1="110" y1="92" x2="110" y2="130" stroke="rgba(100,130,150,0.3)" stroke-width="0.5"/>
+                                <rect x="73" y="136" width="74" height="92" rx="5" fill="#2d2d2d" stroke="#444" stroke-width="0.8"/>
+                                <rect x="88" y="150" width="44" height="50" rx="3" fill="#252525" stroke="#3a3a3a" stroke-width="0.6"/>
+                                <path d="M78,330 L142,330 L138,362 L82,362 Z" fill="url(#glassGrad)" stroke="#6a8898" stroke-width="1.2"/>
+                                <path d="M84,334 L115,334 L112,357 L85,357 Z" fill="rgba(130,180,220,0.05)"/>
+                                <path d="M80,365 L140,365 L137,390 L83,390 Z" fill="none" stroke="#4a4a4a" stroke-width="0.7"/>
+                                <line x1="72" y1="135" x2="72" y2="285" stroke="#4a4a4a" stroke-width="0.9"/>
+                                <line x1="72" y1="210" x2="60" y2="210" stroke="#4a4a4a" stroke-width="0.7"/>
+                                <line x1="148" y1="135" x2="148" y2="285" stroke="#4a4a4a" stroke-width="0.9"/>
+                                <line x1="148" y1="210" x2="160" y2="210" stroke="#4a4a4a" stroke-width="0.7"/>
+                                <rect x="64" y="180" width="7" height="2.5" rx="1" fill="#666" stroke="#777" stroke-width="0.3"/>
+                                <rect x="149" y="180" width="7" height="2.5" rx="1" fill="#666" stroke="#777" stroke-width="0.3"/>
+                                <rect x="64" y="245" width="7" height="2.5" rx="1" fill="#666" stroke="#777" stroke-width="0.3"/>
+                                <rect x="149" y="245" width="7" height="2.5" rx="1" fill="#666" stroke="#777" stroke-width="0.3"/>
+                                <path d="M50,105 Q45,105 45,110 L45,115 Q45,118 50,118 L57,115 L57,108 Z" fill="#333" stroke="#5a5a5a" stroke-width="0.8"/>
+                                <path d="M170,105 Q175,105 175,110 L175,115 Q175,118 170,118 L163,115 L163,108 Z" fill="#333" stroke="#5a5a5a" stroke-width="0.8"/>
+                                <rect x="43" y="95" width="19" height="42" rx="5" fill="url(#wheelGrad)" stroke="#666" stroke-width="1.3"/>
+                                <rect x="47" y="100" width="11" height="3" rx="1" fill="#3a3a3a"/><rect x="47" y="106" width="11" height="3" rx="1" fill="#3a3a3a"/>
+                                <rect x="47" y="112" width="11" height="3" rx="1" fill="#3a3a3a"/><rect x="47" y="118" width="11" height="3" rx="1" fill="#3a3a3a"/>
+                                <rect x="47" y="124" width="11" height="3" rx="1" fill="#3a3a3a"/>
+                                <circle cx="52" cy="116" r="5" fill="none" stroke="#4a4a4a" stroke-width="0.5"/>
+                                <rect x="158" y="95" width="19" height="42" rx="5" fill="url(#wheelGrad)" stroke="#666" stroke-width="1.3"/>
+                                <rect x="162" y="100" width="11" height="3" rx="1" fill="#3a3a3a"/><rect x="162" y="106" width="11" height="3" rx="1" fill="#3a3a3a"/>
+                                <rect x="162" y="112" width="11" height="3" rx="1" fill="#3a3a3a"/><rect x="162" y="118" width="11" height="3" rx="1" fill="#3a3a3a"/>
+                                <rect x="162" y="124" width="11" height="3" rx="1" fill="#3a3a3a"/>
+                                <circle cx="168" cy="116" r="5" fill="none" stroke="#4a4a4a" stroke-width="0.5"/>
+                                <rect x="43" y="288" width="19" height="42" rx="5" fill="url(#wheelGrad)" stroke="#666" stroke-width="1.3"/>
+                                <rect x="47" y="293" width="11" height="3" rx="1" fill="#3a3a3a"/><rect x="47" y="299" width="11" height="3" rx="1" fill="#3a3a3a"/>
+                                <rect x="47" y="305" width="11" height="3" rx="1" fill="#3a3a3a"/><rect x="47" y="311" width="11" height="3" rx="1" fill="#3a3a3a"/>
+                                <rect x="47" y="317" width="11" height="3" rx="1" fill="#3a3a3a"/>
+                                <circle cx="52" cy="309" r="5" fill="none" stroke="#4a4a4a" stroke-width="0.5"/>
+                                <rect x="158" y="288" width="19" height="42" rx="5" fill="url(#wheelGrad)" stroke="#666" stroke-width="1.3"/>
+                                <rect x="162" y="293" width="11" height="3" rx="1" fill="#3a3a3a"/><rect x="162" y="299" width="11" height="3" rx="1" fill="#3a3a3a"/>
+                                <rect x="162" y="305" width="11" height="3" rx="1" fill="#3a3a3a"/><rect x="162" y="311" width="11" height="3" rx="1" fill="#3a3a3a"/>
+                                <rect x="162" y="317" width="11" height="3" rx="1" fill="#3a3a3a"/>
+                                <circle cx="168" cy="309" r="5" fill="none" stroke="#4a4a4a" stroke-width="0.5"/>
+                                <path d="M73,36 Q68,36 68,42 L68,52 Q68,57 73,57 L82,52 L82,42 Z" fill="url(#headlightGrad)" stroke="#7a9aaa" stroke-width="0.8"/>
+                                <path d="M147,36 Q152,36 152,42 L152,52 Q152,57 147,57 L138,52 L138,42 Z" fill="url(#headlightGrad)" stroke="#7a9aaa" stroke-width="0.8"/>
+                                <line x1="70" y1="56" x2="82" y2="52" stroke="#8cc" stroke-width="0.6" opacity="0.5"/>
+                                <line x1="150" y1="56" x2="138" y2="52" stroke="#8cc" stroke-width="0.6" opacity="0.5"/>
+                                <path d="M75,377 Q69,377 69,371 L69,364 Q69,358 75,358 L84,362 L84,373 Z" fill="#5a1818" stroke="#aa3030" stroke-width="0.9"/>
+                                <path d="M145,377 Q151,377 151,371 L151,364 Q151,358 145,358 L136,362 L136,373 Z" fill="#5a1818" stroke="#aa3030" stroke-width="0.9"/>
+                                <rect x="72" y="363" width="8" height="3" rx="1" fill="#882222" opacity="0.6"/>
+                                <rect x="140" y="363" width="8" height="3" rx="1" fill="#882222" opacity="0.6"/>
+                                <rect x="86" y="30" width="48" height="8" rx="3" fill="#1a1a1a" stroke="#5a5a5a" stroke-width="0.7"/>
+                                <line x1="92" y1="31" x2="92" y2="37" stroke="#444" stroke-width="0.6"/>
+                                <line x1="98" y1="31" x2="98" y2="37" stroke="#444" stroke-width="0.6"/>
+                                <line x1="104" y1="31" x2="104" y2="37" stroke="#444" stroke-width="0.6"/>
+                                <line x1="110" y1="31" x2="110" y2="37" stroke="#444" stroke-width="0.6"/>
+                                <line x1="116" y1="31" x2="116" y2="37" stroke="#444" stroke-width="0.6"/>
+                                <line x1="122" y1="31" x2="122" y2="37" stroke="#444" stroke-width="0.6"/>
+                                <line x1="128" y1="31" x2="128" y2="37" stroke="#444" stroke-width="0.6"/>
+                                <circle cx="110" cy="34" r="2.5" fill="none" stroke="#666" stroke-width="0.5"/>
+                                <circle cx="88" cy="397" r="4.5" fill="none" stroke="#666" stroke-width="1.2"/>
+                                <circle cx="88" cy="397" r="2.2" fill="#1a1a1a" stroke="#444" stroke-width="0.5"/>
+                                <circle cx="132" cy="397" r="4.5" fill="none" stroke="#666" stroke-width="1.2"/>
+                                <circle cx="132" cy="397" r="2.2" fill="#1a1a1a" stroke="#444" stroke-width="0.5"/>
+                                <rect x="96" y="383" width="28" height="8" rx="1.5" fill="#ddd" stroke="#999" stroke-width="0.5"/>
+                                <rect x="98" y="385" width="24" height="4" rx="0.5" fill="#eee"/>
+                                <rect x="62" y="28" width="96" height="60" rx="4" class="zone-hit" data-zone="engine"/>
+                                <text x="110" y="62" class="zone-label" text-anchor="middle">ENGINE</text>
+                                <rect x="60" y="135" width="100" height="90" rx="4" class="zone-hit" data-zone="body"/>
+                                <text x="110" y="183" class="zone-label" text-anchor="middle">BODY</text>
+                                <rect x="60" y="228" width="100" height="60" rx="4" class="zone-hit" data-zone="suspension"/>
+                                <text x="110" y="262" class="zone-label" text-anchor="middle">SUSPENSION</text>
+                                <rect x="62" y="355" width="96" height="48" rx="4" class="zone-hit" data-zone="exhaust"/>
+                                <text x="110" y="383" class="zone-label" text-anchor="middle">EXHAUST</text>
+                                <rect x="39" y="92" width="24" height="46" rx="6" class="zone-hit" data-zone="brakes"/>
+                                <rect x="157" y="92" width="24" height="46" rx="6" class="zone-hit" data-zone="brakes"/>
+                                <rect x="39" y="287" width="24" height="46" rx="6" class="zone-hit" data-zone="tires"/>
+                                <rect x="157" y="287" width="24" height="46" rx="6" class="zone-hit" data-zone="tires"/>
+                                <rect x="70" y="155" width="80" height="40" rx="4" class="zone-hit zone-under" data-zone="undercarriage"/>
+                            </svg>
+                        </div>
+                        <div class="zone-hint">
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
+                            </svg>
+                            <span>Tap a zone to physically inspect</span>
+                        </div>
+                    </div>
+                    <div class="panel-right">
+                        <div class="panel-right-header">
+                            <span class="codes-title">TROUBLE CODES</span>
+                            <span id="codes-count" class="codes-count">0 codes</span>
+                        </div>
+                        <div id="dtc-list" class="dtc-list">
+                            <div class="dtc-empty" id="dtc-empty">
+                                <div class="dtc-empty-check">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2ed573" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                        <polyline points="22 4 12 14.01 9 11.01"/>
+                                    </svg>
+                                </div>
+                                <span class="dtc-empty-title">All Systems Normal</span>
+                                <span class="dtc-empty-desc">No trouble codes detected</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-bar">
+                    <div class="footer-item">
+                        <span class="footer-label">SKILL</span>
+                        <div class="skill-pips">
+                            <span class="pip active" id="pip1"></span>
+                            <span class="pip" id="pip2"></span>
+                            <span class="pip" id="pip3"></span>
+                            <span class="pip" id="pip4"></span>
+                            <span class="pip" id="pip5"></span>
+                        </div>
+                    </div>
+                    <div class="footer-item footer-xp">
+                        <span id="xp-gain" class="xp-badge"></span>
+                    </div>
+                    <div class="footer-item">
+                        <span class="footer-label">SCANNED</span>
+                        <span id="scan-timestamp" class="footer-value">--:--:--</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tablet-home-btn"></div>
+        </div>
+    </div>
+
+    <!-- Crafting/Supplier tablet removed — now handled by sb_companies -->
+
+    <script src="diagnostics.js"></script>
+</body>
+</html>

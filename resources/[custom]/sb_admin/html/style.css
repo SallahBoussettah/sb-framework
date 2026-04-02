@@ -1,0 +1,399 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    user-select: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ============ ADMIN MENU ============ */
+#admin-menu {
+    position: fixed;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    width: 310px;
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid rgba(249, 115, 22, 0.3);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50%) translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+    }
+}
+
+.menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.menu-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #f97316;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.15s;
+}
+
+.close-btn:hover {
+    color: #ff4444;
+    background: rgba(255, 68, 68, 0.1);
+}
+
+/* ============ TAB BAR ============ */
+.tab-bar {
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0 4px;
+}
+
+.tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 10px 4px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.tab i {
+    font-size: 14px;
+}
+
+.tab:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.tab.active {
+    color: #f97316;
+    border-bottom-color: #f97316;
+}
+
+/* ============ MENU BODY ============ */
+.menu-body {
+    padding: 8px;
+    max-height: 55vh;
+    overflow-y: auto;
+}
+
+.menu-body::-webkit-scrollbar {
+    width: 4px;
+}
+
+.menu-body::-webkit-scrollbar-thumb {
+    background: rgba(249, 115, 22, 0.3);
+    border-radius: 2px;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* ============ BUTTONS ============ */
+.menu-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 4px;
+}
+
+.menu-btn:hover {
+    background: rgba(249, 115, 22, 0.1);
+    border-color: rgba(249, 115, 22, 0.3);
+}
+
+.menu-btn:active {
+    transform: scale(0.98);
+}
+
+.menu-btn i {
+    width: 18px;
+    text-align: center;
+    color: #f97316;
+    font-size: 14px;
+}
+
+.hotkey {
+    margin-left: auto;
+    font-size: 9px;
+    padding: 2px 5px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.35);
+    font-family: monospace;
+}
+
+.badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.badge.active {
+    background: rgba(249, 115, 22, 0.2);
+    color: #f97316;
+}
+
+/* ============ SECTION ELEMENTS ============ */
+.section-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.06);
+    margin: 8px 0;
+}
+
+.section-label {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 4px 4px 4px;
+    margin-top: 2px;
+}
+
+/* ============ INPUT GROUPS ============ */
+.input-group {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 6px;
+}
+
+.input-group input[type="text"],
+.input-group input[type="number"],
+.input-group select {
+    flex: 1;
+    padding: 8px 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: white;
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.15s;
+    min-width: 0;
+}
+
+.input-group input[type="number"] {
+    width: 55px;
+    flex: 0 0 55px;
+    text-align: center;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: rgba(249, 115, 22, 0.5);
+}
+
+.input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.input-group select {
+    flex: 0 0 70px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.input-group select option {
+    background: #1a1a1a;
+    color: white;
+}
+
+.input-btn {
+    padding: 8px 12px;
+    background: rgba(249, 115, 22, 0.15);
+    border: 1px solid rgba(249, 115, 22, 0.3);
+    border-radius: 6px;
+    color: #f97316;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.input-btn:hover {
+    background: rgba(249, 115, 22, 0.25);
+}
+
+.input-btn:active {
+    transform: scale(0.95);
+}
+
+.input-btn.wide {
+    flex: 1;
+    justify-content: center;
+}
+
+.input-btn.danger {
+    background: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+}
+
+.input-btn.danger:hover {
+    background: rgba(239, 68, 68, 0.22);
+}
+
+/* ============ FOOTER ============ */
+.menu-footer {
+    padding: 8px 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    text-align: center;
+}
+
+.footer-text {
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 11px;
+}
+
+/* ============ INSPECTOR OVERLAY ============ */
+#inspector-overlay {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(10, 10, 10, 0.92);
+    border: 1px solid rgba(249, 115, 22, 0.3);
+    border-radius: 10px;
+    padding: 12px 18px;
+    min-width: 300px;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.inspector-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 0;
+    gap: 16px;
+}
+
+.inspector-label {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+    font-weight: 500;
+    min-width: 55px;
+}
+
+.inspector-value {
+    color: #f97316;
+    font-size: 12px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    text-align: right;
+}
+
+.inspector-hint {
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 10px;
+    text-align: center;
+}
+
+/* ============ TOAST NOTIFICATIONS ============ */
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 9999;
+}
+
+.toast {
+    padding: 10px 16px;
+    background: rgba(10, 10, 10, 0.92);
+    border: 1px solid rgba(249, 115, 22, 0.3);
+    border-radius: 8px;
+    color: white;
+    font-size: 12px;
+    animation: toastIn 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toast.success { border-color: rgba(34, 197, 94, 0.5); }
+.toast.success i { color: #22c55e; }
+.toast.error { border-color: rgba(239, 68, 68, 0.5); }
+.toast.error i { color: #ef4444; }
+.toast.info { border-color: rgba(59, 130, 246, 0.5); }
+.toast.info i { color: #3b82f6; }
+
+@keyframes toastIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.toast-out {
+    animation: toastOut 0.2s ease forwards;
+}
+
+@keyframes toastOut {
+    to { opacity: 0; transform: translateX(20px); }
+}

@@ -1,0 +1,643 @@
+:root {
+    --sb-bg-primary: rgba(10, 10, 10, 0.95);
+    --sb-accent: #ff6b35;
+    --sb-accent-glow: rgba(255, 107, 53, 0.4);
+    --sb-accent-muted: rgba(255, 107, 53, 0.2);
+    --sb-text-primary: #ffffff;
+    --sb-success: #22c55e;
+    --sb-error: #ef4444;
+    --sb-warning: #f59e0b;
+    --sb-border: rgba(255, 255, 255, 0.1);
+    --c-health: #ef4444;
+    --c-armor: #3b82f6;
+    --c-hunger: #f59e0b;
+    --c-thirst: #06b6d4;
+    --c-stamina: #eab308;
+    --c-stress: #a855f7;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+body { width: 100vw; height: 100vh; background: transparent; overflow: hidden; user-select: none; color: white; }
+
+#hud-container { position: fixed; inset: 0; pointer-events: none; }
+#hud-container.hidden { opacity: 0; }
+.hidden { display: none !important; }
+
+/* ============================================================================
+   TOP RIGHT: ECONOMY
+   ============================================================================ */
+#hud-top-right {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+    transition: opacity 0.3s ease;
+    transform-origin: top left;
+}
+
+.id-badge {
+    background: #000;
+    padding: 2px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #888;
+    border-radius: 4px;
+    border: 1px solid var(--sb-border);
+}
+
+.cash-wrap {
+    background: linear-gradient(90deg, transparent, rgba(0,0,0,0.8));
+    padding: 5px 20px;
+    border-right: 5px solid var(--sb-success);
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--sb-success);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.cash-wrap.increase { animation: cash-up 0.5s ease; }
+.cash-wrap.decrease { animation: cash-down 0.5s ease; }
+
+/* ============================================================================
+   BOTTOM LEFT: STATUS HUB
+   ============================================================================ */
+#hud-bottom-left {
+    position: fixed;
+    bottom: 30px;
+    left: 230px;
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    transition: opacity 0.4s ease;
+    transform-origin: top left;
+}
+
+#hud-bottom-left.hidden-status .status-box:not(.voice-box) { opacity: 0; }
+#hud-bottom-left .voice-box { opacity: 1; }
+
+.status-hub {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+/* Individual icon custom positioning (after editor save) */
+.status-box.custom-positioned {
+    position: fixed !important;
+    z-index: 50;
+}
+
+/* Per-icon editor label (smaller, above each 45px box) */
+.status-box .editor-label {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--sb-accent);
+    font-size: 8px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 3px;
+    white-space: nowrap;
+    display: none;
+}
+.status-box.hud-draggable .editor-label {
+    display: block;
+}
+
+.status-box {
+    width: 45px;
+    height: 45px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+    border: 1px solid var(--sb-border);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+}
+
+.ring-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.ring-container svg {
+    width: 45px;
+    height: 45px;
+}
+
+.ring-container circle {
+    fill: none;
+    stroke-width: 3.5;
+    stroke-linecap: round;
+}
+
+.ring-off {
+    stroke: rgba(255, 255, 255, 0.05);
+}
+
+.ring-on {
+    stroke-dasharray: 116;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.6s ease;
+}
+
+/* Ring colors per stat */
+#health-ring { stroke: var(--c-health); }
+#armor-ring { stroke: var(--c-armor); }
+#hunger-ring { stroke: var(--c-hunger); }
+#thirst-ring { stroke: var(--c-thirst); }
+#stamina-ring { stroke: var(--c-stamina); }
+#stress-ring { stroke: var(--c-stress); }
+
+.status-icon {
+    position: relative;
+    z-index: 5;
+    width: 18px;
+    height: 18px;
+    color: white;
+    opacity: 0.9;
+}
+
+/* Voice box special styling */
+.voice-box {
+    border-color: var(--sb-border);
+    transition: border-color 0.3s ease;
+}
+
+.voice-box .status-icon {
+    color: #666;
+    transition: color 0.3s ease;
+}
+
+.voice-box.talking {
+    border-color: var(--sb-accent);
+}
+
+.voice-box.talking .status-icon {
+    color: var(--sb-accent);
+    filter: drop-shadow(0 0 5px var(--sb-accent-glow));
+}
+
+.voice-box.range-1 .status-icon { color: #9ca3af; }
+.voice-box.range-2 .status-icon { color: var(--sb-success); }
+.voice-box.range-3 .status-icon { color: var(--sb-accent); }
+
+/* Warning pulse on low stats */
+.status-box.critical .ring-on { animation: ring-pulse 1s ease-in-out infinite; }
+.status-box.critical .status-icon { animation: icon-pulse 1s ease-in-out infinite; }
+
+/* ============================================================================
+   BOTTOM RIGHT: CAR DASHBOARD
+   ============================================================================ */
+#hud-vehicle {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 380px;
+    height: 160px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    transform-origin: top left;
+}
+
+.dash-car {
+    position: relative;
+    width: 300px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.car-gauge-svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.gauge-fill {
+    stroke-dasharray: 170;
+    stroke-dashoffset: 170;
+    transition: stroke-dashoffset 0.2s ease;
+}
+
+.gauge-speed-val {
+    font-size: 64px;
+    font-weight: 800;
+    font-style: italic;
+    color: var(--sb-text-primary);
+    position: relative;
+    z-index: 5;
+    margin-top: 20px;
+    line-height: 1;
+}
+
+.gauge-unit {
+    position: absolute;
+    bottom: 30px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--sb-accent);
+    letter-spacing: 2px;
+}
+
+.car-indicators {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    background: var(--sb-bg-primary);
+    padding: 5px 15px;
+    border-radius: 20px 20px 0 0;
+    border: 1px solid var(--sb-border);
+}
+
+.indicator-icon {
+    width: 16px;
+    height: 16px;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.indicator-icon.active {
+    color: var(--sb-accent);
+    filter: drop-shadow(0 0 5px var(--sb-accent-glow));
+}
+
+.indicator-icon.warning {
+    color: #ef4444;
+    filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.6));
+    animation: icon-pulse 1s ease-in-out infinite;
+}
+
+#ind-fuel.active {
+    color: var(--sb-warning);
+    filter: drop-shadow(0 0 5px var(--sb-warning));
+}
+
+#ind-engine.active {
+    color: var(--sb-success);
+    filter: drop-shadow(0 0 5px var(--sb-success));
+}
+
+.indicator-icon.fuel-warn {
+    color: #f59e0b;
+    filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.5));
+}
+
+/* ============================================================================
+   FUEL BAR (Car & Bike)
+   ============================================================================ */
+.fuel-bar-container, .bike-fuel-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+}
+
+.fuel-icon-small {
+    width: 16px;
+    height: 16px;
+    color: var(--sb-accent);
+    flex-shrink: 0;
+}
+
+.fuel-bar-track {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.fuel-bar-fill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #22c55e 0%, #22c55e 40%, #fbbf24 70%, #ef4444 100%);
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    border-radius: 4px;
+    transition: width 0.3s ease, background-position 0.3s ease;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+}
+
+.fuel-bar-fill.low {
+    background: linear-gradient(90deg, #ef4444, #fbbf24);
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+    animation: fuel-pulse 1s ease-in-out infinite;
+}
+
+.fuel-bar-fill.critical {
+    background: #ef4444;
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.8);
+    animation: fuel-pulse 0.5s ease-in-out infinite;
+}
+
+@keyframes fuel-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.fuel-text {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    min-width: 36px;
+    text-align: right;
+}
+
+.fuel-text.low {
+    color: #fbbf24;
+}
+
+.fuel-text.critical {
+    color: #ef4444;
+    animation: fuel-pulse 0.5s ease-in-out infinite;
+}
+
+/* ============================================================================
+   BOTTOM RIGHT: BIKE DASHBOARD
+   ============================================================================ */
+#bike-dash {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    transform-origin: top left;
+}
+
+.dash-bike {
+    width: 320px;
+    height: 100px;
+    background: var(--sb-bg-primary);
+    border: 2px solid var(--sb-border);
+    border-radius: 4px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.bike-rev-bar {
+    height: 10px;
+    width: 100%;
+    background: #222;
+    display: flex;
+    gap: 2px;
+}
+
+.rev-seg {
+    flex: 1;
+    background: #444;
+    transition: background 0.08s ease, box-shadow 0.08s ease;
+}
+
+.rev-seg.active {
+    background: var(--sb-accent);
+    box-shadow: 0 0 8px var(--sb-accent-glow);
+}
+
+.rev-seg.redline { background: #333; }
+.rev-seg.redline.active {
+    background: #ef4444;
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+}
+
+.bike-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex: 1;
+}
+
+.bike-speed-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+}
+
+.bike-speed {
+    font-size: 50px;
+    font-weight: 800;
+    font-style: italic;
+    line-height: 1;
+    color: var(--sb-text-primary);
+}
+
+.bike-unit {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--sb-accent);
+}
+
+.bike-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 12px;
+    font-weight: 700;
+    color: #666;
+}
+
+.bike-gear-text {
+    color: #fff;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.bike-icons {
+    display: flex;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.bike-stat-icon {
+    width: 14px;
+    height: 14px;
+    color: #666;
+    transition: color 0.3s ease;
+}
+
+.bike-stat-icon.active { color: #f59e0b; }
+.bike-stat-icon.warning { color: #ef4444; animation: icon-pulse 1s ease-in-out infinite; }
+
+/* ============================================================================
+   AMMO DISPLAY
+   ============================================================================ */
+.ammo-display {
+    position: fixed;
+    bottom: 55px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    background: rgba(0, 0, 0, 0.75);
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--sb-border);
+    transition: opacity 0.2s ease;
+    transform-origin: bottom right;
+}
+
+.ammo-display.hidden {
+    display: none !important;
+}
+
+.ammo-count {
+    font-size: 22px;
+    font-weight: 800;
+    font-style: italic;
+    line-height: 1;
+    color: var(--sb-text-primary);
+}
+
+.ammo-count .ammo-sep {
+    color: #666;
+    margin: 0 2px;
+    font-size: 16px;
+}
+
+#ammo-current.low {
+    color: var(--sb-accent);
+}
+
+#ammo-current.empty {
+    color: var(--sb-error);
+}
+
+.ammo-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+@keyframes ring-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@keyframes icon-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+@keyframes cash-up {
+    0% { transform: translateY(0); }
+    30% { transform: translateY(-3px); color: #86efac; }
+    100% { transform: translateY(0); }
+}
+
+@keyframes cash-down {
+    0% { transform: translateY(0); }
+    30% { transform: translateY(3px); color: #fca5a5; }
+    100% { transform: translateY(0); }
+}
+
+/* ============================================================================
+   CINEMATIC MODE
+   ============================================================================ */
+#hud-container.cinematic #hud-top-right,
+#hud-container.cinematic #hud-bottom-left,
+#hud-container.cinematic #hud-vehicle,
+#hud-container.cinematic #hud-ammo,
+#hud-container.cinematic #street-display {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+/* ============================================================================
+   STREET NAME DISPLAY
+   ============================================================================ */
+#street-display {
+    position: fixed;
+    bottom: 2px;
+    left: 0;
+    width: 15vw;
+    padding: 0 8px 4px 8px;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    transform-origin: top left;
+}
+
+.street-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.zone-name {
+    font-size: 9px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.55);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ============================================================================
+   HUD EDITOR
+   ============================================================================ */
+#hud-editor { position: fixed; inset: 0; z-index: 9999; pointer-events: none; }
+
+.editor-toolbar {
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 16px;
+    background: var(--sb-bg-primary); padding: 12px 20px; border-radius: 8px;
+    border: 1px solid var(--sb-border); pointer-events: auto;
+}
+
+.editor-title { font-size: 14px; font-weight: 800; color: var(--sb-accent); letter-spacing: 1px; }
+.editor-hint { font-size: 11px; color: #666; border-left: 1px solid var(--sb-border); padding-left: 16px; }
+.editor-buttons { display: flex; gap: 8px; margin-left: 16px; }
+
+.editor-btn {
+    font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 700;
+    padding: 6px 14px; border-radius: 4px; border: none; cursor: pointer;
+    transition: all 0.2s ease; letter-spacing: 0.5px;
+}
+
+.editor-btn.save { background: var(--sb-success); color: #fff; }
+.editor-btn.cancel { background: rgba(255,255,255,0.1); color: #fff; }
+.editor-btn.reset { background: rgba(239,68,68,0.2); color: #ef4444; }
+
+.hud-draggable { outline: 2px dashed var(--sb-accent); cursor: move; pointer-events: auto !important; }
+.hud-draggable.dragging { outline-color: var(--sb-success); outline-style: solid; }
+
+.editor-label {
+    position: absolute; top: -22px; left: 0;
+    background: var(--sb-accent); font-size: 10px; font-weight: 700;
+    padding: 2px 8px; border-radius: 4px; display: none;
+}
+.hud-draggable .editor-label { display: block; }

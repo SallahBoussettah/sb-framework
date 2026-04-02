@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apartments</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="app" class="hidden">
+        <!-- Building View -->
+        <div id="building-view" class="panel hidden">
+            <div class="panel-header">
+                <div class="header-info">
+                    <i class="fas fa-building"></i>
+                    <div>
+                        <h2 id="building-name">Apartment Building</h2>
+                        <p id="building-desc">Description</p>
+                    </div>
+                </div>
+                <button class="close-btn" onclick="closeUI()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="panel-content">
+                <div class="stats-bar">
+                    <div class="stat">
+                        <i class="fas fa-door-open"></i>
+                        <span id="available-count">0 Available</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-wallet"></i>
+                        <span id="player-money">$0</span>
+                    </div>
+                    <div class="stat" id="tier-badge-stat">
+                        <i class="fas fa-star"></i>
+                        <span id="tier-badge">Standard</span>
+                    </div>
+                </div>
+
+                <!-- Floor Tabs -->
+                <div id="floor-tabs" class="floor-tabs hidden">
+                    <!-- Generated dynamically -->
+                </div>
+
+                <div id="units-list" class="units-list">
+                    <!-- Units will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Management View -->
+        <div id="management-view" class="panel hidden">
+            <div class="panel-header">
+                <div class="header-info">
+                    <i class="fas fa-home"></i>
+                    <div>
+                        <h2 id="mgmt-unit-name">Unit Management</h2>
+                        <p id="mgmt-building-name">Building</p>
+                    </div>
+                </div>
+                <button class="close-btn" onclick="closeUI()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="panel-content">
+                <div class="mgmt-section">
+                    <h3><i class="fas fa-file-invoice-dollar"></i> Rental Details</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="label">Weekly Rent</span>
+                            <span class="value" id="mgmt-rent">$0</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Deposit Paid</span>
+                            <span class="value" id="mgmt-deposit">$0</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Next Payment</span>
+                            <span class="value" id="mgmt-next-payment">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Missed Payments</span>
+                            <span class="value" id="mgmt-missed">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mgmt-section" id="keys-section">
+                    <h3><i class="fas fa-key"></i> Key Holders (<span id="key-count">0</span>/<span id="max-keys">3</span>)</h3>
+                    <div id="keys-list" class="keys-list">
+                    </div>
+                    <button class="btn btn-secondary" id="give-key-btn" onclick="giveKey()">
+                        <i class="fas fa-plus"></i> Give Key to Nearby Player
+                    </button>
+                </div>
+
+                <div class="mgmt-section">
+                    <h3><i class="fas fa-cog"></i> Actions</h3>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="enterFromMgmt()">
+                            <i class="fas fa-door-open"></i> Enter Apartment
+                        </button>
+                        <button class="btn btn-danger" onclick="endRental()">
+                            <i class="fas fa-sign-out-alt"></i> End Rental
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Garage View -->
+        <div id="garage-view" class="panel hidden">
+            <div class="panel-header">
+                <div class="header-info">
+                    <i class="fas fa-car"></i>
+                    <div>
+                        <h2>Apartment Garage</h2>
+                        <p>Stored Vehicles</p>
+                    </div>
+                </div>
+                <button class="close-btn" onclick="closeUI()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="panel-content">
+                <div id="garage-list" class="units-list">
+                </div>
+            </div>
+        </div>
+
+        <!-- Player Selection Modal -->
+        <div id="player-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>Select Player</h3>
+                <div id="player-list" class="player-list">
+                </div>
+                <button class="btn btn-secondary" onclick="closePlayerModal()">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Confirmation Modal -->
+        <div id="confirm-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3 id="confirm-title">Confirm</h3>
+                <div id="confirm-message"></div>
+                <div class="modal-buttons">
+                    <button class="btn btn-danger" id="confirm-yes">Yes</button>
+                    <button class="btn btn-secondary" onclick="closeConfirmModal()">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Doorbell Popup (separate from main app, always accessible) -->
+    <div id="doorbell-popup" class="doorbell-popup hidden">
+        <div class="doorbell-content">
+            <div class="doorbell-icon">
+                <i class="fas fa-bell"></i>
+            </div>
+            <div class="doorbell-info">
+                <span class="doorbell-label">Doorbell</span>
+                <span class="doorbell-visitor" id="doorbell-visitor-name">Someone</span>
+                <span class="doorbell-sublabel">is at your door</span>
+            </div>
+            <div class="doorbell-timer">
+                <span id="doorbell-countdown">15</span>s
+            </div>
+            <div class="doorbell-actions">
+                <button class="btn btn-success btn-small" onclick="acceptDoorbell()">
+                    <i class="fas fa-check"></i> Accept
+                </button>
+                <button class="btn btn-danger btn-small" onclick="denyDoorbell()">
+                    <i class="fas fa-times"></i> Deny
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,624 @@
+/* ============================================================================
+   SB DMV - Driving School
+   Design: SB Design System (Orange Accent)
+   ============================================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary: #0e0e0f;
+    --bg-card: #18181a;
+    --bg-elevated: #222224;
+    --bg-hover: #1c1c1e;
+
+    --accent: #ff6b35;
+    --accent-hover: #ff8555;
+    --accent-active: #e55a25;
+    --accent-dim: rgba(255, 107, 53, 0.1);
+    --accent-glow: rgba(255, 107, 53, 0.2);
+
+    --text-main: #ffffff;
+    --text-secondary: #a1a1aa;
+    --text-dim: #71717a;
+    --text-muted: #52525b;
+
+    --success: #22c55e;
+    --success-dim: rgba(34, 197, 94, 0.1);
+    --negative: #ef4444;
+    --negative-dim: rgba(239, 68, 68, 0.1);
+
+    --border: rgba(255, 255, 255, 0.05);
+    --border-hover: rgba(255, 107, 53, 0.3);
+}
+
+body {
+    font-family: 'Poppins', -apple-system, sans-serif;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    user-select: none;
+    color: var(--text-main);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ======================================================================
+   THEORY EXAM
+   ====================================================================== */
+
+#exam-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.exam-card {
+    background: var(--bg-primary);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    width: 500px;
+    overflow: hidden;
+    animation: appOpen 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+}
+
+.exam-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 24px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+}
+
+.exam-header i {
+    font-size: 26px;
+    color: var(--accent);
+}
+
+.exam-header h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-main);
+    letter-spacing: 0.3px;
+}
+
+.exam-header p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.exam-counter {
+    margin-left: auto;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-dim);
+    padding: 6px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.exam-body {
+    padding: 24px;
+}
+
+.question-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-main);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.option-btn {
+    width: 100%;
+    padding: 14px 18px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-main);
+    font-family: 'Poppins', -apple-system, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.option-btn:hover {
+    border-color: var(--border-hover);
+    background: var(--bg-hover);
+}
+
+.option-btn.selected {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+.exam-actions {
+    display: flex;
+    gap: 10px;
+    padding: 0 24px 24px;
+}
+
+/* Shared button styles */
+.btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Poppins', -apple-system, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.btn-cancel {
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+}
+
+.btn-cancel:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+    color: var(--text-main);
+}
+
+.btn-submit {
+    background: var(--accent);
+    color: #fff;
+}
+
+.btn-submit:hover:not(:disabled) {
+    background: var(--accent-hover);
+}
+
+.btn-submit:active:not(:disabled) {
+    background: var(--accent-active);
+    transform: scale(0.98);
+}
+
+/* ======================================================================
+   RESULT SCREEN
+   ====================================================================== */
+
+#result-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.result-card {
+    background: var(--bg-primary);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    width: 400px;
+    padding: 40px 32px;
+    text-align: center;
+    animation: appOpen 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+}
+
+.result-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+}
+
+.result-icon.pass i {
+    color: var(--success);
+}
+
+.result-icon.fail i {
+    color: var(--negative);
+}
+
+.result-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.result-subtitle {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+.result-message {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+.result-btn {
+    width: 100%;
+    max-width: 200px;
+}
+
+/* ======================================================================
+   DRIVING HUD (overlay, no focus capture)
+   ====================================================================== */
+
+#driving-hud {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.hud-container {
+    background: rgba(14, 14, 15, 0.88);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 20px;
+    min-width: 320px;
+    animation: appOpen 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hud-phase {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+}
+
+.hud-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+.hud-speed-section {
+    text-align: center;
+}
+
+.hud-speed {
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1;
+}
+
+.hud-speed.over-limit {
+    color: var(--negative);
+}
+
+.hud-speed-unit {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+}
+
+.hud-limit-section {
+    display: flex;
+    align-items: center;
+}
+
+.hud-limit-section.no-limit {
+    opacity: 0.3;
+}
+
+.hud-limit-sign {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 4px solid var(--negative);
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hud-limit-value {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1a1a1a;
+}
+
+.hud-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.hud-penalties,
+.hud-checkpoint {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.hud-label {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+}
+
+.hud-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.hud-value.danger {
+    color: var(--negative);
+}
+
+/* ======================================================================
+   LICENSE CARD (document style - like sb_id)
+   ====================================================================== */
+
+#license-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.license-card {
+    width: 520px;
+    background: #f5f5f5;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 25px rgba(0, 0, 0, 0.5);
+    position: relative;
+    animation: cardIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid #d0d0d0;
+}
+
+/* --- Header Bar --- */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 18px;
+    background: #1a3a5c;
+    border-bottom: 1px solid #0f2a44;
+}
+
+.header-left {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.header-state {
+    font-size: 20px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 1.5px;
+}
+
+.header-right {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.header-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 1.5px;
+}
+
+.header-class {
+    font-size: 10px;
+    font-weight: 600;
+    color: #8899aa;
+    letter-spacing: 1px;
+}
+
+/* --- Accent line --- */
+.card-accent-line {
+    height: 3px;
+    background: linear-gradient(90deg, #0f2a44 0%, #ff6b35 50%, #0f2a44 100%);
+}
+
+/* --- Card Body --- */
+.card-body {
+    display: flex;
+    gap: 16px;
+    padding: 14px 18px 10px;
+}
+
+.card-left {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.photo-frame {
+    width: 115px;
+    height: 140px;
+    border: 2px solid #1a3a5c;
+    border-radius: 6px;
+    background: #dde2e8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.photo-placeholder {
+    font-size: 48px;
+    color: #a0aab4;
+}
+
+.signature-area {
+    width: 115px;
+    text-align: center;
+}
+
+.signature-text {
+    font-family: 'Brush Script MT', 'Segoe Script', cursive;
+    font-size: 14px;
+    color: #333333;
+    display: block;
+    min-height: 20px;
+}
+
+.signature-line {
+    width: 100%;
+    height: 1px;
+    background: #999999;
+    margin-top: 2px;
+}
+
+.card-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.field-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    border-bottom: 1px solid #d0d0d0;
+    padding: 5px 0;
+}
+
+.field-row:last-child {
+    border-bottom: none;
+}
+
+.field-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 26px;
+    flex-shrink: 0;
+}
+
+.field-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a1a;
+    letter-spacing: 0.3px;
+}
+
+.field-id {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1a1a1a;
+    letter-spacing: 1px;
+}
+
+/* --- Footer --- */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 18px 10px;
+    background: #e8ecf0;
+    border-top: 1px solid #d0d0d0;
+}
+
+.footer-item {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.footer-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #1a3a5c;
+    letter-spacing: 0.5px;
+}
+
+.footer-value {
+    font-size: 12px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+/* ======================================================================
+   SCROLLBAR
+   ====================================================================== */
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--bg-elevated);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* ======================================================================
+   ANIMATIONS
+   ====================================================================== */
+
+@keyframes appOpen {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes cardIn {
+    from { opacity: 0; transform: scale(0.92) rotate(-1deg); }
+    to { opacity: 1; transform: scale(1) rotate(0deg); }
+}

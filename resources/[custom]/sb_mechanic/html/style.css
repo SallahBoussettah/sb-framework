@@ -1,0 +1,1085 @@
+/* ============================================================================
+   sb_mechanic - NUI Styles
+   Benny's Mechanic Dashboard - Dark theme, Poppins, Orange accent
+   ============================================================================ */
+
+:root {
+    --bg-primary: #0e0e0f;
+    --bg-card: #18181a;
+    --bg-elevated: #222224;
+    --bg-hover: #2a2a2d;
+    --accent: #ff6b35;
+    --accent-hover: #ff8555;
+    --accent-active: #e55a25;
+    --accent-dim: rgba(255, 107, 53, 0.1);
+    --accent-glow: rgba(255, 107, 53, 0.2);
+    --text-main: #ffffff;
+    --text-secondary: #a1a1aa;
+    --text-dim: #71717a;
+    --text-muted: #52525b;
+    --border: rgba(255, 255, 255, 0.05);
+    --success: #22c55e;
+    --success-dim: rgba(34, 197, 94, 0.1);
+    --danger: #ef4444;
+    --danger-dim: rgba(239, 68, 68, 0.1);
+    --blue: #3b82f6;
+    --blue-dim: rgba(59, 130, 246, 0.1);
+    --yellow: #eab308;
+    --yellow-dim: rgba(234, 179, 8, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', -apple-system, sans-serif;
+    background: transparent;
+    color: var(--text-main);
+    overflow: hidden;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ============================================================================
+   MAIN APP
+   ============================================================================ */
+
+#app {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 480px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: rgba(14, 14, 15, 0.92);
+    animation: appOpen 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border-right: 1px solid var(--border);
+}
+
+@keyframes appOpen {
+    from { opacity: 0; transform: scale(0.97); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* ============================================================================
+   HEADER
+   ============================================================================ */
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-card);
+    flex-shrink: 0;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.header-icon {
+    font-size: 22px;
+    color: var(--accent);
+}
+
+.header-left h1 {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.header-left p {
+    font-size: 13px;
+}
+
+.header-right {
+    display: flex;
+    gap: 10px;
+}
+
+/* ============================================================================
+   BUTTONS
+   ============================================================================ */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 150ms;
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--accent-hover);
+}
+
+.btn-secondary {
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-hover);
+    color: var(--text-main);
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+}
+
+.btn-sm {
+    padding: 7px 14px;
+    font-size: 12px;
+    border-radius: 8px;
+}
+
+.btn-full {
+    width: 100%;
+    justify-content: center;
+}
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ============================================================================
+   CONTENT LAYOUT
+   ============================================================================ */
+
+.app-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.station-panel {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+}
+
+/* ============================================================================
+   SCROLLBAR
+   ============================================================================ */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-elevated); border-radius: 10px; }
+
+/* ============================================================================
+   SECTIONS
+   ============================================================================ */
+
+.section {
+    margin-bottom: 24px;
+}
+
+.section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-title i:first-child {
+    color: var(--accent);
+    font-size: 16px;
+}
+
+.subsection-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-dim);
+    margin: 16px 0 10px;
+}
+
+/* Collapsible sections */
+.toggle-section {
+    cursor: pointer;
+    user-select: none;
+}
+
+.toggle-section .section-arrow {
+    margin-left: auto;
+    font-size: 12px;
+    transition: transform 200ms;
+}
+
+.toggle-section.collapsed .section-arrow {
+    transform: rotate(-90deg);
+}
+
+.section-body {
+    padding: 4px 0;
+}
+
+.section-body.collapsed {
+    display: none;
+}
+
+/* ============================================================================
+   PAGES
+   ============================================================================ */
+
+.page {
+    animation: pageIn 0.25s ease;
+}
+
+@keyframes pageIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================================
+   HEALTH BARS
+   ============================================================================ */
+
+.health-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.health-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.health-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.health-label span:last-child {
+    color: var(--text-dim);
+    font-weight: 400;
+}
+
+.health-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-elevated);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.health-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 400ms ease, background 400ms;
+}
+
+/* ============================================================================
+   UPGRADE GRID
+   ============================================================================ */
+
+.upgrade-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 10px;
+}
+
+.upgrade-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.upgrade-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.upgrade-card-header i {
+    color: var(--accent);
+    font-size: 18px;
+}
+
+.upgrade-card-header span {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.upgrade-level {
+    font-size: 12px;
+    color: var(--text-dim);
+}
+
+.upgrade-level .current {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.level-pips {
+    display: flex;
+    gap: 4px;
+    margin: 4px 0;
+}
+
+.pip {
+    width: 24px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--bg-elevated);
+}
+
+.pip.filled {
+    background: var(--accent);
+}
+
+/* ============================================================================
+   SUB-TABS (Body page)
+   ============================================================================ */
+
+.sub-tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--bg-card);
+    padding: 4px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+}
+
+.sub-tab {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 150ms;
+}
+
+.sub-tab.active {
+    background: var(--accent);
+    color: white;
+}
+
+.sub-tab:hover:not(.active) {
+    background: var(--bg-elevated);
+}
+
+/* ============================================================================
+   COLOR GRID
+   ============================================================================ */
+
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+    gap: 5px;
+}
+
+.color-grid.small {
+    grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
+}
+
+.color-swatch {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 150ms;
+}
+
+.color-swatch:hover {
+    transform: scale(1.15);
+    border-color: var(--text-dim);
+}
+
+.color-swatch.selected {
+    border-color: var(--accent);
+    box-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* ============================================================================
+   RGB SLIDERS
+   ============================================================================ */
+
+.rgb-sliders {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.slider-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.slider-row label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-dim);
+    width: 16px;
+}
+
+.slider-row span {
+    font-size: 12px;
+    color: var(--text-dim);
+    width: 32px;
+    text-align: right;
+}
+
+.rgb-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--bg-elevated);
+    outline: none;
+}
+
+.rgb-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.slider-r::-webkit-slider-thumb { background: #ef4444; }
+.slider-g::-webkit-slider-thumb { background: #22c55e; }
+.slider-b::-webkit-slider-thumb { background: #3b82f6; }
+
+.rgb-preview-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.rgb-preview-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+}
+
+/* ============================================================================
+   LIVERY GRID
+   ============================================================================ */
+
+.livery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+}
+
+.livery-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 150ms;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.livery-item:hover {
+    background: var(--bg-elevated);
+    border-color: var(--accent);
+}
+
+.livery-item.selected {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+}
+
+/* ============================================================================
+   TIRE GRID
+   ============================================================================ */
+
+.tire-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.tire-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+}
+
+.tire-item .tire-icon {
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+.tire-item .tire-label {
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.tire-item .tire-status {
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.tire-status.ok { color: var(--success); }
+.tire-status.burst { color: var(--danger); }
+
+/* ============================================================================
+   WHEEL TYPE ROW
+   ============================================================================ */
+
+.wheel-type-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.wheel-type-btn {
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 150ms;
+}
+
+.wheel-type-btn:hover {
+    border-color: var(--accent);
+    color: var(--text-main);
+}
+
+.wheel-type-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+}
+
+/* ============================================================================
+   WHEEL STYLE SCROLLER
+   ============================================================================ */
+
+.wheel-style-scroller {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 8px 0;
+}
+
+.wheel-style-item {
+    flex-shrink: 0;
+    width: 80px;
+    height: 70px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 150ms;
+}
+
+.wheel-style-item:hover {
+    border-color: var(--accent);
+}
+
+.wheel-style-item.selected {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+}
+
+.wheel-style-item .wheel-num {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.wheel-style-item .wheel-label {
+    font-size: 10px;
+    color: var(--text-dim);
+}
+
+/* ============================================================================
+   COSMETIC TOGGLES
+   ============================================================================ */
+
+.neon-toggles {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.toggle-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.toggle-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+.select-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg-card);
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    outline: none;
+    cursor: pointer;
+}
+
+.select-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+.select-input option {
+    background: var(--bg-card);
+    color: var(--text-main);
+}
+
+.extras-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+}
+
+.extra-toggle {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 150ms;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.extra-toggle:hover {
+    border-color: var(--text-dim);
+}
+
+.extra-toggle.active {
+    background: var(--accent-dim);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); font-size: 13px; text-align: center; padding: 20px 0; }
+
+/* ============================================================================
+   BILLING LAPTOP
+   ============================================================================ */
+
+#billing-app {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9000;
+    animation: appOpen 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.billing-container {
+    width: 900px;
+    max-height: 80vh;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+}
+
+.billing-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-card);
+}
+
+.billing-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.billing-vehicle-list {
+    width: 340px;
+    border-right: 1px solid var(--border);
+    padding: 16px;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.billing-vehicle-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 150ms;
+}
+
+.billing-vehicle-card:hover {
+    border-color: var(--accent);
+    background: var(--bg-elevated);
+}
+
+.billing-vehicle-card.active {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+}
+
+.billing-vehicle-card .vehicle-plate {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-main);
+}
+
+.billing-vehicle-card .vehicle-owner {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.billing-vehicle-card .vehicle-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 12px;
+}
+
+.billing-vehicle-card .vehicle-services {
+    color: var(--text-dim);
+}
+
+.billing-vehicle-card .vehicle-total {
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.billing-detail {
+    flex: 1;
+    padding: 16px 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.billing-detail-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: var(--text-muted);
+}
+
+.billing-detail-empty i {
+    font-size: 48px;
+    opacity: 0.3;
+}
+
+.billing-detail-empty p {
+    font-size: 14px;
+}
+
+.billing-detail-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.billing-detail-header {
+    margin-bottom: 16px;
+}
+
+.billing-detail-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.billing-worklog {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.worklog-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.worklog-item .worklog-label {
+    font-weight: 500;
+    flex: 1;
+}
+
+.worklog-item .worklog-mechanic {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-right: 12px;
+}
+
+.worklog-item .worklog-price {
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.billing-detail-footer {
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.billing-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.billing-total span:last-child {
+    color: var(--accent);
+}
+
+/* Popup plate label */
+.popup-plate {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+}
+
+/* ============================================================================
+   CUSTOMER INVOICE POPUP
+   ============================================================================ */
+
+.invoice-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.invoice-popup {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    width: 400px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    animation: modalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.8);
+}
+
+@keyframes modalIn {
+    from { opacity: 0; transform: scale(0.96) translateY(12px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.popup-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.popup-header i {
+    font-size: 24px;
+    color: var(--accent);
+}
+
+.popup-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.popup-mechanic {
+    font-size: 13px;
+    color: var(--text-dim);
+}
+
+.popup-items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.popup-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background: var(--bg-elevated);
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.popup-item-price {
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.popup-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    font-weight: 700;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+}
+
+.popup-total span:last-child {
+    color: var(--accent);
+}
+
+.popup-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.popup-actions .btn {
+    flex: 1;
+    justify-content: center;
+}
+
+/* ============================================================================
+   WORKING OVERLAY (shown during animation/progress)
+   ============================================================================ */
+
+#working-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(14, 14, 15, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    pointer-events: all;
+}
+
+#working-overlay.hidden {
+    display: none !important;
+}
+
+.working-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.working-content i {
+    font-size: 28px;
+}

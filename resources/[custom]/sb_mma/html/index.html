@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MMA Arena</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app" class="hidden">
+        <div class="mma-panel">
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <div class="status-left">
+                    <i class="fas fa-fist-raised"></i>
+                    <span class="status-title">MMA ARENA</span>
+                </div>
+                <div class="status-right">
+                    <div class="status-badge" id="stateBadge">IDLE</div>
+                    <div class="timer-display" id="timerDisplay">
+                        <i class="fas fa-clock"></i>
+                        <span id="timerText">--:--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fighter Cards -->
+            <div class="fighters-section">
+                <div class="fighter-card red" id="fighter1Card">
+                    <div class="fighter-corner">RED</div>
+                    <div class="fighter-icon"><i class="fas fa-user"></i></div>
+                    <div class="fighter-name" id="fighter1Name">---</div>
+                    <div class="fighter-odds">
+                        <span class="odds-label">Odds</span>
+                        <span class="odds-value" id="fighter1Odds">2.00x</span>
+                    </div>
+                    <div class="fighter-pool">
+                        <span class="pool-label">Pool</span>
+                        <span class="pool-value" id="fighter1Pool">$0</span>
+                    </div>
+                    <button class="bet-fighter-btn" id="betFighter1" onclick="selectFighter(1)">
+                        <i class="fas fa-hand-point-up"></i> BET
+                    </button>
+                </div>
+
+                <div class="vs-divider">
+                    <span class="vs-text">VS</span>
+                    <div class="total-pool">
+                        <span>Total Pool</span>
+                        <strong id="totalPool">$0</strong>
+                    </div>
+                </div>
+
+                <div class="fighter-card blue" id="fighter2Card">
+                    <div class="fighter-corner">BLUE</div>
+                    <div class="fighter-icon"><i class="fas fa-user"></i></div>
+                    <div class="fighter-name" id="fighter2Name">---</div>
+                    <div class="fighter-odds">
+                        <span class="odds-label">Odds</span>
+                        <span class="odds-value" id="fighter2Odds">2.00x</span>
+                    </div>
+                    <div class="fighter-pool">
+                        <span class="pool-label">Pool</span>
+                        <span class="pool-value" id="fighter2Pool">$0</span>
+                    </div>
+                    <button class="bet-fighter-btn" id="betFighter2" onclick="selectFighter(2)">
+                        <i class="fas fa-hand-point-up"></i> BET
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bet Input Section -->
+            <div class="bet-section" id="betSection">
+                <div class="bet-header">
+                    <span>Your Bet</span>
+                    <span class="cash-display" id="cashDisplay"><i class="fas fa-wallet"></i> $0</span>
+                </div>
+                <div class="selected-fighter" id="selectedFighterDisplay">
+                    Select a fighter above
+                </div>
+                <div class="quick-bets">
+                    <button class="quick-btn" onclick="setAmount(100)">$100</button>
+                    <button class="quick-btn" onclick="setAmount(500)">$500</button>
+                    <button class="quick-btn" onclick="setAmount(1000)">$1K</button>
+                    <button class="quick-btn" onclick="setAmount(5000)">$5K</button>
+                </div>
+                <div class="bet-input-row">
+                    <div class="input-wrapper">
+                        <i class="fas fa-dollar-sign"></i>
+                        <input type="number" id="betAmount" placeholder="Enter amount..." min="50" max="50000">
+                    </div>
+                    <button class="place-bet-btn" id="placeBetBtn" onclick="placeBet()">
+                        <i class="fas fa-check"></i> PLACE BET
+                    </button>
+                </div>
+                <div class="potential-payout" id="potentialPayout">
+                    Potential payout: <strong>$0</strong>
+                </div>
+            </div>
+
+            <!-- Result Display -->
+            <div class="result-section hidden" id="resultSection">
+                <div class="result-icon" id="resultIcon"><i class="fas fa-trophy"></i></div>
+                <div class="result-title" id="resultTitle">Fight Over!</div>
+                <div class="result-name" id="resultName">---</div>
+            </div>
+
+            <!-- Recent History -->
+            <div class="history-section">
+                <div class="history-header">
+                    <i class="fas fa-history"></i>
+                    <span>Recent Bets</span>
+                </div>
+                <div class="history-list" id="historyList">
+                    <div class="history-empty">No bet history yet</div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="panel-footer">
+                <span><i class="fas fa-shield-halved"></i> Press ESC to close</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
