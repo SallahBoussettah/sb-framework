@@ -125,6 +125,41 @@ The `server.cfg` includes commented-out `ensure` lines for all the MLO resources
 
 ---
 
+## Known Incomplete Features
+
+This server was a solo development project and some features are still a work in progress. Below is a list of known gaps:
+
+**sb_police**
+- Breathalyzer always returns 0.00 BAC - needs integration with a metabolism/alcohol system
+- Radio system is a placeholder - no actual officer-to-officer communication backend
+- Evidence management has no MDT UI - the evidence locker zone exists but there is no interface to manage evidence
+- CCTV/Cameras page shows "Coming Soon"
+- K9 system may have movement glitches in certain scenarios
+
+**sb_prison**
+- Booking flow is functional but still being polished
+
+**sb_mechanic_v2**
+- Phase 4 (recycling and salvage) not yet implemented
+- Phase 5 (UI integration, society funds) not yet implemented
+
+**sb_weapons**
+- Only pistol magazines are fully implemented - SMG, rifle, and shotgun use default ammo (magazine support marked TODO)
+
+**sb_apartments**
+- Pink Cage Motel has no apartment units configured yet (TODO in config)
+
+**sb_companies**
+- Complex dependency chain - requires sb_mechanic_v2, sb_minigame, and several other scripts to function fully
+
+**General**
+- Some scripts contain test/debug commands (sb_target, sb_progressbar) - these can be removed or left as examples
+- This framework is NOT compatible with QBCore or ESX scripts - all scripts depend on sb_core
+
+Contributions and pull requests are welcome.
+
+---
+
 ## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
